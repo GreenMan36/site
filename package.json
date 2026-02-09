@@ -12,33 +12,33 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@nuxt/eslint": "^1.9.0",
+    "@nuxt/eslint": "^1.14.0",
     "@nuxtjs/color-mode": "3.5.2",
     "@nuxtjs/sentry": "^8.0.8",
     "@vueuse/nuxt": "13.9.0",
-    "add-to-calendar-button": "^2.6.13",
-    "canvas-confetti": "^1.9.2",
-    "firebase": "^12.4.0",
+    "add-to-calendar-button": "^2.13.5",
+    "canvas-confetti": "^1.9.4",
+    "firebase": "^12.9.0",
     "nuxt": "^4.3.1",
     "nuxt-svgo": "^4.2.6",
-    "ua-parser-js": "^2.0.6",
-    "v-viewer": "^3.0.13",
-    "vue": "^3.5.13",
-    "vue-router": "^4.4.5",
-    "vue3-carousel": "^0.16.0"
+    "ua-parser-js": "^2.0.9",
+    "v-viewer": "^3.0.23",
+    "vue": "^3.5.28",
+    "vue-router": "^5.0.2",
+    "vue3-carousel": "^0.17.0"
   },
   "devDependencies": {
-    "@types/canvas-confetti": "^1.6.4",
-    "@types/node": "^24.7.1",
+    "@types/canvas-confetti": "^1.9.0",
+    "@types/node": "^25.2.2",
     "@types/ua-parser-js": "^0.7.39",
     "@vue/eslint-config-prettier": "^10.2.0",
-    "eslint": "^9.15.0",
+    "eslint": "^10.0.0",
     "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-vue": "^10.5.0",
-    "firebase-tools": "^14.19.1",
-    "prettier": "^3.3.3",
-    "sass": "^1.86.1",
+    "eslint-plugin-vue": "^10.7.0",
+    "firebase-tools": "^15.5.1",
+    "prettier": "^3.8.1",
+    "sass": "^1.97.3",
     "typescript": "~5.9.3"
   },
-  "packageManager": "pnpm@10.29.2+sha512.bef43fa759d91fd2da4b319a5a0d13ef7a45bb985a3d7342058470f9d2051a3ba8674e629672654686ef9443ad13a82da2beb9eeb3e0221c87b8154fff9d74b8"
+  "packageManager": "pnpm@10.29.2"
 }
