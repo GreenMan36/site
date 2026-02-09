@@ -37,8 +37,6 @@ import HeroBackground from './HeroBackground.vue';
     position: absolute;
     inset: 0;
     overflow: hidden;
-    z-index: -1;
-    background-color: var(--hero-bg-color);
   }
 
   .hero-content {
@@ -48,6 +46,7 @@ import HeroBackground from './HeroBackground.vue';
     align-items: center;
     padding: 92px 0;
     max-width: 100%;
+    z-index: 1;
 
     h1 {
       max-width: 800px;
