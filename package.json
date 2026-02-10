@@ -12,11 +12,13 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@nuxt/content": "3.11.2",
     "@nuxt/eslint": "^1.14.0",
     "@nuxtjs/color-mode": "3.5.2",
     "@nuxtjs/sentry": "^8.0.8",
     "@vueuse/nuxt": "13.9.0",
     "add-to-calendar-button": "^2.13.5",
+    "better-sqlite3": "^12.6.2",
     "canvas-confetti": "^1.9.4",
     "firebase": "^12.9.0",
     "nuxt": "^4.3.1",

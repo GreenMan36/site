@@ -1,13 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   // Modules
-  modules: [
-    // '@nuxtjs/sentry', // TODO: Temporarily disabled - needs Nuxt 4 compatible version
-    'nuxt-svgo',
-    '@nuxt/eslint',
-    '@vueuse/nuxt',
-    '@nuxtjs/color-mode',
-  ],
+  modules: [// '@nuxtjs/sentry', // TODO: Temporarily disabled - needs Nuxt 4 compatible version
+  'nuxt-svgo', '@nuxt/eslint', '@vueuse/nuxt', '@nuxtjs/color-mode', '@nuxt/content'],
 
   // SSG mode for static generation
   ssr: true,
