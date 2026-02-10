@@ -1,16 +1,20 @@
 <script setup lang="ts">
 import ContentContainer from '@/layouts/ContentContainer.vue';
 import JobOffers from '@/components/JobOffers.vue';
-import { mainPartner, premiumPartners, regularPartners } from '@/content/partners.json';
 import { computed } from 'vue';
 
 const route = useRoute();
-const partners = [...premiumPartners, ...regularPartners, mainPartner];
+const partnerSlug = route.params.partner as string;
 
-const partner = computed(() => {
-  const partnerSlug = route.params.partner as string;
-  return partners.find((p) => p.slug === partnerSlug);
-});
+// Query the partner by slug
+const { data: partner } = await useAsyncData(`partner-${partnerSlug}`, () =>
+  queryCollection('partners').where('slug', '=', partnerSlug).where('tier', '!=', null).first(),
+);
+
+// Query job offers for this partner (items with partnerSlug matching)
+const { data: jobOffers } = await useAsyncData(`partner-jobs-${partnerSlug}`, () =>
+  queryCollection('partners').where('partnerSlug', '=', partnerSlug).all(),
+);
 
 const partnerLogo = computed(() => {
   if (!partner.value) return '';
@@ -19,22 +23,22 @@ const partnerLogo = computed(() => {
 </script>
 
 <template>
-  <ContentContainer v-if="partner !== undefined">
+  <ContentContainer v-if="partner">
     <h1>{{ partner.title }}</h1>
     <div id="partner" class="container">
       <div class="details">
-        <a :href="partner.url" target="_blank">
-          <img class="partner-logo" :src="partnerLogo" :alt="'Logo' + partner.title" />
+        <a v-if="partner.url" :href="partner.url" target="_blank">
+          <img class="partner-logo" :src="partnerLogo" :alt="'Logo ' + partner.title" />
         </a>
+        <img v-else class="partner-logo" :src="partnerLogo" :alt="'Logo ' + partner.title" />
         <div class="description">
-          <!-- eslint-disable-next-line vue/no-v-html -->
-          <p v-for="(paragraph, index) in partner.description" :key="index" v-html="paragraph"></p>
-          <a v-if="partner.url" class="readMoreOutboundBtn button primary rounded" :href="partner.url" target="_blank"
-            >Naar de website</a
-          >
+          <ContentRenderer :value="partner" />
+          <a v-if="partner.url" class="readMoreOutboundBtn button primary rounded" :href="partner.url" target="_blank">
+            Naar de website
+          </a>
         </div>
       </div>
-      <JobOffers :partner="partner" />
+      <JobOffers v-if="jobOffers && jobOffers.length" :offers="jobOffers" />
     </div>
   </ContentContainer>
   <ContentContainer v-else>

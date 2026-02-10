@@ -1,0 +1,15 @@
+---
+title: 'Dispuut Ebrius Vespertina'
+abbreviation: 'DEV'
+imgUrl: '/assets/images/Logo_dev.svg'
+website: 'https://ebriusvespertina.nl/'
+instagram: 'https://www.instagram.com/dispuutebriusvespertina/'
+---
+
+Dispuut Ebrius Vespertina (DEV) is een gemengd dispuut dat aangesloten zit bij Indicium. Het dispuut is een hechte
+vriendengroep waar elk jaar een nieuwe jaarlaag bij komt. Als groep proberen we ervoor te zorgen dat wij het
+studentenleven opzoeken door elke maand activiteiten te organiseren voor onze leden onder het genot van een drankje.
+
+Elk jaar gaat het dispuut samen op vakantie, organiseren we een kennismakingskamp om de nieuwe leden te ontmoeten, en
+vieren we onze verjaardag uitgebreid. De vrienden die je hier maakt worden vrienden voor het leven en lid van dit
+dispuut zal je voor de rest van je leven blijven.

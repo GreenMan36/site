@@ -1,31 +1,67 @@
 <script setup lang="ts">
 import ContentContainer from '@/layouts/ContentContainer.vue';
-import { mainPartner, premiumPartners, regularPartners } from '@/content/partners.json';
 import JobOffers from '@/components/JobOffers.vue';
 
-const mainPartnerLogo = usePartnerLogo(mainPartner);
-const premiumLogos = premiumPartners.map((p) => ({ partner: p, logo: usePartnerLogo(p) }));
-const regularLogos = regularPartners.map((p) => ({ partner: p, logo: usePartnerLogo(p) }));
+// Query partners collection by tier
+const { data: mainPartner } = await useAsyncData('mainPartner', () =>
+  queryCollection('partners').where('tier', '=', 'main').first(),
+);
+
+const { data: premiumPartners } = await useAsyncData('premiumPartners', () =>
+  queryCollection('partners').where('tier', '=', 'premium').order('order', 'ASC').all(),
+);
+
+const { data: regularPartners } = await useAsyncData('regularPartners', () =>
+  queryCollection('partners').where('tier', '=', 'regular').order('order', 'ASC').all(),
+);
+
+// Get logos
+const mainPartnerLogo = usePartnerLogo(mainPartner.value);
+const premiumLogos = computed(() =>
+  (premiumPartners.value || []).map((p) => ({ partner: p, logo: usePartnerLogo(p) })),
+);
+const regularLogos = computed(() =>
+  (regularPartners.value || []).map((p) => ({ partner: p, logo: usePartnerLogo(p) })),
+);
+
+// log all partners to console for debugging
+watch(
+  [mainPartner, premiumPartners, regularPartners],
+  () => {
+    console.log('Main Partner:', mainPartner.value);
+    console.log('Premium Partners:', premiumPartners.value);
+    console.log('Regular Partners:', regularPartners.value);
+  },
+  { immediate: true },
+);
+
+// Query job offers for main partner
+const { data: mainPartnerJobOffers } = await useAsyncData('mainPartnerJobOffers', async () => {
+  if (!mainPartner.value?.slug) return [];
+  return await queryCollection('partners').where('partnerSlug', '=', mainPartner.value.slug).all();
+});
 </script>
 
 <template>
   <ContentContainer>
     <h1>Partners</h1>
-    <div id="main-partner" class="container">
+    <div v-if="mainPartner" id="main-partner" class="container">
       <div class="details">
-        <a :href="mainPartner.url" target="_blank">
+        <a v-if="mainPartner.url" :href="mainPartner.url" target="_blank">
           <img class="partner-logo" :src="mainPartnerLogo" :alt="'Logo' + mainPartner.title" />
         </a>
+        <img v-else class="partner-logo" :src="mainPartnerLogo" :alt="'Logo' + mainPartner.title" />
         <div class="description">
           <h3>Hoofdpartner: {{ mainPartner.title }}</h3>
-          <!-- eslint-disable-next-line vue/no-v-html -->
-          <p v-for="(paragraph, index) in mainPartner.description" :key="index" v-html="paragraph"></p>
+          <ContentRenderer :value="mainPartner" />
           <a class="readMore button primary rounded" href="mailto:secretaris@indicium.nl">Neem contact op!</a>
         </div>
       </div>
-      <JobOffers :partner="mainPartner" />
+      <JobOffers v-if="mainPartnerJobOffers && mainPartnerJobOffers.length" :offers="mainPartnerJobOffers" />
     </div>
+
     <hr class="dashed-line" />
+
     <h1>Premium partners</h1>
     <div v-for="{ partner, logo } in premiumLogos" :key="partner.slug" class="partner">
       <a :href="partner.url" target="_blank">
@@ -33,22 +69,23 @@ const regularLogos = regularPartners.map((p) => ({ partner: p, logo: usePartnerL
       </a>
       <div class="details">
         <h3>{{ partner.title }}</h3>
-        <!-- eslint-disable-next-line vue/no-v-html -->
-        <p v-for="(paragraph, index) in partner.description" :key="index" class="description" v-html="paragraph"></p>
-        <RouterLink class="readMore button primary rounded" :to="'/partners/' + partner.slug">Meer weten?</RouterLink>
+        <ContentRenderer :value="partner" class="description" />
+        <RouterLink class="readMore button primary rounded" :to="`/partners/${partner.slug}`">Meer weten?</RouterLink>
       </div>
     </div>
+
     <hr class="dashed-line" />
+
     <h1>Reguliere partners</h1>
     <div class="regular-partners">
       <div v-for="{ partner, logo } in regularLogos" :key="partner.slug" class="regular-partner">
-        <RouterLink :to="'/partners/' + partner.slug" class="partner-logo">
+        <RouterLink :to="`/partners/${partner.slug}`" class="partner-logo">
           <a :href="partner.url" target="_blank">
             <img :src="logo.value" :alt="'Logo' + partner.title" />
           </a>
         </RouterLink>
-        <RouterLink class="readMore button primary rounded indi-green-1" :to="'/partners/' + partner.slug"
-          >{{ partner.title }}
+        <RouterLink class="readMore button primary rounded indi-green-1" :to="`/partners/${partner.slug}`">
+          {{ partner.title }}
         </RouterLink>
       </div>
     </div>

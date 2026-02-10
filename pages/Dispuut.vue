@@ -1,29 +1,43 @@
 <script setup lang="ts">
 import ContentContainer from '@/layouts/ContentContainer.vue';
-import disputen from '@/content/dispuut.json';
 /// <reference types="vite-svg-loader" />
+
+// Query dispuut collection
+const { data: disputen } = await useAsyncData('dispuut', () => queryCollection('dispuut').all());
+
+// Debug logging
+console.log('[Dispuut] disputen:', disputen.value);
+console.log('[Dispuut] disputen length:', disputen.value?.length);
 </script>
 
 <template>
   <ContentContainer>
     <h1>Disputen</h1>
     <p id="intro"></p>
-    <div v-for="(dispuut, index) in disputen" :key="index" class="dispuut">
+    <div v-for="dispuut in disputen || []" :key="dispuut._path" class="dispuut">
       <img alt="dispuutfoto" class="foto" :src="dispuut.imgUrl" />
       <div class="dispuut-info">
         <h2>{{ dispuut.title }}</h2>
-        <p>{{ dispuut.description }}</p>
-        <a href="https://ebriusvespertina.nl/" target="_blank" rel="noopener noreferrer" class="button primary rounded"
-          >Website</a
-        >
+        <ContentRenderer :value="dispuut" />
         <a
-          href="https://www.instagram.com/dispuutebriusvespertina/"
+          v-if="dispuut.website"
+          :href="dispuut.website"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="button primary rounded"
+        >
+          Website
+        </a>
+        <a
+          v-if="dispuut.instagram"
+          :href="dispuut.instagram"
           target="_blank"
           rel="noopener noreferrer"
           class="button primary indi-green-1 rounded"
           style="margin-left: 1em"
-          >Instagram</a
         >
+          Instagram
+        </a>
       </div>
       <div v-if="index % 2 === 0" class="spacer"></div>
     </div>

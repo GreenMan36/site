@@ -1,13 +1,25 @@
 <script setup lang="ts">
 import ContentContainer from '@/layouts/ContentContainer.vue';
-import { currentBoard } from '@/content/boards.json';
+
+// Query only the current board from collection
+const { data: currentBoard } = await useAsyncData('currentBoard', () =>
+  queryCollection('boards').where('isCurrent', '=', true).first(),
+);
+
+// Debug logging
+console.log('[Bestuur] currentBoard:', currentBoard.value);
 </script>
 
 <template>
   <ContentContainer>
-    <h1>Bestuur 8</h1>
-    <img id="group-photo" :src="`/assets/boards/${currentBoard.groupPhoto}`" alt="Groepsfoto 8e bestuur" />
-    <div v-for="(member, index) in currentBoard.members" :key="index" class="member">
+    <h1>Bestuur {{ currentBoard?.boardNumber }}</h1>
+    <img
+      v-if="currentBoard?.groupPhoto"
+      id="group-photo"
+      :src="`/assets/boards/${currentBoard.groupPhoto}`"
+      :alt="`Groepsfoto ${currentBoard.boardNumber}e bestuur`"
+    />
+    <div v-for="(member, index) in currentBoard?.members || []" :key="index" class="member">
       <img
         class="member-photo"
         :src="member.photo ? `/assets/boards/${member.photo}` : `https://cataas.com/cat/says/${member.name}`"

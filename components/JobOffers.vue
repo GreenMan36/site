@@ -1,15 +1,13 @@
 <script setup lang="ts">
-interface Partner {
+interface JobOffer {
   title: string;
-  jobOffers: Array<{
-    title: string;
-    description: string[];
-    url?: string;
-  }>;
+  url?: string;
+  body?: any;
+  _path?: string;
 }
 
 defineProps<{
-  partner: Partner;
+  offers: JobOffer[];
 }>();
 
 function expandJobOffer(event: MouseEvent) {
@@ -19,15 +17,13 @@ function expandJobOffer(event: MouseEvent) {
 </script>
 
 <template>
-  <div v-if="partner.jobOffers.length > 0" class="job-offers-container">
-    <!-- Conclusion, hoofdpartner, wilt persee "werken bij" voor hun pagina -->
-    <h2>{{ partner.title == 'Conclusion' ? 'Werken bij' : 'Vacatures bij' }} {{ partner.title }}</h2>
+  <div v-if="offers && offers.length > 0" class="job-offers-container">
+    <h2>Vacatures</h2>
     <div class="job-offers container">
-      <div v-for="(jobOffer, index) in partner.jobOffers" :key="index" class="job-offer">
+      <div v-for="(jobOffer, index) in offers" :key="jobOffer._path || index" class="job-offer">
         <h3 class="job-offer-title" @click="expandJobOffer">{{ jobOffer.title }}</h3>
         <div class="job-offer-description">
-          <!-- eslint-disable-next-line vue/no-v-html -->
-          <p v-for="(paragraph, pIndex) in jobOffer.description" :key="pIndex" v-html="paragraph"></p>
+          <ContentRenderer v-if="jobOffer.body" :value="jobOffer" />
           <a
             v-if="jobOffer.url"
             class="readMoreOutboundBtn button primary rounded indi-green-1"

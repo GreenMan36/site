@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import ContentContainer from '@/layouts/ContentContainer.vue';
-import { currentVCP } from '@/content/vcp.json';
+
+// Query VCP members collection sorted by order
+const { data: vcpMembers } = await useAsyncData('vcp', () => queryCollection('vcp').order('order', 'ASC').all());
+
+// Debug logging
+console.log('[VCP] vcpMembers:', vcpMembers.value);
+console.log('[VCP] vcpMembers length:', vcpMembers.value?.length);
 </script>
 
 <!-- &#8203; is een zero-width-space, is nodig voor overflow op mobieltjes -->
@@ -12,7 +18,7 @@ import { currentVCP } from '@/content/vcp.json';
       vertrouwenscontactpersonen. Zij zijn er voor jou!
     </p>
 
-    <div v-for="member in currentVCP.vcpMembers" :key="member.name" class="member">
+    <div v-for="member in vcpMembers || []" :key="member._path" class="member">
       <img class="member-photo" :src="`/assets/vcpphotos/${member.photo}`" :alt="member.name" width="300" />
       <div class="member-entry">
         <div class="member-contact-info">
@@ -24,12 +30,10 @@ import { currentVCP } from '@/content/vcp.json';
         </div>
         <div>
           <h4>Over mij</h4>
-          <p>{{ member.aboutme }}</p>
+          <ContentRenderer :value="member" />
           <h4>Feitjes over mij</h4>
           <ul>
-            <li>{{ member.funfact1 }}</li>
-            <li>{{ member.funfact2 }}</li>
-            <li>{{ member.funfact3 }}</li>
+            <li v-for="(fact, idx) in member.funfacts" :key="idx">{{ fact }}</li>
           </ul>
         </div>
       </div>

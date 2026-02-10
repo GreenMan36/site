@@ -1,7 +1,6 @@
 <script setup lang="ts">
 /// <reference types="vite-svg-loader" />
 import { ref } from 'vue';
-import content from '@/content/menu.json';
 import NavLogo from '@/components/NavLogo.vue';
 import { useRouter } from 'vue-router';
 
@@ -9,7 +8,16 @@ const currentLevel2 = ref<string>('');
 const currentLevel3 = ref<string>('');
 
 const { navLevel, toggleNav, setNavLevel, closeNav } = useNavState();
-const items = content.items;
+
+// Query navigation collection
+const { data: navData } = await useAsyncData('navigation-mobile', () => queryCollection('navigation').first());
+const items = navData.value?.meta?.items || [];
+
+// Debug logging
+console.log('[NavMobile] navData:', navData.value);
+console.log('[NavMobile] navData.meta:', navData.value?.meta);
+console.log('[NavMobile] items:', items);
+console.log('[NavMobile] items length:', items.length);
 
 function toggleNavLevel() {
   toggleNav();

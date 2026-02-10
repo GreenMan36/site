@@ -1,10 +1,16 @@
 <script setup lang="ts">
-/// <reference types="vite-svg-loader" />
-import content from '@/content/menu.json';
 import NavLogo from '@/components/NavLogo.vue';
 import MenuItem from '@/components/MenuItem.vue';
 
-const items = content.items;
+// Query navigation collection
+const { data: navData } = await useAsyncData('navigation', () => queryCollection('navigation').first());
+const items = navData.value?.meta?.items || [];
+
+// Debug logging
+console.log('[Nav] navData:', navData.value);
+console.log('[Nav] navData.meta:', navData.value?.meta);
+console.log('[Nav] items:', items);
+console.log('[Nav] items length:', items.length);
 </script>
 
 <template>

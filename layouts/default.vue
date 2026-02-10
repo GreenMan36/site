@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// Import layout components directly - Nuxt handles async data automatically
 import NavDesktop from '@/layouts/Nav.vue';
 import NavMobile from '@/layouts/NavMobile.vue';
 import FooterMenu from '@/layouts/Footer.vue';

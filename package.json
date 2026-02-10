@@ -40,7 +40,8 @@
     "firebase-tools": "^15.5.1",
     "prettier": "^3.8.1",
     "sass": "^1.97.3",
-    "typescript": "~5.9.3"
+    "typescript": "~5.9.3",
+    "zod": "^4.3.6"
   },
   "packageManager": "pnpm@10.29.2"
 }

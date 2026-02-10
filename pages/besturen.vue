@@ -1,21 +1,50 @@
 <script setup lang="ts">
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
-
 import ContentContainer from '@/layouts/ContentContainer.vue';
-import { previousBoards } from '@/content/boards.json';
 import DataNotFound from '@/assets/icons/data-not-found.svg?component';
+
+// Query all boards from collection sorted by year descending
+const { data: allBoards } = await useAsyncData('allBoards', () =>
+  queryCollection('boards').order('year', 'DESC').all(),
+);
+
+// Debug logging
+console.log('[Besturen] allBoards:', allBoards.value);
+console.log('[Besturen] allBoards length:', allBoards.value?.length);
+
+// Separate current and previous boards
+const currentBoard = computed(() => allBoards.value?.find((b) => b.isCurrent));
+const previousBoards = computed(() => allBoards.value?.filter((b) => !b.isCurrent) || []);
 </script>
 
 <template>
   <ContentContainer>
     <h1>Indicium Besturen</h1>
+
+    <!-- Current board section -->
+    <div v-if="currentBoard" class="board current-board">
+      <img
+        v-if="currentBoard.groupPhoto"
+        :src="'/assets/boards/' + currentBoard.groupPhoto"
+        alt="Huidig Bestuur"
+        class="img"
+      />
+      <DataNotFound v-else class="img" />
+      <div class="board-info">
+        <h2 class="board-year">{{ currentBoard.year }} (Huidig Bestuur)</h2>
+        <ContentRenderer v-if="currentBoard.body" :value="currentBoard" />
+        <p v-for="member in currentBoard.members" :key="member.name">
+          <b>{{ member.name }}</b> - <span class="function">{{ member.function }}</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- Previous boards -->
     <div v-for="board in previousBoards" :key="board.year" class="board">
       <img v-if="board.groupPhoto" :src="'/assets/boards/' + board.groupPhoto" alt="Groepsfoto" class="img" />
       <DataNotFound v-else class="img" />
       <div class="board-info">
         <h2 class="board-year">{{ board.year }}</h2>
-        <i v-if="board.caption" class="board-caption">{{ board.caption }}</i>
+        <ContentRenderer v-if="board.body" :value="board" />
         <p v-for="member in board.members" :key="member.name">
           <b>{{ member.name }}</b> - <span class="function">{{ member.function }}</span>
         </p>
@@ -33,6 +62,13 @@ import DataNotFound from '@/assets/icons/data-not-found.svg?component';
   display: grid;
   grid-auto-flow: column;
   column-gap: 5%;
+
+  &.current-board {
+    background-color: var(--secondary-background-color);
+    padding: 2.5em 2em;
+    border-radius: 10px;
+    margin-bottom: 3em;
+  }
 
   .img {
     display: block;

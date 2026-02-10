@@ -3,11 +3,27 @@ import Hero from '~/components/HeroSection.vue';
 import Calendar from '~/components/ActivityCalendar.vue';
 import 'vue3-carousel/dist/carousel.css';
 import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel';
-import { mainPartner, premiumPartners, regularPartners } from '@/content/partners.json';
 
-const mainPartnerLogo = usePartnerLogo(mainPartner);
-const premiumLogos = premiumPartners.map((p) => ({ partner: p, logo: usePartnerLogo(p) }));
-const regularLogos = regularPartners.map((p) => ({ partner: p, logo: usePartnerLogo(p) }));
+// Query partners collection by tier
+const { data: mainPartner } = await useAsyncData('home2-mainPartner', () =>
+  queryCollection('partners').where('tier', '=', 'main').first(),
+);
+
+const { data: premiumPartners } = await useAsyncData('home2-premiumPartners', () =>
+  queryCollection('partners').where('tier', '=', 'premium').order('order', 'ASC').all(),
+);
+
+const { data: regularPartners } = await useAsyncData('home2-regularPartners', () =>
+  queryCollection('partners').where('tier', '=', 'regular').order('order', 'ASC').all(),
+);
+
+const mainPartnerLogo = computed(() => usePartnerLogo(mainPartner.value));
+const premiumLogos = computed(() =>
+  (premiumPartners.value || []).map((p) => ({ partner: p, logo: usePartnerLogo(p) })),
+);
+const regularLogos = computed(() =>
+  (regularPartners.value || []).map((p) => ({ partner: p, logo: usePartnerLogo(p) })),
+);
 
 const images = ['/assets/images/DSC_2456.webp', '/assets/images/DSC_3982.webp', '/assets/images/Introkamp-53.webp'];
 
@@ -76,9 +92,10 @@ function gotoPartners() {
         <h2>Partners</h2>
         <div class="partner-container" @click="gotoPartners">
           <img
+            v-if="mainPartner"
             style="height: 100px; margin-top: 0"
             class="partner-logo"
-            :src="mainPartnerLogo"
+            :src="mainPartnerLogo?.value"
             :alt="'Logo' + mainPartner.title"
           />
           <img

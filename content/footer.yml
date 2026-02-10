@@ -1,0 +1,27 @@
+items:
+  - title: 'Inschrijven'
+    url: '/lid-worden'
+  - title: 'Statuten'
+    url: '/statuten'
+  - title: 'Huishoudelijk reglement'
+    url: '/hr'
+  - title: 'Privacyreglement'
+    url: '/privacyreglement'
+  - title: 'Over Indicium'
+    url: '/over-indicium'
+  - title: 'Sponsoren en partners'
+    url: '/partners'
+
+contactItems:
+  address: 'Heidelberglaan 15'
+  postcode: '3584 CS Utrecht'
+  lokaal: 'HL15-4.092'
+  email: 'bestuur@indicium.hu'
+
+socialMediaItems:
+  - title: 'Instagram'
+    url: 'https://instagram.com/svindicium'
+  - title: 'GitHub'
+    url: 'https://github.com/svIndicium'
+  - title: 'LinkedIn'
+    url: 'https://www.linkedin.com/company/s.v.indicium'

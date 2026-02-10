@@ -1,6 +1,14 @@
 <script setup lang="ts">
 import ContentContainer from '@/layouts/ContentContainer.vue';
-import commissies from '@/content/commissies.json';
+
+// Query commissies collection sorted by order
+const { data: commissies } = await useAsyncData('commissies', () =>
+  queryCollection('commissies').order('order', 'ASC').all(),
+);
+
+// Debug logging
+console.log('[Commissies] commissies:', commissies.value);
+console.log('[Commissies] commissies length:', commissies.value?.length);
 </script>
 <!-- todo: eerste kopje gecentreerd en fix fotos -->
 
@@ -11,11 +19,11 @@ import commissies from '@/content/commissies.json';
       Wil jij naast je studie actief bijdragen aan onze studievereniging? Meld je dan aan voor een van onze commissies.
       Naast dat dit super leuk is, staat dit ook goed op je CV!
     </p>
-    <div v-for="(commissie, index) in commissies" :key="index" class="commissie">
-      <img class="foto" :src="commissie.imgUrl" />
+    <div v-for="(commissie, index) in commissies || []" :key="commissie._path" class="commissie">
+      <img class="foto" :src="commissie.imgUrl" :alt="commissie.title" />
       <div class="commissie-info">
         <h3>{{ commissie.title }}</h3>
-        <p>{{ commissie.description }}</p>
+        <ContentRenderer :value="commissie" />
       </div>
       <div v-if="index % 2 === 0" class="spacer"></div>
     </div>

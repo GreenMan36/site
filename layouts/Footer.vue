@@ -1,11 +1,20 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import footerContent from '@/content/footer.json';
 
 const { preference } = useTheme();
-const pages = ref<{ title: string; url: string }[]>(footerContent.items);
-const socialPages = ref<{ title: string; url: string }[]>(footerContent.socialMediaItems);
-const contact = ref<Record<string, unknown>>(footerContent.contactItems);
+
+// Query footer collection
+const { data: footerData } = await useAsyncData('footer', () => queryCollection('footer').first());
+const pages = ref<{ title: string; url: string }[]>(footerData.value?.meta?.items || []);
+const socialPages = ref<{ title: string; url: string }[]>(footerData.value?.meta?.socialMediaItems || []);
+const contact = ref<Record<string, unknown>>(footerData.value?.meta?.contactItems || {});
+
+// Debug logging
+console.log('[Footer] footerData:', footerData.value);
+console.log('[Footer] footerData.meta:', footerData.value?.meta);
+console.log('[Footer] pages:', pages.value);
+console.log('[Footer] socialPages:', socialPages.value);
+console.log('[Footer] contact:', contact.value);
 
 function changeTheme(theme: 'system' | 'light' | 'dark') {
   preference.value = theme;
