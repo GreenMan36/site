@@ -9,12 +9,6 @@ const router = useRouter();
 // Query links collection
 const { data: linksData } = await useAsyncData('links', () => queryCollection('links').first());
 const content = linksData.value?.meta?.links || [];
-
-// Debug logging
-console.log('[Links] linksData:', linksData.value);
-console.log('[Links] linksData.meta:', linksData.value?.meta);
-console.log('[Links] content:', content);
-console.log('[Links] content length:', content.length);
 </script>
 
 <template>

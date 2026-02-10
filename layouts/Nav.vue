@@ -5,12 +5,6 @@ import MenuItem from '@/components/MenuItem.vue';
 // Query navigation collection
 const { data: navData } = await useAsyncData('navigation', () => queryCollection('navigation').first());
 const items = navData.value?.meta?.items || [];
-
-// Debug logging
-console.log('[Nav] navData:', navData.value);
-console.log('[Nav] navData.meta:', navData.value?.meta);
-console.log('[Nav] items:', items);
-console.log('[Nav] items length:', items.length);
 </script>
 
 <template>

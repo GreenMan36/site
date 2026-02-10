@@ -4,10 +4,6 @@ import ContentContainer from '@/layouts/ContentContainer.vue';
 
 // Query dispuut collection
 const { data: disputen } = await useAsyncData('dispuut', () => queryCollection('dispuut').all());
-
-// Debug logging
-console.log('[Dispuut] disputen:', disputen.value);
-console.log('[Dispuut] disputen length:', disputen.value?.length);
 </script>
 
 <template>

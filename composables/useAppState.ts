@@ -27,16 +27,27 @@ export const useTheme = () => {
 
 /**
  * Partner logo utility - handles light/dark logo switching
+ * Returns both logo URLs to prevent hydration flash
  * @param partner - Partner object with imgUrl and optional imgUrlDark
- * @returns The correct logo path for current theme
+ * @returns Object with light and dark logo paths
  */
-export const usePartnerLogo = (partner: { imgUrl: string; imgUrlDark?: string }) => {
-  const { isDark } = useTheme();
+export const usePartnerLogo = (partner: { imgUrl?: string; imgUrlDark?: string } | null | undefined) => {
+  if (!partner) {
+    return {
+      light: '',
+      dark: '',
+      hasDarkVariant: false,
+    };
+  }
 
-  return computed(() => {
-    const logoFile = isDark.value && partner.imgUrlDark ? partner.imgUrlDark : partner.imgUrl;
-    return `/assets/partners/${logoFile}`;
-  });
+  const lightLogo = partner.imgUrl ? `/assets/partners/${partner.imgUrl}` : '';
+  const darkLogo = partner.imgUrlDark ? `/assets/partners/${partner.imgUrlDark}` : lightLogo;
+
+  return {
+    light: lightLogo,
+    dark: darkLogo,
+    hasDarkVariant: !!partner.imgUrlDark,
+  };
 };
 
 /**

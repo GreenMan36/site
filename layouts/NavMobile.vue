@@ -13,12 +13,6 @@ const { navLevel, toggleNav, setNavLevel, closeNav } = useNavState();
 const { data: navData } = await useAsyncData('navigation-mobile', () => queryCollection('navigation').first());
 const items = navData.value?.meta?.items || [];
 
-// Debug logging
-console.log('[NavMobile] navData:', navData.value);
-console.log('[NavMobile] navData.meta:', navData.value?.meta);
-console.log('[NavMobile] items:', items);
-console.log('[NavMobile] items length:', items.length);
-
 function toggleNavLevel() {
   toggleNav();
   if (navLevel.value === 1) {

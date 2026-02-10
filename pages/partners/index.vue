@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import ContentContainer from '@/layouts/ContentContainer.vue';
 import JobOffers from '@/components/JobOffers.vue';
+import PartnerLogo from '@/components/PartnerLogo.vue';
 
 // Query partners collection by tier
 const { data: mainPartner } = await useAsyncData('mainPartner', () =>
@@ -13,26 +14,6 @@ const { data: premiumPartners } = await useAsyncData('premiumPartners', () =>
 
 const { data: regularPartners } = await useAsyncData('regularPartners', () =>
   queryCollection('partners').where('tier', '=', 'regular').order('order', 'ASC').all(),
-);
-
-// Get logos
-const mainPartnerLogo = usePartnerLogo(mainPartner.value);
-const premiumLogos = computed(() =>
-  (premiumPartners.value || []).map((p) => ({ partner: p, logo: usePartnerLogo(p) })),
-);
-const regularLogos = computed(() =>
-  (regularPartners.value || []).map((p) => ({ partner: p, logo: usePartnerLogo(p) })),
-);
-
-// log all partners to console for debugging
-watch(
-  [mainPartner, premiumPartners, regularPartners],
-  () => {
-    console.log('Main Partner:', mainPartner.value);
-    console.log('Premium Partners:', premiumPartners.value);
-    console.log('Regular Partners:', regularPartners.value);
-  },
-  { immediate: true },
 );
 
 // Query job offers for main partner
@@ -48,9 +29,9 @@ const { data: mainPartnerJobOffers } = await useAsyncData('mainPartnerJobOffers'
     <div v-if="mainPartner" id="main-partner" class="container">
       <div class="details">
         <a v-if="mainPartner.url" :href="mainPartner.url" target="_blank">
-          <img class="partner-logo" :src="mainPartnerLogo" :alt="'Logo' + mainPartner.title" />
+          <PartnerLogo :partner="mainPartner" class="partner-logo" />
         </a>
-        <img v-else class="partner-logo" :src="mainPartnerLogo" :alt="'Logo' + mainPartner.title" />
+        <PartnerLogo v-else :partner="mainPartner" class="partner-logo" />
         <div class="description">
           <h3>Hoofdpartner: {{ mainPartner.title }}</h3>
           <ContentRenderer :value="mainPartner" />
@@ -63,9 +44,9 @@ const { data: mainPartnerJobOffers } = await useAsyncData('mainPartnerJobOffers'
     <hr class="dashed-line" />
 
     <h1>Premium partners</h1>
-    <div v-for="{ partner, logo } in premiumLogos" :key="partner.slug" class="partner">
+    <div v-for="partner in premiumPartners || []" :key="partner.slug" class="partner">
       <a :href="partner.url" target="_blank">
-        <img class="partner-logo" :src="logo.value" :alt="'Logo' + partner.title" />
+        <PartnerLogo :partner="partner" class="partner-logo" />
       </a>
       <div class="details">
         <h3>{{ partner.title }}</h3>
@@ -78,10 +59,10 @@ const { data: mainPartnerJobOffers } = await useAsyncData('mainPartnerJobOffers'
 
     <h1>Reguliere partners</h1>
     <div class="regular-partners">
-      <div v-for="{ partner, logo } in regularLogos" :key="partner.slug" class="regular-partner">
+      <div v-for="partner in regularPartners || []" :key="partner.slug" class="regular-partner">
         <RouterLink :to="`/partners/${partner.slug}`" class="partner-logo">
           <a :href="partner.url" target="_blank">
-            <img :src="logo.value" :alt="'Logo' + partner.title" />
+            <PartnerLogo :partner="partner" />
           </a>
         </RouterLink>
         <RouterLink class="readMore button primary rounded indi-green-1" :to="`/partners/${partner.slug}`">

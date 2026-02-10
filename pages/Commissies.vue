@@ -5,10 +5,6 @@ import ContentContainer from '@/layouts/ContentContainer.vue';
 const { data: commissies } = await useAsyncData('commissies', () =>
   queryCollection('commissies').order('order', 'ASC').all(),
 );
-
-// Debug logging
-console.log('[Commissies] commissies:', commissies.value);
-console.log('[Commissies] commissies length:', commissies.value?.length);
 </script>
 <!-- todo: eerste kopje gecentreerd en fix fotos -->
 

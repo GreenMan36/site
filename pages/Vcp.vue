@@ -3,10 +3,6 @@ import ContentContainer from '@/layouts/ContentContainer.vue';
 
 // Query VCP members collection sorted by order
 const { data: vcpMembers } = await useAsyncData('vcp', () => queryCollection('vcp').order('order', 'ASC').all());
-
-// Debug logging
-console.log('[VCP] vcpMembers:', vcpMembers.value);
-console.log('[VCP] vcpMembers length:', vcpMembers.value?.length);
 </script>
 
 <!-- &#8203; is een zero-width-space, is nodig voor overflow op mobieltjes -->

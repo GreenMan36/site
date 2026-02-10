@@ -9,13 +9,6 @@ const pages = ref<{ title: string; url: string }[]>(footerData.value?.meta?.item
 const socialPages = ref<{ title: string; url: string }[]>(footerData.value?.meta?.socialMediaItems || []);
 const contact = ref<Record<string, unknown>>(footerData.value?.meta?.contactItems || {});
 
-// Debug logging
-console.log('[Footer] footerData:', footerData.value);
-console.log('[Footer] footerData.meta:', footerData.value?.meta);
-console.log('[Footer] pages:', pages.value);
-console.log('[Footer] socialPages:', socialPages.value);
-console.log('[Footer] contact:', contact.value);
-
 function changeTheme(theme: 'system' | 'light' | 'dark') {
   preference.value = theme;
 }

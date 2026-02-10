@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import ContentContainer from '@/layouts/ContentContainer.vue';
 import JobOffers from '@/components/JobOffers.vue';
-import { computed } from 'vue';
+import PartnerLogo from '@/components/PartnerLogo.vue';
 
 const route = useRoute();
 const partnerSlug = route.params.partner as string;
@@ -15,11 +15,6 @@ const { data: partner } = await useAsyncData(`partner-${partnerSlug}`, () =>
 const { data: jobOffers } = await useAsyncData(`partner-jobs-${partnerSlug}`, () =>
   queryCollection('partners').where('partnerSlug', '=', partnerSlug).all(),
 );
-
-const partnerLogo = computed(() => {
-  if (!partner.value) return '';
-  return usePartnerLogo(partner.value).value;
-});
 </script>
 
 <template>
@@ -28,9 +23,9 @@ const partnerLogo = computed(() => {
     <div id="partner" class="container">
       <div class="details">
         <a v-if="partner.url" :href="partner.url" target="_blank">
-          <img class="partner-logo" :src="partnerLogo" :alt="'Logo ' + partner.title" />
+          <PartnerLogo :partner="partner" class="partner-logo" />
         </a>
-        <img v-else class="partner-logo" :src="partnerLogo" :alt="'Logo ' + partner.title" />
+        <PartnerLogo v-else :partner="partner" class="partner-logo" />
         <div class="description">
           <ContentRenderer :value="partner" />
           <a v-if="partner.url" class="readMoreOutboundBtn button primary rounded" :href="partner.url" target="_blank">

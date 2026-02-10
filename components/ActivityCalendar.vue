@@ -3,7 +3,8 @@ import { ref, computed } from 'vue';
 import 'add-to-calendar-button';
 
 const { isDark } = useTheme();
-const maxCalEvents = ref(7);
+const defaultMaxCalEvents = 3;
+const maxCalEvents = ref(defaultMaxCalEvents);
 /**
  * There's a bunch more data, but we don't need it
  * Documentation can be found at https://developers.google.com/calendar/api/v3/reference/events/list
@@ -128,7 +129,7 @@ function getLocationLink(location: string): string {
 }
 
 function showMoreEvents(): void {
-  maxCalEvents.value = maxCalEvents.value + 7;
+  maxCalEvents.value = maxCalEvents.value + defaultMaxCalEvents;
 }
 
 function extractHourAndMinutes(timeString: string) {
@@ -180,7 +181,7 @@ function extractHourAndMinutes(timeString: string) {
         </a>
       </div>
     </div>
-    <a v-if="events.length > 7" class="button" @click="showMoreEvents">laat meer zien</a>
+    <a v-if="events.length > defaultMaxCalEvents" class="button" @click="showMoreEvents">laat meer zien</a>
   </div>
   <div class="button-container">
     <!-- note: startdate and times HAVE TO BE INCLUDED, :startDate will pick yesterday -->

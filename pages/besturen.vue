@@ -7,10 +7,6 @@ const { data: allBoards } = await useAsyncData('allBoards', () =>
   queryCollection('boards').order('year', 'DESC').all(),
 );
 
-// Debug logging
-console.log('[Besturen] allBoards:', allBoards.value);
-console.log('[Besturen] allBoards length:', allBoards.value?.length);
-
 // Separate current and previous boards
 const currentBoard = computed(() => allBoards.value?.find((b) => b.isCurrent));
 const previousBoards = computed(() => allBoards.value?.filter((b) => !b.isCurrent) || []);

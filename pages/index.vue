@@ -4,6 +4,7 @@
 
 import Hero from '~/components/HeroSection.vue';
 import Calendar from '~/components/ActivityCalendar.vue';
+import PartnerLogo from '~/components/PartnerLogo.vue';
 import 'vue3-carousel/dist/carousel.css';
 import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel';
 
@@ -18,14 +19,6 @@ const { data: premiumPartners } = await useAsyncData('home-premiumPartners', () 
 
 const { data: regularPartners } = await useAsyncData('home-regularPartners', () =>
   queryCollection('partners').where('tier', '=', 'regular').order('order', 'ASC').all(),
-);
-
-const mainPartnerLogo = computed(() => usePartnerLogo(mainPartner.value));
-const premiumLogos = computed(() =>
-  (premiumPartners.value || []).map((p) => ({ partner: p, logo: usePartnerLogo(p) })),
-);
-const regularLogos = computed(() =>
-  (regularPartners.value || []).map((p) => ({ partner: p, logo: usePartnerLogo(p) })),
 );
 
 const images = ['/assets/images/DSC_2456.webp', '/assets/images/DSC_3982.webp', '/assets/images/Introkamp-53.webp'];
@@ -94,26 +87,23 @@ function gotoPartners() {
 
         <h2>Partners</h2>
         <div class="partner-container" @click="gotoPartners">
-          <img
+          <PartnerLogo
             v-if="mainPartner"
+            :partner="mainPartner"
+            class="partner-logo"
             style="height: 100px; margin-top: 0"
-            class="partner-logo"
-            :src="mainPartnerLogo?.value"
-            :alt="'Logo' + mainPartner.title"
           />
-          <img
-            v-for="({ partner, logo }, index) in premiumLogos"
-            :key="`premium-${index}`"
+          <PartnerLogo
+            v-for="partner in premiumPartners || []"
+            :key="`premium-${partner.slug}`"
+            :partner="partner"
             class="partner-logo"
-            :src="logo.value"
-            :alt="'Logo' + partner.title"
           />
-          <img
-            v-for="({ partner, logo }, index) in regularLogos"
-            :key="`regular-${index}`"
+          <PartnerLogo
+            v-for="partner in regularPartners || []"
+            :key="`regular-${partner.slug}`"
+            :partner="partner"
             class="partner-logo"
-            :src="logo.value"
-            :alt="'Logo' + partner.title"
           />
         </div>
       </div>
@@ -162,7 +152,7 @@ svg {
       background-color: var(--secondary-background-color);
     }
 
-    img {
+    :deep(img) {
       object-fit: contain;
       margin: 16px;
       height: 66px;

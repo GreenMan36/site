@@ -5,9 +5,6 @@ import ContentContainer from '@/layouts/ContentContainer.vue';
 const { data: currentBoard } = await useAsyncData('currentBoard', () =>
   queryCollection('boards').where('isCurrent', '=', true).first(),
 );
-
-// Debug logging
-console.log('[Bestuur] currentBoard:', currentBoard.value);
 </script>
 
 <template>
