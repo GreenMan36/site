@@ -15,6 +15,10 @@ const { data: currentBoard } = await useAsyncData('currentBoard', () =>
       id="group-photo"
       :src="`/assets/boards/${currentBoard.groupPhoto}`"
       :alt="`Groepsfoto ${currentBoard.boardNumber}e bestuur`"
+      width="1200"
+      height="800"
+      decoding="async"
+      fetchpriority="high"
     />
     <div v-for="(member, index) in currentBoard?.members || []" :key="index" class="member">
       <img
@@ -22,11 +26,15 @@ const { data: currentBoard } = await useAsyncData('currentBoard', () =>
         :src="member.photo ? `/assets/boards/${member.photo}` : `https://cataas.com/cat/says/${member.name}`"
         :alt="member.name"
         :title="member.figcaption ? member.figcaption : undefined"
+        width="400"
+        height="500"
+        loading="lazy"
+        decoding="async"
       />
       <h3>{{ member.name }}</h3>
       <h4>{{ member.function }}</h4>
       <address>
-        <a href="mailto:{{ member.email }}">{{ member.email }}</a>
+        <a :href="`mailto:${member.email}`">{{ member.email }}</a>
       </address>
       <br />
       <h5 v-if="member.responsibilities">Verantwoordelijkheden:</h5>
@@ -64,8 +72,10 @@ h1 {
     float: left;
     margin: 0 3em 0 0;
     width: 100%;
-    max-width: 400px;
+    max-width: 320px;
+    height: auto;
     border-radius: 10px;
+    background-color: var(--secondary-background-color);
     transition: transform 0.2s;
 
     &:hover {
@@ -126,8 +136,10 @@ h1 {
 #group-photo {
   display: block;
   margin: 2em auto;
-  max-height: 512px;
+  width: min(100%, 720px);
+  height: auto;
   border-radius: 10px;
+  background-color: var(--secondary-background-color);
   transition: transform 0.2s;
 
   &:hover {
