@@ -23,14 +23,14 @@ const { data: currentBoard } = await useAsyncData('currentBoard', () =>
         :alt="member.name"
         :title="member.figcaption ? member.figcaption : undefined"
       />
-      <div class="member-info">
-        <h3>{{ member.name }}</h3>
-        <h4>{{ member.function }}</h4>
-        <address>
-          <a href="mailto:{{ member.email }}">{{ member.email }}</a>
-        </address>
-        >
-      </div>
+      <h3>{{ member.name }}</h3>
+      <h4>{{ member.function }}</h4>
+      <address>
+        <a href="mailto:{{ member.email }}">{{ member.email }}</a>
+      </address>
+      <br />
+      <h5 v-if="member.responsibilities">Verantwoordelijkheden:</h5>
+      <p v-if="member.responsibilities">{{ member.responsibilities.join(', ') }}</p>
     </div>
   </ContentContainer>
 </template>
@@ -39,6 +39,8 @@ const { data: currentBoard } = await useAsyncData('currentBoard', () =>
 .content-container {
   display: flex;
   flex-direction: column;
+  margin: 0 auto;
+  width: fit-content;
 }
 
 h1 {
@@ -46,47 +48,69 @@ h1 {
 }
 
 .member {
-  display: flex;
-  gap: 3em;
-  justify-content: center;
-  flex-wrap: wrap;
   max-width: 1170px;
-  margin: 2em auto;
+  margin: 2em 3em;
+
+  h5 {
+    font-size: 1.1em;
+  }
+
+  p {
+    margin-top: 0em;
+    font-size: 1em;
+  }
+
+  .member-photo {
+    float: left;
+    margin: 0 3em 0 0;
+    width: 100%;
+    max-width: 400px;
+    border-radius: 10px;
+    transition: transform 0.2s;
+
+    &:hover {
+      transform: scale(1.05);
+      transition: transform 0.2s;
+    }
+  }
 
   &:nth-child(even) {
-    flex-direction: row-reverse;
+    .member-photo {
+      float: right;
+      margin: 0 0 0 3em;
+    }
+
     h3,
     h4,
+    h5,
+    p,
     address {
       text-align: right;
     }
   }
 }
 
-.member-photo {
-  width: 100%;
-  max-width: 400px;
-  border-radius: 10px;
-  transition: transform 0.2s;
-
-  &:hover {
-    transform: scale(1.05);
-    transition: transform 0.2s;
-  }
-}
-
 @media screen and (max-width: #{$bp-tablet-md}) {
   .member {
-    gap: 1em;
     margin: 2em auto;
 
     &:nth-child(even) {
+      .member-photo {
+        margin: 0 auto 1em;
+      }
+
       h3,
       h4 {
         text-align: center;
       }
     }
   }
+
+  .member-photo {
+    margin: 0 auto 1em;
+    display: block;
+  }
+
   h3,
   h4 {
     text-align: center;
@@ -94,10 +118,11 @@ h1 {
 }
 
 @media screen and (max-width: #{$bp-tablet-sm}) {
-  .member {
-    gap: 0;
+  .member-photo {
+    margin: 0 auto;
   }
 }
+
 #group-photo {
   display: block;
   margin: 2em auto;

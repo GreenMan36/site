@@ -36,6 +36,8 @@ export default defineContentConfig({
             photo: z.string().optional(),
             email: z.string().optional(),
             figcaption: z.string().optional(),
+            responsibilities: z.array(z.string()).optional(),
+            commissions: z.array(z.string()).optional(),
           }),
         ),
       }),
