@@ -141,68 +141,87 @@ function extractHourAndMinutes(timeString: string) {
 
 <template>
   <h2 class="title">Agenda</h2>
-  <div class="events-container">
-    <article v-if="!visibleEvents.length">
-      <p>Voorlopig zijn er geen activiteiten.</p>
-      <p>Voeg de kalender toe aan je agenda om up-to-date te blijven!</p>
-    </article>
-    <div v-for="event in visibleEvents" :key="event.id" class="event">
-      <div class="date">
-        <span class="day">{{ event.start.toLocaleDateString('nl', { day: 'numeric' }) }}</span>
-        <div v-if="event.multiday_end && !event.multimonth_end">
-          <span class="t-m">t/m<br /></span>
-          <span class="day">{{ event.multiday_end.toLocaleDateString('nl', { day: 'numeric' }) }}<br /></span>
-        </div>
+  <ClientOnly>
+    <div class="events-container">
+      <article v-if="!visibleEvents.length">
+        <p>Voorlopig zijn er geen activiteiten.</p>
+        <p>Voeg de kalender toe aan je agenda om up-to-date te blijven!</p>
+      </article>
+      <div v-for="event in visibleEvents" :key="event.id" class="event">
+        <div class="date">
+          <span class="day">{{ event.start.toLocaleDateString('nl', { day: 'numeric' }) }}</span>
+          <div v-if="event.multiday_end && !event.multimonth_end">
+            <span class="t-m">t/m<br /></span>
+            <span class="day">{{ event.multiday_end.toLocaleDateString('nl', { day: 'numeric' }) }}<br /></span>
+          </div>
 
-        <br v-else />
-        <span class="month">{{ event.start.toLocaleDateString('nl', { month: 'short' }) }}</span>
-        <div v-if="event.multiday_end && event.multimonth_end">
-          <span class="t-m">t/m<br /></span>
-          <span class="day">{{ event.multiday_end.toLocaleDateString('nl', { day: 'numeric' }) }}</span>
-          <br />
-          <span class="month">{{ event.multiday_end.toLocaleDateString('nl', { month: 'short' }) }}</span>
+          <br v-else />
+          <span class="month">{{ event.start.toLocaleDateString('nl', { month: 'short' }) }}</span>
+          <div v-if="event.multiday_end && event.multimonth_end">
+            <span class="t-m">t/m<br /></span>
+            <span class="day">{{ event.multiday_end.toLocaleDateString('nl', { day: 'numeric' }) }}</span>
+            <br />
+            <span class="month">{{ event.multiday_end.toLocaleDateString('nl', { month: 'short' }) }}</span>
+          </div>
+        </div>
+        <div class="details">
+          <p class="title" style="font-weight: bold; margin-block-end: 0.2em">{{ event.summary }}</p>
+          <p
+            v-if="
+              !(
+                (extractHourAndMinutes('' + event.start) == '01:00' &&
+                  extractHourAndMinutes('' + event.end) == '01:00') ||
+                (extractHourAndMinutes('' + event.start) == '02:00' && extractHourAndMinutes('' + event.end) == '02:00')
+              )
+            "
+          >
+            {{ extractHourAndMinutes('' + event.start) }} => {{ extractHourAndMinutes('' + event.end) }}
+          </p>
+          <a v-if="event.location" class="location" :href="getLocationLink(event.location)" target="_blank">
+            @{{ event.location }}
+          </a>
         </div>
       </div>
-      <div class="details">
-        <p class="title" style="font-weight: bold; margin-block-end: 0.2em">{{ event.summary }}</p>
-        <p
-          v-if="
-            !(
-              (extractHourAndMinutes('' + event.start) == '01:00' &&
-                extractHourAndMinutes('' + event.end) == '01:00') ||
-              (extractHourAndMinutes('' + event.start) == '02:00' && extractHourAndMinutes('' + event.end) == '02:00')
-            )
-          "
-        >
-          {{ extractHourAndMinutes('' + event.start) }} => {{ extractHourAndMinutes('' + event.end) }}
-        </p>
-        <a v-if="event.location" class="location" :href="getLocationLink(event.location)" target="_blank">
-          @{{ event.location }}
-        </a>
-      </div>
+      <a v-if="events.length > defaultMaxCalEvents" class="button" @click="showMoreEvents">laat meer zien</a>
     </div>
-    <a v-if="events.length > defaultMaxCalEvents" class="button" @click="showMoreEvents">laat meer zien</a>
-  </div>
-  <div class="button-container">
-    <!-- note: startdate and times HAVE TO BE INCLUDED, :startDate will pick yesterday -->
-    <add-to-calendar-button
-      name="Indicium"
-      :start-date="new Date(Date.now() - 86400000).toISOString().split('T')[0]"
-      start-time="00:00"
-      end-time="00:00"
-      time-zone="Europe/Amsterdam"
-      ics-file="https://calendar.google.com/calendar/ical/c_cb2b2ab9761bec69a9d24fd452f2d970d31755cf1c382272560d81fddca0e5e5%40group.calendar.google.com/public/basic.ics"
-      subscribe
-      i-cal-file-name="Indicium Activiteiten Kalender"
-      options="'Apple','Google','iCal','Outlook.com','Microsoft365','MicrosoftTeams'"
-      list-style="modal"
-      label="Importeer agenda in je kalender"
-      :light-mode="isDark ? 'dark' : 'light'"
-      language="nl"
-      style="margin-block-end: 0.5em; --btn-shadow: unset; --btn-shadow-hover: unset"
-      hide-branding
-    ></add-to-calendar-button>
-  </div>
+    <!--     todo: fix this button in NUXT
+    <div class="button-container">
+    
+      <add-to-calendar-button
+        name="Indicium"
+        :start-date="new Date(Date.now() - 86400000).toISOString().split('T')[0]"
+        start-time="00:00"
+        end-time="00:00"
+        time-zone="Europe/Amsterdam"
+        ics-file="https://calendar.google.com/calendar/ical/c_cb2b2ab9761bec69a9d24fd452f2d970d31755cf1c382272560d81fddca0e5e5%40group.calendar.google.com/public/basic.ics"
+        subscribe
+        i-cal-file-name="Indicium Activiteiten Kalender"
+        options="'Apple','Google','iCal','Outlook.com','Microsoft365','MicrosoftTeams'"
+        list-style="modal"
+        label="Importeer agenda in je kalender"
+        :light-mode="isDark ? 'dark' : 'light'"
+        language="nl"
+        style="margin-block-end: 0.5em; --btn-shadow: unset; --btn-shadow-hover: unset"
+        hide-branding
+      ></add-to-calendar-button>
+    </div>
+ -->
+    <template #fallback>
+      <div class="events-container events-container--fallback" aria-hidden="true">
+        <div v-for="index in defaultMaxCalEvents" :key="index" class="event event--placeholder">
+          <div class="date"></div>
+          <div class="details">
+            <p class="placeholder-line"></p>
+            <p class="placeholder-line short"></p>
+          </div>
+        </div>
+        <a v-if="events.length > defaultMaxCalEvents" class="button button--placeholder">Laden...</a>
+      </div>
+      <!-- <div class="button-container" aria-hidden="true">
+        <span class="button button--placeholder">Importeer agenda in je kalender</span>
+      </div> -->
+    </template>
+  </ClientOnly>
 </template>
 
 <style scoped lang="scss">
@@ -238,6 +257,7 @@ function extractHourAndMinutes(timeString: string) {
     display: flex;
     flex-direction: column;
     height: 100%;
+    min-width: 0;
 
     p {
       margin: 0;
@@ -245,6 +265,10 @@ function extractHourAndMinutes(timeString: string) {
 
     .location {
       font-style: italic;
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 }
@@ -256,6 +280,34 @@ function extractHourAndMinutes(timeString: string) {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  min-height: 18rem;
+}
+
+.events-container--fallback {
+  .event--placeholder {
+    min-height: 99.2px;
+
+    .date {
+      min-height: 75.5px;
+    }
+
+    .details {
+      justify-content: center;
+
+      .placeholder-line {
+        margin: 0;
+        height: 0.9rem;
+        background-color: color-mix(in srgb, var(--text-color) 18%, transparent);
+        border-radius: 6px;
+        width: 85%;
+
+        &.short {
+          width: 55%;
+          margin-top: 0.4rem;
+        }
+      }
+    }
+  }
 }
 
 .button-container {
@@ -272,6 +324,11 @@ function extractHourAndMinutes(timeString: string) {
   padding: 0.5em 0.8em;
   border-radius: 8px;
   text-decoration: none;
+
+  &.button--placeholder {
+    opacity: 0.8;
+    pointer-events: none;
+  }
 }
 
 .title {
