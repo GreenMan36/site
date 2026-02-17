@@ -45,8 +45,8 @@ const { data: mainPartnerJobOffers } = await useAsyncData('mainPartnerJobOffers'
 
     <h1>Premium partners</h1>
     <div v-for="partner in premiumPartners || []" :key="partner.slug" class="partner">
-      <a :href="partner.url" target="_blank">
-        <PartnerLogo :partner="partner" class="partner-logo" />
+      <a :href="partner.url" target="_blank" class="partner-logo-link">
+        <PartnerLogo :partner="partner" />
       </a>
       <div class="details">
         <h3>{{ partner.title }}</h3>
@@ -95,9 +95,24 @@ const { data: mainPartnerJobOffers } = await useAsyncData('mainPartnerJobOffers'
     gap: 8%;
     align-items: center;
 
+    > :first-child {
+      grid-column: 1;
+      justify-self: start;
+    }
+
     @media screen and (max-width: #{$bp-tablet-md}) {
       grid-template-columns: 1fr;
       gap: 0;
+
+      > :first-child {
+        grid-column: 1;
+        grid-row: 1;
+      }
+
+      .description {
+        grid-column: 1;
+        grid-row: 2;
+      }
     }
 
     .description {
@@ -113,16 +128,24 @@ const { data: mainPartnerJobOffers } = await useAsyncData('mainPartnerJobOffers'
   gap: 8%;
   align-items: center;
 
-  .partner-logo {
+  .partner-logo-link {
+    display: block;
+    flex: 0 0 30vw;
     max-width: 500px;
     width: 30vw;
-    height: auto;
+
+    :deep(img) {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
   }
 
   @media screen and (max-width: #{$bp-tablet-lg}) {
     flex-wrap: wrap;
 
-    .partner-logo {
+    .partner-logo-link {
+      flex: 0 0 auto;
       width: 100%;
       max-width: 300px;
       margin: 0 auto;
@@ -162,6 +185,11 @@ const { data: mainPartnerJobOffers } = await useAsyncData('mainPartnerJobOffers'
     width: 20em;
 
     .partner-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 8em;
+
       img {
         width: 20em;
         height: auto;
@@ -171,12 +199,7 @@ const { data: mainPartnerJobOffers } = await useAsyncData('mainPartnerJobOffers'
 }
 
 .readMore {
-  font-size: large;
-  text-decoration: none;
   color: inherit;
   margin: 1em auto;
-  padding: 10px;
-  background-color: rgb(var(--indi-blue-1));
-  border-radius: 0.5em;
 }
 </style>

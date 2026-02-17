@@ -28,8 +28,6 @@ grotere rol.
 Help jij graag mee de zorg verbeteren met slimme ICT? Stuur dan een mail naar
 [recruitment@chipsoft.com](mailto:recruitment@chipsoft.com).
 
-## Social Media
-
 - **Facebook**: [https://www.facebook.com/chipsoftbv/](https://www.facebook.com/chipsoftbv/)
 - **LinkedIn**: [https://www.linkedin.com/company/chipsoft/](https://www.linkedin.com/company/chipsoft/)
 - **Instagram**: [https://www.instagram.com/chipsoftnederland/](https://www.instagram.com/chipsoftnederland/)

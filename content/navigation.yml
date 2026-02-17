@@ -17,10 +17,10 @@ items:
     children:
       - title: 'ChipSoft'
         url: '/partners/chipsoft'
-      - title: 'YER'
-        url: '/partners/yer'
       - title: 'DressMe'
         url: '/partners/dressme'
+      - title: 'Vibe Academy'
+        url: '/partners/vibe-academy'
   - title: 'Contact'
     url: '/contact'
     children:
