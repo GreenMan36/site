@@ -107,6 +107,10 @@ const { data: mainPartnerJobOffers } = await useAsyncData('mainPartnerJobOffers'
       > :first-child {
         grid-column: 1;
         grid-row: 1;
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
       }
 
       .description {
