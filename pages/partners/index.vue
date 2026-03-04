@@ -35,7 +35,7 @@ const { data: mainPartnerJobOffers } = await useAsyncData('mainPartnerJobOffers'
         <div class="description">
           <h3>Hoofdpartner: {{ mainPartner.title }}</h3>
           <ContentRenderer :value="mainPartner" />
-          <a class="readMore button primary rounded" href="mailto:secretaris@indicium.nl">Neem contact op!</a>
+          <a class="readMore button primary rounded" href="mailto:secretaris@indicium.hu">Neem contact op!</a>
         </div>
       </div>
       <JobOffers v-if="mainPartnerJobOffers && mainPartnerJobOffers.length" :offers="mainPartnerJobOffers" />
