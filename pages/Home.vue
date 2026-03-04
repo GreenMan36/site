@@ -33,7 +33,7 @@ function gotoPartners() {
         <div class="carousel">
           <carousel :items-to-show="1" :wrap-around="true" :autoplay="5000" :transition="600">
             <slide v-for="slide in images" :key="slide">
-              <img alt="Foto's" :src="slide" style="height: 400px; max-height: 50vw" />
+              <img alt="Foto's" :src="slide" style="height: 400px; max-height: 50vw" fetchpriority="high" />
             </slide>
 
             <template #addons>
