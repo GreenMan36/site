@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue';
 import 'add-to-calendar-button';
 
-const defaultMaxCalEvents = 3;
+const defaultMaxCalEvents = 5;
 const maxCalEvents = ref(defaultMaxCalEvents);
 /**
  * There's a bunch more data, but we don't need it
