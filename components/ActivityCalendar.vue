@@ -127,9 +127,14 @@ function getLocationLink(location: string): string {
   }
 }
 
-function showMoreEvents(): void {
-  maxCalEvents.value = maxCalEvents.value + defaultMaxCalEvents;
+const isExpanded = ref(false);
+
+function toggleEvents(): void {
+  isExpanded.value = !isExpanded.value;
+  maxCalEvents.value = isExpanded.value ? events.length : defaultMaxCalEvents;
 }
+
+const hiddenCount = computed(() => Math.max(0, events.length - maxCalEvents.value));
 
 function extractHourAndMinutes(timeString: string) {
   const regex = /(\d{2}:\d{2}):\d{2}/;
@@ -184,9 +189,9 @@ function extractHourAndMinutes(timeString: string) {
       <button
         v-if="events.length > defaultMaxCalEvents"
         class="button primary rounded indi-green-1"
-        @click="showMoreEvents"
+        @click="toggleEvents"
       >
-        laat meer zien
+        {{ isExpanded ? `laat minder zien` : `laat ${hiddenCount} meer zien` }}
       </button>
     </div>
     <!--     todo: fix this button in NUXT
