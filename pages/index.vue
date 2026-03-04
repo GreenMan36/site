@@ -1,50 +1,44 @@
 <script setup lang="ts">
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
-
-import Hero from '~/components/HeroSection.vue';
-import Calendar from '~/components/ActivityCalendar.vue';
-import PartnerLogo from '~/components/PartnerLogo.vue';
-import 'vue3-carousel/dist/carousel.css';
-import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel';
-
-// Query partners collection by tier
-const { data: mainPartner } = await useAsyncData('home-mainPartner', () =>
-  queryCollection('partners').where('tier', '=', 'main').first(),
-);
-
-const { data: premiumPartners } = await useAsyncData('home-premiumPartners', () =>
-  queryCollection('partners').where('tier', '=', 'premium').order('order', 'ASC').all(),
-);
-
-const { data: regularPartners } = await useAsyncData('home-regularPartners', () =>
-  queryCollection('partners').where('tier', '=', 'regular').order('order', 'ASC').all(),
-);
+const [{ data: mainPartner }, { data: premiumPartners }, { data: regularPartners }] = await Promise.all([
+  useAsyncData('home-mainPartner', () => queryCollection('partners').where('tier', '=', 'main').first()),
+  useAsyncData('home-premiumPartners', () =>
+    queryCollection('partners').where('tier', '=', 'premium').order('order', 'ASC').all(),
+  ),
+  useAsyncData('home-regularPartners', () =>
+    queryCollection('partners').where('tier', '=', 'regular').order('order', 'ASC').all(),
+  ),
+]);
 
 const images = ['/assets/images/DSC_2456.webp', '/assets/images/DSC_3982.webp', '/assets/images/Introkamp-53.webp'];
 
 function gotoPartners() {
-  window.location.href = '/partners';
+  return navigateTo('/partners');
 }
 </script>
 
 <template>
   <div>
-    <Hero class="hero" />
+    <HeroSection class="hero" />
     <div class="split-container">
       <div class="left">
-        <div class="carousel">
-          <carousel :items-to-show="1" :wrap-around="true" :autoplay="5000" :transition="600">
-            <slide v-for="slide in images" :key="slide">
-              <img alt="Foto's" :src="slide" style="height: 400px; max-height: 50vw" />
-            </slide>
-
-            <template #addons>
-              <navigation />
-              <pagination />
-            </template>
-          </carousel>
-        </div>
+        <ClientOnly>
+          <!-- Only render the carousel when visible -->
+          <LazyImageCarousel :images="images" fit="contain" hydrate-on-visible />
+          <template #fallback>
+            <!-- Show first image as fallback -->
+            <div class="carousel-fallback">
+              <img
+                alt="carousel fallback"
+                :src="images[0]"
+                loading="eager"
+                fetchpriority="high"
+                decoding="async"
+                width="1600"
+                height="800"
+              />
+            </div>
+          </template>
+        </ClientOnly>
         <div class="container" data-v-4413e4a8="">
           <div class="text-block text-center contained" data-v-4413e4a8="">
             <h2 style="margin-top: 0.3em">Over Indicium</h2>
@@ -81,9 +75,7 @@ function gotoPartners() {
       </div>
 
       <div class="right">
-        <Suspense>
-          <Calendar />
-        </Suspense>
+        <LazyActivityCalendar hydrate-on-visible />
 
         <h2>Partners</h2>
         <div class="partner-container" @click="gotoPartners">
@@ -158,6 +150,20 @@ svg {
       height: 66px;
       max-width: 300px;
     }
+  }
+}
+
+.carousel-fallback {
+  height: 400px;
+  max-height: 50vw;
+  width: 100%;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
   }
 }
 

@@ -1,25 +1,36 @@
 <script setup lang="ts">
-import 'vue3-carousel/dist/carousel.css';
-import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel';
-
 const images = ['/assets/images/Karten-20.webp', '/assets/images/Poolen-12.webp', '/assets/images/DSC_2852.webp'];
 </script>
 
 <template>
   <ContentContainer>
     <div class="carousel">
-      <carousel :items-to-show="1.5" :wrap-around="true" :autoplay="5000" :transition="600">
-        <slide v-for="slide in images" :key="slide">
-          <img alt="slider" :src="slide" />
-        </slide>
-
-        <template #addons>
-          <navigation />
-          <pagination />
+      <ClientOnly>
+        <LazyImageCarousel
+          :images="images"
+          alt="Over Indicium slider"
+          :slides-per-view="1.5"
+          align="center"
+          height="32em"
+          max-height="32em"
+          fit="contain"
+          hydrate-on-visible
+        />
+        <template #fallback>
+          <img
+            alt="Over Indicium slider"
+            :src="images[0]"
+            class="carousel-fallback"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+            width="1600"
+            height="900"
+          />
         </template>
-      </carousel>
+      </ClientOnly>
     </div>
-    <div>
+    <div class="text-container">
       <h2>Over Indicium</h2>
       <p>
         Indicium is de studievereniging voor studenten van het Institute for ICT aan de Hogeschool Utrecht. De
@@ -52,20 +63,29 @@ const images = ['/assets/images/Karten-20.webp', '/assets/images/Poolen-12.webp'
 </template>
 
 <style scoped>
-.carousel {
+.content-container {
   margin: 0 auto;
-  margin-top: 2em;
-  max-height: 32em; /* gewoon fotoshoppen, niet moeilijk doen */
+  padding: 0 20px;
   max-width: 1200px;
 }
 
-h2 {
-  width: 70%;
-  margin: 16px auto 0 auto;
+.text-container {
+  max-width: 800px;
+  margin: 40px auto;
 }
 
-p {
-  width: 70%;
+.carousel {
   margin: 0 auto;
+  margin-top: 2em;
+  height: 32em;
+  max-height: 32em;
+  max-width: 1200px;
+}
+
+.carousel-fallback {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
 }
 </style>
