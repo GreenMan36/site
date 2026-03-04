@@ -1,24 +1,19 @@
 <script setup lang="ts">
-// Import layout components directly - Nuxt handles async data automatically
 import NavDesktop from '@/layouts/Nav.vue';
-import NavMobile from '@/layouts/NavMobile.vue';
 import FooterMenu from '@/layouts/Footer.vue';
 
-const route = useRoute();
-const hideNavFooter = computed(() => {
-  const paths = ['/links', '/discord']; // paths to hide nav and footer on
-  return paths.includes(route.path);
-});
+const NavMobile = defineAsyncComponent(() => import('@/layouts/NavMobile.vue'));
+const isMobile = useMediaQuery('(max-width: 944px)');
 </script>
 
 <template>
   <div>
-    <NavDesktop v-if="!hideNavFooter" />
-    <NavMobile v-if="!hideNavFooter" />
+    <NavDesktop />
+    <NavMobile v-if="isMobile" />
     <div class="page-content">
       <slot />
     </div>
-    <FooterMenu v-if="!hideNavFooter" />
+    <FooterMenu />
   </div>
 </template>
 
