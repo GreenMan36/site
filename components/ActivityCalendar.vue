@@ -2,7 +2,6 @@
 import { ref, computed } from 'vue';
 import 'add-to-calendar-button';
 
-const { isDark } = useTheme();
 const defaultMaxCalEvents = 3;
 const maxCalEvents = ref(defaultMaxCalEvents);
 /**
@@ -182,7 +181,13 @@ function extractHourAndMinutes(timeString: string) {
           </a>
         </div>
       </div>
-      <a v-if="events.length > defaultMaxCalEvents" class="button" @click="showMoreEvents">laat meer zien</a>
+      <button
+        v-if="events.length > defaultMaxCalEvents"
+        class="button primary rounded indi-green-1"
+        @click="showMoreEvents"
+      >
+        laat meer zien
+      </button>
     </div>
     <!--     todo: fix this button in NUXT
     <div class="button-container">
@@ -215,7 +220,7 @@ function extractHourAndMinutes(timeString: string) {
             <p class="placeholder-line short"></p>
           </div>
         </div>
-        <a v-if="events.length > defaultMaxCalEvents" class="button button--placeholder">Laden...</a>
+        <span v-if="events.length > defaultMaxCalEvents" class="button button--placeholder">Laden...</span>
       </div>
       <!-- <div class="button-container" aria-hidden="true">
         <span class="button button--placeholder">Importeer agenda in je kalender</span>
@@ -317,18 +322,9 @@ function extractHourAndMinutes(timeString: string) {
   padding-top: 1em;
 }
 
-.button {
-  display: inline-block;
-  color: var(--text-color);
-  background-color: var(--indi-green-2);
-  padding: 0.5em 0.8em;
-  border-radius: 8px;
-  text-decoration: none;
-
-  &.button--placeholder {
-    opacity: 0.8;
-    pointer-events: none;
-  }
+.button--placeholder {
+  opacity: 0.8;
+  pointer-events: none;
 }
 
 .title {
