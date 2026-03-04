@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import ConscriboForm from '@/components/ConscriboForm.vue';
-import ConscriboFormShim from '@/components/ConscriboFormShim.vue';
 import { onMounted } from 'vue';
 import confetti from 'canvas-confetti';
 

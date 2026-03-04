@@ -270,13 +270,5 @@ onMounted(async () => {
       display: none;
     }
   }
-
-  /* simple loading overlay that is shown while the external script is being fetched */
-  .loadingState {
-    padding: 2rem;
-    text-align: center;
-    font-weight: bold;
-    color: var(--text-color);
-  }
 }
 </style>
