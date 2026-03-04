@@ -1,0 +1,25 @@
+<script setup lang="ts">
+import ContentContainer from '@/layouts/ContentContainer.vue';
+import Calendar from '~/components/ActivityCalendar.vue';
+</script>
+
+<template>
+  <ContentContainer>
+    <Suspense>
+      <Calendar />
+    </Suspense>
+    <h1>Agenda</h1>
+    <iframe
+      title="Activiteiten agenda"
+      src="https://calendar.google.com/calendar/embed?src=c_cb2b2ab9761bec69a9d24fd452f2d970d31755cf1c382272560d81fddca0e5e5%40group.calendar.google.com&ctz=Europe%2FBrussels"
+      style="border: 0"
+      height="600"
+    ></iframe>
+  </ContentContainer>
+</template>
+
+<style scoped>
+iframe {
+  width: -webkit-fill-available;
+}
+</style>

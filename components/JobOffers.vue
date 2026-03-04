@@ -1,0 +1,103 @@
+<script setup lang="ts">
+interface JobOffer {
+  title: string;
+  url?: string;
+  body?: any;
+  _path?: string;
+}
+
+defineProps<{
+  offers: JobOffer[];
+}>();
+
+function expandJobOffer(event: MouseEvent) {
+  const target = event.target as HTMLElement;
+  target.parentElement!.classList.toggle('open');
+}
+</script>
+
+<template>
+  <div v-if="offers && offers.length > 0" class="job-offers-container">
+    <h2>Vacatures</h2>
+    <div class="job-offers container">
+      <div v-for="(jobOffer, index) in offers" :key="jobOffer._path || index" class="job-offer">
+        <h3 class="job-offer-title" @click="expandJobOffer">{{ jobOffer.title }}</h3>
+        <div class="job-offer-description">
+          <ContentRenderer v-if="jobOffer.body" :value="jobOffer" />
+          <a
+            v-if="jobOffer.url"
+            class="readMoreOutboundBtn button primary rounded indi-green-1"
+            style="display: inline-block; margin-bottom: 1em"
+            :href="jobOffer.url"
+            target="_blank"
+          >
+            Naar de vacature
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style scoped lang="scss">
+.job-offers-container {
+  @media screen and (max-width: #{$bp-tablet-md}) {
+    // TODO: Make job offers wider on narrow screens
+    margin: 3em auto;
+  }
+  .job-offers {
+    .job-offer {
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+      width: 80%;
+      text-align: left;
+      margin: 1.5em auto;
+      padding: 0 2em;
+      background-color: rgba(255, 255, 255, 0.15);
+      border-radius: 1.5em;
+
+      @media screen and (max-width: #{$bp-tablet-md}) {
+        width: 100%;
+        padding: 0 1em;
+        margin: 0.5em auto;
+      }
+
+      .job-offer-title {
+        display: flex;
+        align-items: center;
+        margin: 0;
+        font-size: 1.5em;
+        line-height: 4ex;
+        cursor: pointer;
+      }
+
+      .job-offer-title::after {
+        display: inline-block;
+        content: '';
+        background-color: var(--text-color);
+        -webkit-mask-image: url('/assets/icons/arrow-up.svg');
+        mask-image: url('/assets/icons/arrow-up.svg');
+        height: 12px;
+        width: 21px;
+        margin-left: auto;
+        transition: 0.2s transform ease-out;
+      }
+
+      .job-offer-description {
+        display: none;
+      }
+
+      &.open {
+        .job-offer-title::after {
+          transform: scaleY(-1);
+        }
+
+        .job-offer-description {
+          display: block;
+        }
+      }
+    }
+  }
+}
+</style>
