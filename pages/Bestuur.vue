@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import ContentContainer from '@/layouts/ContentContainer.vue';
-
 // Query only the current board from collection
 const { data: currentBoard } = await useAsyncData('currentBoard', () =>
   queryCollection('boards').where('isCurrent', '=', true).first(),

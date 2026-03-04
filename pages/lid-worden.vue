@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import ContentContainer from '@/layouts/ContentContainer.vue';
 import ConscriboForm from '@/components/ConscriboForm.vue';
 import ConscriboFormShim from '@/components/ConscriboFormShim.vue';
 import { onMounted } from 'vue';

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import ContentContainer from '@/layouts/ContentContainer.vue';
 
 const imageUrl = ref('/assets/images/intro2023lowres.webp');
 

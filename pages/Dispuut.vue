@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import ContentContainer from '@/layouts/ContentContainer.vue';
 /// <reference types="vite-svg-loader" />
 
 // Query dispuut collection

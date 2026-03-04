@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import NavLogo from '@/components/NavLogo.vue';
-import MenuItem from '@/components/MenuItem.vue';
-
 // Query navigation collection
 const { data: navData } = await useAsyncData('navigation', () => queryCollection('navigation').first());
 const items = navData.value?.meta?.items || [];

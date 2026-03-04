@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import ContentContainer from '@/layouts/ContentContainer.vue';
-
 // Query VCP members collection sorted by order
 const { data: vcpMembers } = await useAsyncData('vcp', () => queryCollection('vcp').order('order', 'ASC').all());
 </script>

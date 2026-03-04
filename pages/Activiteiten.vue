@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import ContentContainer from '@/layouts/ContentContainer.vue';
 import Calendar from '~/components/ActivityCalendar.vue';
 </script>
 

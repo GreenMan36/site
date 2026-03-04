@@ -1,19 +1,11 @@
-<script setup lang="ts">
-import NavDesktop from '@/layouts/Nav.vue';
-import FooterMenu from '@/layouts/Footer.vue';
-
-const NavMobile = defineAsyncComponent(() => import('@/layouts/NavMobile.vue'));
-const isMobile = useMediaQuery('(max-width: 944px)');
-</script>
-
 <template>
   <div>
     <NavDesktop />
-    <NavMobile v-if="isMobile" />
+    <LazyNavMobile hydrate-on-media-query="(max-width: 944px)" />
     <div class="page-content">
       <slot />
     </div>
-    <FooterMenu />
+    <AppFooter />
   </div>
 </template>
 

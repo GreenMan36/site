@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import ContentContainer from '@/layouts/ContentContainer.vue';
-
 // Query commissies collection sorted by order
 const { data: commissies } = await useAsyncData('commissies', () =>
   queryCollection('commissies').order('order', 'ASC').all(),

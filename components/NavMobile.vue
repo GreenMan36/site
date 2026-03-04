@@ -1,8 +1,5 @@
 <script setup lang="ts">
 /// <reference types="vite-svg-loader" />
-import { ref } from 'vue';
-import NavLogo from '@/components/NavLogo.vue';
-import { useRouter } from 'vue-router';
 
 const currentLevel2 = ref<string>('');
 const currentLevel3 = ref<string>('');
