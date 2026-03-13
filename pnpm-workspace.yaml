@@ -1,0 +1,10 @@
+onlyBuiltDependencies:
+  - '@firebase/util'
+  - '@parcel/watcher'
+  - '@sentry/cli'
+  - better-sqlite3
+  - esbuild
+  - protobufjs
+  - re2
+  - unrs-resolver
+  - vue-demi
