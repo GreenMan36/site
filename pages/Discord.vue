@@ -1,4 +1,8 @@
 <!-- https://discord.gg/zYEEEpJhkr -->
+<script setup lang="ts">
+definePageMeta({ layout: 'minimal' });
+</script>
+
 <template>
   <div style="display: flex; flex-direction: column; align-items: center; height: 100vh; height: 100dvh">
     <p>Redirecting to <a href="https://discord.gg/zYEEEpJhkr">HBO-ICT Discord</a>...</p>

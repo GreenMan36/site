@@ -1,4 +1,6 @@
 <script setup lang="ts">
+definePageMeta({ layout: 'minimal' });
+
 import logo from '@/assets/logo/indicium-logo-icon.svg?component';
 import linkCard from '@/components/LinkCard.vue';
 

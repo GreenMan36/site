@@ -1,8 +1,5 @@
 <script setup lang="ts">
 /// <reference types="vite-svg-loader" />
-import { ref } from 'vue';
-import NavLogo from '@/components/NavLogo.vue';
-import { useRouter } from 'vue-router';
 
 const currentLevel2 = ref<string>('');
 const currentLevel3 = ref<string>('');
@@ -79,13 +76,14 @@ router.afterEach(() => {
                 {{ item.title }}
               </RouterLink>
 
-              <a
+              <button
                 v-if="item.children"
                 title="Goto submenu"
                 class="sub-menu-toggle"
                 @click="setCurrentLevel(2, item.title)"
-                >‌‌ ‌‌ ‌‌▸‌‌ ‌‌ ‌‌‌‌ ‌‌‌
-              </a>
+              >
+                ‌‌ ‌‌ ‌‌▸‌‌ ‌‌ ‌‌‌‌ ‌‌‌
+              </button>
 
               <div
                 class="menubar bluegreen"
@@ -95,7 +93,7 @@ router.afterEach(() => {
                 <div class="menu level-2" :class="{ visible: item.title == currentLevel2 }">
                   <ul class="sub-menu">
                     <li>
-                      <a @click="setCurrentLevel(1)"> .. </a>
+                      <button @click="setCurrentLevel(1)">..</button>
                     </li>
                     <li
                       v-for="child in item.children"
@@ -115,13 +113,14 @@ router.afterEach(() => {
                         {{ child.title }}
                       </RouterLink>
 
-                      <a
+                      <button
                         v-if="child.children"
                         title="Goto sub-submenu"
                         class="sub-menu-toggle"
                         @click="setCurrentLevel(3, child.title)"
-                        >‌‌ ‌‌ ‌‌▸‌‌ ‌‌ ‌‌‌‌ ‌‌‌
-                      </a>
+                      >
+                        ‌‌ ‌‌ ‌‌▸‌‌ ‌‌ ‌‌‌‌ ‌‌‌
+                      </button>
 
                       <div
                         class="menubar green"
@@ -136,7 +135,7 @@ router.afterEach(() => {
                         >
                           <ul class="sub-sub-menu">
                             <li>
-                              <a @click="setCurrentLevel(2)"> .. </a>
+                              <button @click="setCurrentLevel(2)">..</button>
                             </li>
                             <li
                               v-for="grandchild in child.children"
@@ -283,9 +282,18 @@ router.afterEach(() => {
       visibility: visible;
     }
 
-    a {
+    a,
+    button {
       color: var(--text-color);
       font-weight: bold;
+    }
+
+    button {
+      background: none;
+      border: none;
+      font-family: inherit;
+      font-size: inherit;
+      padding: 0;
     }
     .menubar {
       cursor: pointer;
@@ -346,7 +354,8 @@ router.afterEach(() => {
           margin: 0;
 
           li {
-            a {
+            a,
+            button:not(.sub-menu-toggle) {
               display: inline-block;
               padding: 1em;
               width: 100%;

@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import IndiciumMap from '~/components/HuMap.vue';
-
-import ContentContainer from '@/layouts/ContentContainer.vue';
 </script>
 
 <template>

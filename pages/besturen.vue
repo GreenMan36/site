@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import ContentContainer from '@/layouts/ContentContainer.vue';
 import DataNotFound from '@/assets/icons/data-not-found.svg?component';
 
 // Query all boards from collection sorted by year descending

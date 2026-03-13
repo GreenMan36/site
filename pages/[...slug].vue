@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import ContentContainer from '@/layouts/ContentContainer.vue';
-
 const excuses = [
   'Sorry. Het was dit of een tentamen en het is het allebei niet geworden',
   'Zit de wifi-kabel er goed in?',

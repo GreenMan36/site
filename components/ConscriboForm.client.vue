@@ -1,13 +1,29 @@
 <script setup lang="ts">
+import { ref, onMounted } from 'vue';
 import { fetchConscriboFormAndInjectFix } from '@/utils/conscriboForm';
+import ConscriboFormShim from '@/components/ConscriboFormShim.vue';
 
 const conscriboFormUrl = 'https://leden.conscribo.nl/svindicium/jsForm/load/aanmeldenlidmaatschap_v2/cwfForm';
 
-fetchConscriboFormAndInjectFix(conscriboFormUrl);
+// local state to track whether the external script has been fetched and executed
+const loading = ref(true);
+
+onMounted(async () => {
+  try {
+    await fetchConscriboFormAndInjectFix(conscriboFormUrl);
+  } finally {
+    // even on error we stop showing the loading state (error is logged in util)
+    loading.value = false;
+  }
+});
 </script>
 
 <template>
-  <div id="cwfForm" class="cwfForm">Formulier wordt geladen ...</div>
+  <div id="cwfForm" class="cwfForm CWF table">
+    <!-- Fallback content while the form is loading and JS is enabled, combine with client only and a #fallback, see lid-worden.vue -->
+    <ConscriboFormShim v-if="loading" />
+    <!-- when loading is false, external script will append its form inside this div -->
+  </div>
 </template>
 
 <style lang="scss">
@@ -171,9 +187,6 @@ fetchConscriboFormAndInjectFix(conscriboFormUrl);
       td:not(.calendarTableDayName) {
         text-align: center;
         border-radius: 4px;
-        &:hover {
-          cursor: pointer;
-        }
       }
     }
 
@@ -237,6 +250,11 @@ fetchConscriboFormAndInjectFix(conscriboFormUrl);
     font-size: 18px;
     color: var(--text-color);
     font-weight: bold;
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
 
     &:hover {
       background-color: var(--indi-green-2);

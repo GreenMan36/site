@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import ContentContainer from '@/layouts/ContentContainer.vue';
-import ConscriboForm from '@/components/ConscriboForm.vue';
+import { onMounted } from 'vue';
 import confetti from 'canvas-confetti';
 
 // takes a position and calculates the angle needed to point to the middle of the screen
@@ -108,7 +107,15 @@ onMounted(() => {
 <template>
   <ContentContainer>
     <h1>Aanmelden lidmaatschap INDICIUM</h1>
-    <ConscriboForm />
+    <ClientOnly>
+      <template #fallback>
+        <!-- Fallback HTML when SSR is running and no client side JS is available, ConscriboForm isn't mounted yet -->
+        <div id="cwfForm" class="cwfForm CWF table">
+          <ConscriboFormShim />
+        </div>
+      </template>
+      <ConscriboForm />
+    </ClientOnly>
     <p>
       Gaat er iets niet helemaal goed? Geen zorgen,
       <a href="https://leden.conscribo.nl/svIndicium/aanmeldenlidmaatschap" target="_blank"

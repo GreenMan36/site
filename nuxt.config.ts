@@ -1,8 +1,14 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   // Modules
-  modules: [// '@nuxtjs/sentry', // TODO: Temporarily disabled - needs Nuxt 4 compatible version
-  'nuxt-svgo', '@nuxt/eslint', '@vueuse/nuxt', '@nuxtjs/color-mode', '@nuxt/content'],
+  modules: [
+    // '@nuxtjs/sentry', // TODO: Temporarily disabled - needs Nuxt 4 compatible version
+    'nuxt-svgo',
+    '@nuxt/eslint',
+    '@vueuse/nuxt',
+    '@nuxtjs/color-mode',
+    '@nuxt/content',
+  ],
 
   // SSG mode for static generation
   ssr: true,
@@ -15,6 +21,7 @@ export default defineNuxtConfig({
     head: {
       charset: 'utf-8',
       viewport: 'width=device-width, initial-scale=1',
+      htmlAttrs: { lang: 'nl' },
       title: 'Indicium',
       meta: [
         { name: 'description', content: 'Wij zijn dé studievereniging voor HBO-ICT van Hogeschool Utrecht' },

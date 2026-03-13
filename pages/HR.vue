@@ -1,6 +1,4 @@
-<script setup lang="ts">
-import ContentContainer from '@/layouts/ContentContainer.vue';
-</script>
+<script setup lang="ts"></script>
 <template>
   <ContentContainer>
     <div class="center-container">

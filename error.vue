@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import ContentContainer from '@/layouts/ContentContainer.vue';
-
 const route = useRoute();
 const code = (route.query.code as string) || '406';
 const error = (route.query.error as string) || 'Geen idee wat er mis ging ';

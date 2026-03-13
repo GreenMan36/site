@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import ContentContainer from '@/layouts/ContentContainer.vue';
 import JobOffers from '@/components/JobOffers.vue';
 import PartnerLogo from '@/components/PartnerLogo.vue';
 
@@ -88,6 +87,12 @@ const { data: mainPartnerJobOffers } = await useAsyncData('mainPartnerJobOffers'
 
 #main-partner {
   margin: 0 auto 6em auto;
+
+  :deep(.partner-logo) {
+    display: block;
+    width: min(100%, 420px);
+    height: auto;
+  }
 
   .details {
     display: grid;
@@ -194,9 +199,18 @@ const { data: mainPartnerJobOffers } = await useAsyncData('mainPartnerJobOffers'
       justify-content: center;
       min-height: 8em;
 
-      img {
-        width: 20em;
+      :deep(img) {
+        display: block;
+        width: min(100%, 20em);
+        max-width: 100%;
+        min-width: 140px;
         height: auto;
+      }
+
+      :deep(.theme-logo-wrapper) {
+        display: flex;
+        justify-content: center;
+        width: 100%;
       }
     }
   }
