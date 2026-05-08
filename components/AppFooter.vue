@@ -44,41 +44,43 @@ function changeTheme(theme: 'system' | 'light' | 'dark') {
       </div>
       <div class="colum">
         <h2>Options</h2>
-        <fieldset class="footer-menu options">
-          <legend>Thema</legend>
-          <div class="toggle dark-mode">
-            <div class="toggle-row">
-              <input
-                id="auto-mode"
-                type="radio"
-                name="theme"
-                :checked="preference == 'system'"
-                @change="changeTheme('system')"
-              />
-              <label for="auto-mode">Systeem</label>
+        <ClientOnly>
+          <fieldset class="footer-menu options">
+            <legend>Thema</legend>
+            <div class="toggle dark-mode">
+              <div class="toggle-row">
+                <input
+                  id="auto-mode"
+                  type="radio"
+                  name="theme"
+                  :checked="preference == 'system'"
+                  @change="changeTheme('system')"
+                />
+                <label for="auto-mode">Systeem</label>
+              </div>
+              <div class="toggle-row">
+                <input
+                  id="light-mode"
+                  type="radio"
+                  name="theme"
+                  :checked="preference == 'light'"
+                  @change="changeTheme('light')"
+                />
+                <label for="light-mode">Licht</label>
+              </div>
+              <div class="toggle-row">
+                <input
+                  id="dark-mode"
+                  type="radio"
+                  name="theme"
+                  :checked="preference == 'dark'"
+                  @change="changeTheme('dark')"
+                />
+                <label for="dark-mode">Donker</label>
+              </div>
             </div>
-            <div class="toggle-row">
-              <input
-                id="light-mode"
-                type="radio"
-                name="theme"
-                :checked="preference == 'light'"
-                @change="changeTheme('light')"
-              />
-              <label for="light-mode">Licht</label>
-            </div>
-            <div class="toggle-row">
-              <input
-                id="dark-mode"
-                type="radio"
-                name="theme"
-                :checked="preference == 'dark'"
-                @change="changeTheme('dark')"
-              />
-              <label for="dark-mode">Donker</label>
-            </div>
-          </div>
-        </fieldset>
+          </fieldset>
+        </ClientOnly>
       </div>
     </div>
   </footer>

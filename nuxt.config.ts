@@ -102,15 +102,13 @@ export default defineNuxtConfig({
   // Vue configuration for custom elements
   vue: {
     compilerOptions: {
-      isCustomElement: (tag) => ['add-to-calendar-button'].includes(tag),
+      isCustomElement: (tag) => tag.startsWith('add-'),
     },
   },
 
   // Build configuration
-  build: {
-    transpile: ['v-viewer'],
-  },
-  compatibilityDate: '2024-11-01',
+  build: {},
+  compatibilityDate: '2026-05-08',
 
   // Nitro configuration for static site generation
   nitro: {

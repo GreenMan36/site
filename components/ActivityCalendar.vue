@@ -1,9 +1,53 @@
+<!-- eslint-disable vue/attribute-hyphenation -->
+<!-- the add to calendar button does't work with kebab-case attributes -->
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted, nextTick } from 'vue';
 import 'add-to-calendar-button';
 
 const defaultMaxCalEvents = 5;
 const maxCalEvents = ref(defaultMaxCalEvents);
+
+// Fix calendar button width in shadow DOM, since the library doesn't support it out of the box and we want it to be full width
+const calendarButton = ref<HTMLElement | null>(null);
+onMounted(async () => {
+  if (import.meta.client) {
+    await customElements.whenDefined('add-to-calendar-button');
+    await nextTick();
+
+    const shadowRoot = calendarButton.value?.shadowRoot;
+    if (shadowRoot && !shadowRoot.getElementById('activity-calendar-button-width-style')) {
+      const style = document.createElement('style');
+      style.id = 'activity-calendar-button-width-style';
+      style.textContent = `
+        :host {
+          display: block;
+          width: 100%;
+        }
+
+        .atcb-initialized {
+          display: block;
+          position: relative;
+          width: 100% !important;
+        }
+
+        .atcb-button-wrapper {
+          display: block;
+          width: 100%;
+        }
+
+        .atcb-button {
+          width: -moz-available;
+          width: -webkit-fill-available;
+          width: stretch;
+          max-width: none;
+          box-sizing: border-box;
+        }
+      `;
+      shadowRoot.prepend(style);
+    }
+  }
+});
+
 /**
  * There's a bunch more data, but we don't need it
  * Documentation can be found at https://developers.google.com/calendar/api/v3/reference/events/list
@@ -119,7 +163,7 @@ function getLocationLink(location: string): string {
 
   const lowercaseLocation = location.toLowerCase().replaceAll(' ', '');
   if (lowercaseLocation in locationMappings) {
-    return locationMappings[lowercaseLocation];
+    return locationMappings[lowercaseLocation] ?? '';
   } else if (lowercaseLocation.startsWith('hl15')) {
     return 'https://goo.gl/maps/fjbPzpTAYB6CMwSv5';
   } else {
@@ -194,28 +238,26 @@ function extractHourAndMinutes(timeString: string) {
         {{ isExpanded ? `laat minder zien` : `laat ${hiddenCount} meer zien` }}
       </button>
     </div>
-    <!--     todo: fix this button in NUXT
     <div class="button-container">
-    
       <add-to-calendar-button
+        ref="calendarButton"
         name="Indicium"
-        :start-date="new Date(Date.now() - 86400000).toISOString().split('T')[0]"
-        start-time="00:00"
-        end-time="00:00"
-        time-zone="Europe/Amsterdam"
-        ics-file="https://calendar.google.com/calendar/ical/c_cb2b2ab9761bec69a9d24fd452f2d970d31755cf1c382272560d81fddca0e5e5%40group.calendar.google.com/public/basic.ics"
+        :startDate="new Date(Date.now() - 86400000).toISOString().split('T')[0]"
+        startTime="00:00"
+        endTime="00:00"
+        timeZone="Europe/Amsterdam"
+        icsFile="https://calendar.google.com/calendar/ical/c_cb2b2ab9761bec69a9d24fd452f2d970d31755cf1c382272560d81fddca0e5e5%40group.calendar.google.com/public/basic.ics"
         subscribe
-        i-cal-file-name="Indicium Activiteiten Kalender"
+        iCalFileName="Indicium Activiteiten Kalender"
         options="'Apple','Google','iCal','Outlook.com','Microsoft365','MicrosoftTeams'"
-        list-style="modal"
-        label="Importeer agenda in je kalender"
-        :light-mode="isDark ? 'dark' : 'light'"
+        listStyle="modal"
+        label="Importeer agenda"
+        :lightMode="$colorMode.value == 'dark' ? 'dark' : 'light'"
         language="nl"
-        style="margin-block-end: 0.5em; --btn-shadow: unset; --btn-shadow-hover: unset"
-        hide-branding
+        style="width: 100%; margin-block-end: 0.5em; --btn-shadow: unset; --btn-shadow-hover: unset"
+        hideBranding
       ></add-to-calendar-button>
     </div>
- -->
     <template #fallback>
       <div class="events-container events-container--fallback" aria-hidden="true">
         <div v-for="index in defaultMaxCalEvents" :key="index" class="event event--placeholder">
@@ -227,9 +269,9 @@ function extractHourAndMinutes(timeString: string) {
         </div>
         <span v-if="events.length > defaultMaxCalEvents" class="button button--placeholder">Laden...</span>
       </div>
-      <!-- <div class="button-container" aria-hidden="true">
-        <span class="button button--placeholder">Importeer agenda in je kalender</span>
-      </div> -->
+      <div class="button-container" aria-hidden="true">
+        <span class="button button--placeholder-2 button--placeholder-2--loading">Importeer agenda in je kalender</span>
+      </div>
     </template>
   </ClientOnly>
 </template>
@@ -330,6 +372,25 @@ function extractHourAndMinutes(timeString: string) {
 .button--placeholder {
   opacity: 0.8;
   pointer-events: none;
+  background-color: color-mix(in srgb, var(--indi-green-1) 35%, transparent);
+  border-radius: 0.5rem;
+}
+
+.button--placeholder-2 {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  padding: 0.9rem 1.25rem;
+  border-radius: 0.5rem;
+  color: color-mix(in srgb, var(--text-color) 70%, transparent);
+  border: 1px solid color-mix(in srgb, var(--indi-green-1) 35%, transparent);
+  opacity: 0.8;
+  line-height: 1.5;
+  pointer-events: none;
+}
+
+.button--placeholder-2--loading {
+  min-height: 3.25rem;
 }
 
 .title {
