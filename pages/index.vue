@@ -15,6 +15,9 @@ const mainPartners = computed(() => (mainPartner.value ? [mainPartner.value] : [
 const premiumPartnerList = computed(() => premiumPartners.value ?? []);
 const regularPartnerList = computed(() => regularPartners.value ?? []);
 
+const hasAnyPartners = computed(
+  () => mainPartners.value.length + premiumPartnerList.value.length + regularPartnerList.value.length > 0,
+);
 const totalPartnersCount = computed(
   () => mainPartners.value.length + premiumPartnerList.value.length + regularPartnerList.value.length,
 );
@@ -136,6 +139,25 @@ const hasAnyPartners = computed(() => totalPartnersCount.value > 0);
     <div v-if="hasAnyPartners" class="partners-section">
       <NuxtLink to="/partners" class="partners-inner">
         <p class="partners-label">Onze partners</p>
+        <div class="partners-row">
+          <span
+            v-for="partner in mainPartners"
+            :key="`main-${partner.slug}`"
+            class="partners-row__item partners-row__item--main"
+          >
+            <PartnerLogo :partner="partner" />
+          </span>
+          <span
+            v-for="partner in premiumPartnerList"
+            :key="`premium-${partner.slug}`"
+            class="partners-row__item partners-row__item--premium"
+          >
+            <PartnerLogo :partner="partner" />
+          </span>
+          <span v-for="partner in regularPartnerList" :key="`regular-${partner.slug}`" class="partners-row__item">
+            <PartnerLogo :partner="partner" />
+          </span>
+        </div>
 
         <template v-if="totalPartnersCount <= 5">
           <div class="partners-row">
@@ -263,6 +285,8 @@ const hasAnyPartners = computed(() => totalPartnersCount.value > 0);
   gap: 12px 16px;
 
   &__item {
+    min-width: 160px;
+    min-height: 84px;
     flex-shrink: 0;
     min-width: 220px;
     height: 96px;
@@ -280,6 +304,33 @@ const hasAnyPartners = computed(() => totalPartnersCount.value > 0);
       object-fit: contain;
       display: block;
     }
+
+    :deep(.theme-logo-wrapper) {
+      display: flex;
+      align-items: center;
+    }
+
+    &--main {
+      min-width: 200px;
+      min-height: 96px;
+
+      :deep(img) {
+        height: 60px;
+        max-width: 200px;
+      }
+    }
+
+    &--premium {
+      min-width: 180px;
+
+      :deep(img) {
+        height: 54px;
+        max-width: 175px;
+      }
+    }
+  }
+}
+
   }
 }
 
