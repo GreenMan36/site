@@ -40,62 +40,73 @@ function expandJobOffer(event: MouseEvent) {
 </template>
 
 <style scoped lang="scss">
-.job-offers-container {
-  @media screen and (max-width: #{$bp-tablet-md}) {
-    // TODO: Make job offers wider on narrow screens
-    margin: 3em auto;
-  }
-  .job-offers {
-    .job-offer {
+.job-offers {
+  .job-offer {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    width: 80%;
+    text-align: left;
+    margin: 1.5em auto;
+    padding: 0 2em;
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 1.5em;
+
+    @media screen and (max-width: #{$bp-tablet-md}) {
+      width: 100%;
+      padding: 0 1em;
+      margin: 0.5em auto;
+    }
+
+    .job-offer-title {
       display: flex;
-      flex-direction: column;
-      box-sizing: border-box;
-      width: 80%;
-      text-align: left;
-      margin: 1.5em auto;
-      padding: 0 2em;
-      background-color: rgba(255, 255, 255, 0.15);
-      border-radius: 1.5em;
+      align-items: center;
+      margin: 0;
+      font-size: 1.5em;
+      line-height: 4ex;
+      cursor: pointer;
+    }
 
-      @media screen and (max-width: #{$bp-tablet-md}) {
-        width: 100%;
-        padding: 0 1em;
-        margin: 0.5em auto;
-      }
+    .job-offer-title::after {
+      display: inline-block;
+      content: '';
+      background-color: var(--text-color);
+      -webkit-mask-image: url('/assets/icons/arrow-up.svg');
+      mask-image: url('/assets/icons/arrow-up.svg');
+      height: 12px;
+      width: 21px;
+      margin-left: auto;
+      transition: 0.2s transform ease-out;
+    }
 
-      .job-offer-title {
-        display: flex;
-        align-items: center;
-        margin: 0;
-        font-size: 1.5em;
-        line-height: 4ex;
-        cursor: pointer;
-      }
+    .job-offer-description {
+      display: none;
+    }
 
+    &.open {
       .job-offer-title::after {
-        display: inline-block;
-        content: '';
-        background-color: var(--text-color);
-        -webkit-mask-image: url('/assets/icons/arrow-up.svg');
-        mask-image: url('/assets/icons/arrow-up.svg');
-        height: 12px;
-        width: 21px;
-        margin-left: auto;
-        transition: 0.2s transform ease-out;
+        transform: scaleY(-1);
       }
 
       .job-offer-description {
-        display: none;
+        display: block;
       }
+    }
+  }
+}
 
-      &.open {
-        .job-offer-title::after {
-          transform: scaleY(-1);
-        }
+.job-offers-container {
+  @media screen and (max-width: #{$bp-tablet-md}) {
+    margin: 3em 0;
 
-        .job-offer-description {
-          display: block;
-        }
+    .job-offers.container {
+      --added-padding: 4em;
+      margin: 0 calc(-1 * var(--added-padding));
+      width: calc(100% + 2 * var(--added-padding));
+
+      .job-offer {
+        padding: 0 1em;
+        margin: 0.5em auto;
       }
     }
   }

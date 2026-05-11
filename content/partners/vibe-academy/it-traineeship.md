@@ -5,35 +5,36 @@ url: 'https://vibeacademy.nl/'
 featured: true
 ---
 
-Je weet voor je start al precies waar je gaat werken en in welke rol. De traineeships zijn altijd specialistisch én
-gericht op de specifieke behoefte van onze partners. Je wordt bijvoorbeeld opgeleid tot cyber security engineer, data
-engineer, ERP-consultant of functioneel beheerder. Aan de hand van een dynamische mix van workshops, praktische cases en
-zelfstudie maken wij je in een korte tijd project-ready om vervolgens knallend van start te kunnen gaan bij jouw
-opdrachtgever.
+# Traineeship
 
-# Zijn wij jouw match?
+Het traineeship start met een bootcamp van een maand, waarin je wordt uitgedaagd om je technische en professionele
+vaardigheden te verbeteren. De bootcamp is ontworpen om al je theoretische kennis om te zetten in praktische
+vaardigheden. Je behaalt waardevolle certificaten en neemt deel aan expertworkshops binnen jouw specifieke expertise.
 
-- Een (bijna) afgeronde bachelor of master
-- Interesse in data of software engineering
-- Je beschikt over een analytisch en procesmatig denkvermogen
-- Je bent gemotiveerd en jij wilt er echt voor gaan
+Na de bootcamp start je bij een van onze klanten. Gedurende deze periode van 18 maanden heb je toegang tot een
+persoonlijke mentor die je begeleidt in je ontwikkeling als startend engineer. Daarnaast blijf je certificaten behalen
+en volg je verdiepende workshops om je skillset verder te verbeteren en je horizon te verbreden.
 
-# Wat krijg jij ervoor terug?
+# Wat levert het jou op?
 
-- 1 maand bootcamp + opdracht voor 18 maanden
-- Verklein het gat tussen de universiteit en jouw toekomstige carrière
-- Mix van workshops, cases en certificaten
+- Maatwerk trainingsprogramma, gericht op persoonlijke en technische ontwikkeling
 - Toegang tot een exclusief netwerk van bedrijven
-- Persoonlijke 1-op-1 begeleiding van een expert
-- €3.000 - €3.500 + ongelimiteerd trainingsbudget
-- Begeleiding gedurende het sollicitatieproces
+- Begeleiding tijdens een gestroomlijnd sollicitatieproces
+- Een kans om de kloof tussen je opleiding en je toekomstige carriere te verkleinen
+- Persoonlijke 1-op-1 begeleiding van een expert in jouw vakgebied
+- Een dynamisch programma dat focust op toegepaste vaardigheden
 
-> Meer info? Bekijk onze website: vibeacademy.nl.
+# Hoe werkt het?
 
-# Interesse?
+Het matchingsproces tussen jou en jouw toekomstige baan vindt plaats voordat je bij ons gaat werken. Dat geeft je de
+flexibiliteit om je droombaan te kiezen, zonder te vrezen dat je op een project of bij een opdrachtgever terechtkomt die
+niet helemaal bij je past.
 
-Neem contact op via:  
-Jade Saffrie  
-Recruitment Manager  
-06 41 55 40 12  
-jsaffrie@vibegroup.com
+Je kunt solliciteren bij Vibe Academy. Tijdens een kennismakingsgesprek bepalen we samen of je een goede match bent voor
+een van onze traineeships. De programma's starten het hele jaar door, dus je hoeft nooit te wachten met solliciteren.
+
+# Meer informatie
+
+Interesse? Bekijk onze [website](https://vibeacademy.nl/) of
+[LinkedIn-pagina](https://www.linkedin.com/company/vibe-group-academy/). Neem contact op met Adelay Equabagergis voor
+meer informatie via [+31 6 23096943](tel:+31623096943) of [academy@vibegroup.com](mailto:academy@vibegroup.com).
