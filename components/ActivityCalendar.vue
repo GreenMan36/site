@@ -87,63 +87,74 @@ type Event<DateTimeFormat extends Date | string> = {
   multimonth_end?: boolean;
 };
 
-const calendarData: { items: Event<string>[] } = await fetch(
-  'https://www.googleapis.com/calendar/v3/calendars/c_cb2b2ab9761bec69a9d24fd452f2d970d31755cf1c382272560d81fddca0e5e5@group.calendar.google.com/events?key=AIzaSyBo4AYTvUouRsZbG4KiopyeIng_1UOdNyc&orderBy=startTime&singleEvents=true&timeMin=' +
-    new Date().toISOString(),
-)
-  .then((res) => res.json())
-  .catch((err) => {
+const { data: calendarData } = await useAsyncData<{ items: Event<string>[] }>('activity-calendar', async () => {
+  try {
+    return await fetch(
+      'https://www.googleapis.com/calendar/v3/calendars/c_cb2b2ab9761bec69a9d24fd452f2d970d31755cf1c382272560d81fddca0e5e5@group.calendar.google.com/events?key=AIzaSyBo4AYTvUouRsZbG4KiopyeIng_1UOdNyc&orderBy=startTime&singleEvents=true&timeMin=' +
+        new Date().toISOString(),
+    ).then((res) => res.json());
+  } catch (err) {
     console.error(err);
     return { items: [] };
-  });
+  }
+});
 
 //This function is wrong
-const events: Event<Date>[] = Array.isArray(calendarData.items)
-  ? calendarData.items
-      .filter((event) => event.status === 'confirmed')
-      .map((event) => {
-        let tempEvent: Event<string | Date> = event;
-        if ('date' in event.start) {
-          tempEvent = {
-            ...tempEvent,
-            start: new Date(event.start.date),
-          };
-        } else {
-          tempEvent = {
-            ...tempEvent,
-            start: new Date(event.start.dateTime),
-          };
-        }
-        if ('date' in event.end) {
-          tempEvent = {
-            ...tempEvent,
-            end: new Date(event.end.date),
-          };
-        } else {
-          tempEvent = {
-            ...tempEvent,
-            end: new Date(event.end.dateTime),
-          };
-        }
-        return tempEvent;
-      })
-  : [];
+const events = computed<Event<Date>[]>(() => {
+  const items = Array.isArray(calendarData.value?.items) ? calendarData.value.items : [];
+
+  return items
+    .filter((event) => event.status === 'confirmed')
+    .map((event) => {
+      let tempEvent: Event<string | Date> = event;
+      if ('date' in event.start) {
+        tempEvent = {
+          ...tempEvent,
+          start: new Date(event.start.date),
+        };
+      } else {
+        tempEvent = {
+          ...tempEvent,
+          start: new Date(event.start.dateTime),
+        };
+      }
+      if ('date' in event.end) {
+        tempEvent = {
+          ...tempEvent,
+          end: new Date(event.end.date),
+        };
+      } else {
+        tempEvent = {
+          ...tempEvent,
+          end: new Date(event.end.dateTime),
+        };
+      }
+      return tempEvent;
+    });
+});
 
 const visibleEvents = computed<Event<Date>[]>(() => {
   const enhancedEvents: Event<Date>[] = [];
-  for (const item of events) {
-    if (
-      new Date(item.end.getTime() - 14400000).toLocaleDateString('nl', { day: 'numeric' }) != // is still same day 4 h back
+  for (const item of events.value) {
+    const endMinusFourHours = new Date(item.end.getTime() - 14400000); // is still same day 4 h back
+    const isShortEvent = item.end.getTime() - item.start.getTime() < 21600000; // shorter than 6 H
+    const isNotExactlyFullDay = item.end.getTime() - item.start.getTime() !== 86400000; // Not exactly full day
+    const needsMultidayEnd =
+      endMinusFourHours.toLocaleDateString('nl', { day: 'numeric' }) !==
         item.end.toLocaleDateString('nl', { day: 'numeric' }) &&
-      item.end.getTime() - item.start.getTime() != 86400000 && // Not exactly full day
-      item.end.getTime() - item.start.getTime() < 21600000 // shorter than 6 H
-    ) {
-      const mde = new Date(item.end.getTime() - 14400000); // is still same day 4 h back
-      if (item.start.toLocaleDateString('nl', { month: 'short' }) != mde.toLocaleDateString('nl', { month: 'short' })) {
-        enhancedEvents.push({ ...item, multiday_end: mde, multimonth_end: true });
-      } else {
-        enhancedEvents.push({ ...item, multiday_end: mde, multimonth_end: false });
-      }
+      isNotExactlyFullDay &&
+      isShortEvent;
+
+    if (needsMultidayEnd) {
+      const hasDifferentMonth =
+        item.start.toLocaleDateString('nl', { month: 'short' }) !==
+        endMinusFourHours.toLocaleDateString('nl', { month: 'short' });
+
+      enhancedEvents.push({
+        ...item,
+        multiday_end: endMinusFourHours,
+        multimonth_end: hasDifferentMonth,
+      });
     } else {
       enhancedEvents.push({ ...item });
     }
@@ -175,10 +186,10 @@ const isExpanded = ref(false);
 
 function toggleEvents(): void {
   isExpanded.value = !isExpanded.value;
-  maxCalEvents.value = isExpanded.value ? events.length : defaultMaxCalEvents;
+  maxCalEvents.value = isExpanded.value ? events.value.length : defaultMaxCalEvents;
 }
 
-const hiddenCount = computed(() => Math.max(0, events.length - maxCalEvents.value));
+const hiddenCount = computed(() => Math.max(0, events.value.length - maxCalEvents.value));
 
 function extractHourAndMinutes(timeString: string) {
   const regex = /(\d{2}:\d{2}):\d{2}/;
