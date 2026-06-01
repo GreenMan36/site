@@ -17,7 +17,7 @@ onMounted(() => {
     <img :src="imageUrl" alt="Intro" width="2500" loading="lazy" decoding="async" />
 
     <!-- eslint-disable-next-line no-irregular-whitespace -->
-    <h1 class="big-title">Intro​duct​ie​kamp 2025</h1>
+    <h1 class="big-title">Intro​duct​ie​kamp 2026</h1>
 
     <section class="intro">
       <!-- <div class="warning">
@@ -35,8 +35,8 @@ onMounted(() => {
         </p>
 
         <p>
-          Dit introductiekamp zal plaatsvinden van <em class="datum">dinsdag 19 augustus</em> tot en met
-          <em class="datum">vrijdag 22 augustus</em>. De locaties zijn de prachtige stad Utrecht en een plek nabij
+          Dit introductiekamp zal plaatsvinden van <em class="datum">dinsdag 18 augustus</em> tot en met
+          <em class="datum">vrijdag 21 augustus</em>. De locaties zijn de prachtige stad Utrecht en een plek nabij
           Buren. Hier krijg je de kans om je medestudenten beter te leren kennen en de unieke sfeer van onze vereniging
           te ervaren. Er wachten je diverse activiteiten, variërend van spellen tot sportuitdagingen, en het geheel
           wordt afgesloten met een gezellig feest!
@@ -54,17 +54,17 @@ onMounted(() => {
         </p> -->
 
         <div class="buttons">
-          <a class="button primary rounded indi-green-1 big heavy" href="https://forms.gle/Ad29Csfr92UtqNkb9"
+          <a class="button primary rounded indi-green-1 big heavy" href="https://forms.gle/WCAUVZiQEUJwBoHX6"
             >Aanmelden voor introkamp</a
           >
-          <a class="button secondary rounded indi-bluegreen-1 big" href="https://forms.gle/XPwb9pdMSpXnZski9">
+          <a class="button secondary rounded indi-bluegreen-1 big" href="https://forms.gle/fc4BKh95kKH3vx8b8">
             Inschrijvingen vol? Aanmelden wachtrij!</a
           >
           <!-- <a class="button secondary rounded indi-bluegreen-1 big" href="https://forms.gle/sLS2xEVsv6oqUDpXA ">
             Registreren intresselijst</a
           > -->
 
-          <a class="button secondary rounded big" href="https://forms.gle/v4DG8gTFyZ78Ah1z8">
+          <a class="button secondary rounded big" href="https://forms.gle/egBRQKEpWL1pFTCbA">
             Aanmelden voor BBQ (Alumni/Docenten)</a
           >
         </div>
