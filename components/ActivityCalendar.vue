@@ -99,7 +99,6 @@ const { data: calendarData } = await useAsyncData<{ items: Event<string>[] }>('a
   }
 });
 
-//This function is wrong
 const events = computed<Event<Date>[]>(() => {
   const items = Array.isArray(calendarData.value?.items) ? calendarData.value.items : [];
 
