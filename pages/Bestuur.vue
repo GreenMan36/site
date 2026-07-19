@@ -18,7 +18,7 @@ const { data: currentBoard } = await useAsyncData('currentBoard', () =>
       decoding="async"
       fetchpriority="high"
     />
-    <div v-for="(member, index) in currentBoard?.members || []" :key="index" class="member">
+    <div v-for="member in currentBoard?.members || []" :key="member.email" class="member">
       <img
         class="member-photo"
         :src="member.photo ? `/assets/boards/${member.photo}` : `https://cataas.com/cat/says/${member.name}`"

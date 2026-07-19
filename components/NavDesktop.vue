@@ -85,9 +85,6 @@ const items = navData.value?.meta?.items || [];
 
 .container {
   height: var(--nav-height);
-  max-width: 1084px !important;
-  margin: 0 auto;
-  padding: 0 24px;
 }
 
 .flex {

@@ -42,7 +42,7 @@ function changeTheme(theme: 'system' | 'light' | 'dark') {
           <li v-for="(value, key) in contact" :key="key">{{ value }}</li>
         </ul>
       </div>
-      <div class="colum">
+      <div class="column">
         <h2>Options</h2>
         <ClientOnly>
           <fieldset class="footer-menu options">
@@ -147,9 +147,6 @@ footer {
   }
 
   .container {
-    max-width: 1084px;
-    margin: 0 auto;
-    padding: 0 24px;
     display: flex;
     justify-content: space-between;
     flex-direction: row;
