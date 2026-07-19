@@ -90,13 +90,10 @@ const content = linksData.value?.meta?.links || [];
     }
 
     & > .logo > .logo-text {
-      font-family: var(--indicium-font);
-      margin: 0;
       font-size: 68px;
       width: max-content;
 
       &.small {
-        color: #878787;
         font-size: 26px;
       }
     }

@@ -29,13 +29,10 @@ const router = useRouter();
   }
 
   .logo-text {
-    font-family: var(--indicium-font);
-    margin: 0;
     font-size: 34px;
     width: max-content;
 
     &.small {
-      color: #878787;
       font-size: 13px;
     }
   }

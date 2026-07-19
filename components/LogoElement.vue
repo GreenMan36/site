@@ -28,13 +28,9 @@ import logo from '@/assets/logo/indicium-logo-icon.svg?component';
   }
 
   .logo-text {
-    font-family: var(--indicium-font);
-    margin: 0px;
-
     font-size: 5.5em;
 
     &.small {
-      color: #878787;
       font-size: 2.1em;
     }
 

@@ -65,7 +65,13 @@ p {
   }
 
   &.logo-text {
+    font-family: var(--indicium-font);
+    margin: 0;
     line-height: 100%;
+
+    &.small {
+      color: #878787;
+    }
   }
 }
 
