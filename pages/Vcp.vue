@@ -13,7 +13,7 @@ const { data: vcpMembers } = await useAsyncData('vcp', () => queryCollection('vc
     </p>
 
     <div v-for="member in vcpMembers || []" :key="member._path" class="member">
-      <img class="member-photo" :src="`/assets/vcpphotos/${member.photo}`" :alt="member.name" width="300" />
+      <img class="member-photo hover-scale" :src="`/assets/vcpphotos/${member.photo}`" :alt="member.name" width="300" />
       <div class="member-entry">
         <div class="member-contact-info">
           <div class="member-name-status">
@@ -105,15 +105,9 @@ h3::after {
 .member-photo {
   flex-shrink: 0;
   border-radius: 10px;
-  transition: transform 0.2s;
   object-fit: cover;
   height: auto;
   aspect-ratio: 4/5;
-
-  &:hover {
-    transform: scale(1.05);
-    transition: transform 0.2s;
-  }
 }
 
 @media (max-width: 1000px) {

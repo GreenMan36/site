@@ -4,12 +4,19 @@ import HeroCircuit from '@/assets/icons/hero.svg?component';
 
 <template>
   <div class="background-view">
-    <HeroCircuit class="HeroCircuit" style="scale: 4; position: absolute; top: 0; left: 0; width: 100%; height: 100%" />
+    <HeroCircuit class="HeroCircuit" />
   </div>
 </template>
 
-<style>
+<style scoped>
 .HeroCircuit {
+  scale: 4;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
   & path,
   & rect,
   & circle {
@@ -24,7 +31,7 @@ import HeroCircuit from '@/assets/icons/hero.svg?component';
   overflow: hidden;
   background: var(--hero-bg-color);
 
-  .HeroCircuit {
+  & .HeroCircuit {
     position: absolute;
     inset: 0;
     width: 100%;

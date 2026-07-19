@@ -11,6 +11,7 @@ const { data: currentBoard } = await useAsyncData('currentBoard', () =>
     <img
       v-if="currentBoard?.groupPhoto"
       id="group-photo"
+      class="hover-scale"
       :src="`/assets/boards/${currentBoard.groupPhoto}`"
       :alt="`Groepsfoto ${currentBoard.boardNumber}e bestuur`"
       width="1200"
@@ -20,7 +21,7 @@ const { data: currentBoard } = await useAsyncData('currentBoard', () =>
     />
     <div v-for="member in currentBoard?.members || []" :key="member.email" class="member">
       <img
-        class="member-photo"
+        class="member-photo hover-scale"
         :src="member.photo ? `/assets/boards/${member.photo}` : `https://cataas.com/cat/says/${member.name}`"
         :alt="member.name"
         :title="member.figcaption ? member.figcaption : undefined"
@@ -74,12 +75,6 @@ h1 {
     height: auto;
     border-radius: 10px;
     background-color: var(--secondary-background-color);
-    transition: transform 0.2s;
-
-    &:hover {
-      transform: scale(1.05);
-      transition: transform 0.2s;
-    }
   }
 
   &:nth-child(even) {
@@ -138,11 +133,5 @@ h1 {
   height: auto;
   border-radius: 10px;
   background-color: var(--secondary-background-color);
-  transition: transform 0.2s;
-
-  &:hover {
-    transform: scale(1.05);
-    transition: transform 0.2s;
-  }
 }
 </style>

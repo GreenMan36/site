@@ -42,7 +42,7 @@ const items = navData.value?.meta?.items || [];
     left: 0;
     right: 0;
     height: 10px;
-    background: linear-gradient(to bottom, rgba(grey, 0.25) 0%, rgba(0, 0, 0, 0) 100%);
+    background: linear-gradient(to bottom, rgba(128, 128, 128, 0.25) 0%, rgba(0, 0, 0, 0) 100%);
   }
 
   * ul {
