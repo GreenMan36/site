@@ -8,11 +8,12 @@ const imageurl = 'https://httpcats.com/' + code + '.jpg';
 
 <template>
   <ContentContainer>
-    <div style="display: grid; justify-content: center">
-      <img :src="imageurl" :alt="`HTTP Error ${code}`" style="height: 400px; max-height: 50vw" />
-    </div>
-    <h1>{{ error }}</h1>
-    <p>Als je denkt dat dit niet klopt. Ben je meer dan welkom om ons te helpen bij de DEVCOM!</p>
+    <ErrorDisplay>
+      <div style="display: grid; justify-content: center">
+        <img :src="imageurl" :alt="`HTTP Error ${code}`" style="height: 400px; max-height: 50vw" />
+      </div>
+      <h1>{{ error }}</h1>
+    </ErrorDisplay>
   </ContentContainer>
 </template>
 
@@ -20,12 +21,6 @@ const imageurl = 'https://httpcats.com/' + code + '.jpg';
 svg {
   width: 300px;
   height: 300px;
-}
-
-h1,
-h2,
-p {
-  text-align: center;
 }
 
 .face {
