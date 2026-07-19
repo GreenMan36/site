@@ -39,7 +39,7 @@ function expandJobOffer(event: MouseEvent) {
   </div>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 .job-offers {
   .job-offer {
     display: flex;
@@ -52,7 +52,7 @@ function expandJobOffer(event: MouseEvent) {
     background-color: rgba(255, 255, 255, 0.15);
     border-radius: 1.5em;
 
-    @media screen and (max-width: #{$bp-tablet-md}) {
+    @media screen and (max-width: 768px) {
       width: 100%;
       padding: 0 1em;
       margin: 0.5em auto;
@@ -96,7 +96,7 @@ function expandJobOffer(event: MouseEvent) {
 }
 
 .job-offers-container {
-  @media screen and (max-width: #{$bp-tablet-md}) {
+  @media screen and (max-width: 768px) {
     margin: 3em 0;
 
     .job-offers.container {

@@ -287,7 +287,7 @@ function extractHourAndMinutes(timeString: string) {
   </ClientOnly>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 .event {
   display: grid;
   grid-template-columns: 63px 1fr;
@@ -322,7 +322,7 @@ function extractHourAndMinutes(timeString: string) {
     height: 100%;
     min-width: 0;
 
-    p {
+    & p {
       margin: 0;
     }
 

@@ -98,7 +98,7 @@ export default {
   </li>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .dropdown {
   position: absolute;
   background: var(--root-background-color);
@@ -111,8 +111,6 @@ export default {
   padding: 0;
 }
 
-// matches index with a color, applies that.
-// FIX: issue with CSS cascading. If a child is hovered, the parent's color is also applied and causes a specificity/cascade error.
 [data-depth='0'] {
   box-shadow: inset 0 0 0 2px var(--indi-blue-green-1);
 

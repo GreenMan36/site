@@ -8,11 +8,11 @@ import HeroCircuit from '@/assets/icons/hero.svg?component';
   </div>
 </template>
 
-<style lang="scss">
+<style>
 .HeroCircuit {
-  path,
-  rect,
-  circle {
+  & path,
+  & rect,
+  & circle {
     stroke: var(--pcb-trace-color);
   }
 }

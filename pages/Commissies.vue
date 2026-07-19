@@ -24,7 +24,7 @@ const { data: commissies } = await useAsyncData('commissies', () =>
   </ContentContainer>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 .commissie {
   max-width: 1200px;
   margin: 4em auto;
@@ -44,7 +44,7 @@ const { data: commissies } = await useAsyncData('commissies', () =>
     transition: transform 0.5s;
   }
 
-  h3 {
+  & h3 {
     margin-top: 0;
   }
 
@@ -54,7 +54,7 @@ const { data: commissies } = await useAsyncData('commissies', () =>
     padding: 1em 2em;
   }
 
-  @media screen and (max-width: #{$bp-tablet-md}) {
+  @media screen and (max-width: 768px) {
     grid-template-columns: 1fr;
 
     .foto {

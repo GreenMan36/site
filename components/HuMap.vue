@@ -12,17 +12,17 @@
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .map {
   border-radius: 4px;
   position: relative;
 
-  iframe {
+  & iframe {
     width: 100%;
     height: 100%;
   }
 
-  @media screen and (max-width: #{bp-tablet-sm}) {
+  @media screen and (max-width: 562px) {
     margin-top: 16px;
   }
 }

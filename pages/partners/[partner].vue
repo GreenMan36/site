@@ -42,7 +42,7 @@ const { data: jobOffers } = await useAsyncData(`partner-jobs-${partnerSlug}`, ()
   </ContentContainer>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 .job-offer-description ul {
   list-style: circle;
 }
@@ -56,7 +56,7 @@ const { data: jobOffers } = await useAsyncData(`partner-jobs-${partnerSlug}`, ()
     gap: 8%;
     align-items: center;
 
-    @media screen and (max-width: #{$bp-desktop-lg}) {
+    @media screen and (max-width: 1536px) {
       grid-template-columns: 1fr;
       gap: 2em;
     }
@@ -72,7 +72,7 @@ const { data: jobOffers } = await useAsyncData(`partner-jobs-${partnerSlug}`, ()
 }
 
 .description {
-  // ContentRenderer output is outside this component scope, so :deep is used to pierce scoping.
+  /* ContentRenderer output is outside this component scope, so :deep is used to pierce scoping. */
   :deep(h1),
   :deep(h2),
   :deep(h3),
@@ -83,14 +83,14 @@ const { data: jobOffers } = await useAsyncData(`partner-jobs-${partnerSlug}`, ()
     line-height: 1.3;
     font-family: Indicium-font;
 
-    // I have no idea why the default markdown renderer (sometimes) wraps headings in <a> tags, but this fixes the styling of those links.
+    /* I have no idea why the default markdown renderer (sometimes) wraps headings in <a> tags, but this fixes the styling of those links. */
     & a {
       color: var(--text-color);
       text-decoration: none;
     }
   }
 
-  // Page title already uses h1, so markdown h1 is visually demoted to section-heading size.
+  /* Page title already uses h1, so markdown h1 is visually demoted to section-heading size. */
   :deep(h1) {
     font-size: 2rem;
   }

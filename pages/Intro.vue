@@ -89,8 +89,8 @@ onMounted(() => {
   </ContentContainer>
 </template>
 
-<style scoped lang="scss">
-@media screen and (max-width: #{$bp-mobile-lg}) {
+<style scoped>
+@media screen and (max-width: 414px) {
   .big-title {
     font-size: 2.5rem;
     word-break: break-word;

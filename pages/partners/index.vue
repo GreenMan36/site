@@ -72,7 +72,7 @@ const { data: mainPartnerJobOffers } = await useAsyncData('mainPartnerJobOffers'
   </ContentContainer>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 .dashed-line {
   border: none;
   height: 2px;
@@ -100,16 +100,16 @@ const { data: mainPartnerJobOffers } = await useAsyncData('mainPartnerJobOffers'
     gap: 8%;
     align-items: center;
 
-    > :first-child {
+    & > :first-child {
       grid-column: 1;
       justify-self: start;
     }
 
-    @media screen and (max-width: #{$bp-tablet-md}) {
+    @media screen and (max-width: 768px) {
       grid-template-columns: 1fr;
       gap: 0;
 
-      > :first-child {
+      & > :first-child {
         grid-column: 1;
         grid-row: 1;
         display: flex;
@@ -150,7 +150,7 @@ const { data: mainPartnerJobOffers } = await useAsyncData('mainPartnerJobOffers'
     }
   }
 
-  @media screen and (max-width: #{$bp-tablet-lg}) {
+  @media screen and (max-width: 944px) {
     flex-wrap: wrap;
 
     .partner-logo-link {
@@ -174,15 +174,15 @@ const { data: mainPartnerJobOffers } = await useAsyncData('mainPartnerJobOffers'
   width: 95em;
   margin: 3em auto;
 
-  @media screen and (max-width: #{$bp-desktop-lg}) {
+  @media screen and (max-width: 1536px) {
     width: 70em;
   }
 
-  @media screen and (max-width: #{$bp-desktop-sm}) {
+  @media screen and (max-width: 1120px) {
     width: 45em;
   }
 
-  @media screen and (max-width: #{$bp-tablet-md}) {
+  @media screen and (max-width: 768px) {
     width: 20em;
     gap: 0;
   }

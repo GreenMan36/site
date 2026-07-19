@@ -144,7 +144,7 @@ if (sadface === '🐍') excuus = 'Sorry, Peet zat in de server';
   </ContentContainer>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 svg {
   width: 300px;
   height: 300px;

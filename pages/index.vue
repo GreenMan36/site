@@ -179,13 +179,13 @@ const hasAnyPartners = computed(() => totalPartnersCount.value > 0);
   </div>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 .hero {
   padding-top: var(--nav-height);
 }
 
-// Centered max-width container + 2-column grid (content | aside)
-// The container caps total width so there's no squishing at mid-sizes
+/* Centered max-width container + 2-column grid (content | aside)
+ * The container caps total width so there's no squishing at mid-sizes */
 .page-body {
   max-width: 1260px;
   margin: 0 auto;
@@ -260,25 +260,25 @@ const hasAnyPartners = computed(() => totalPartnersCount.value > 0);
   justify-content: center;
   align-items: center;
   gap: 12px 16px;
+}
 
-  &__item {
-    flex-shrink: 0;
-    min-width: 220px;
-    height: 96px;
-    padding: 16px 20px;
-    border-radius: 10px;
-    border: 1px solid rgba(var(--indi-blue-1-raw), 0.2);
-    background: rgba(var(--indi-blue-1-raw), 0.06);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.partners-row__item {
+  flex-shrink: 0;
+  min-width: 220px;
+  height: 96px;
+  padding: 16px 20px;
+  border-radius: 10px;
+  border: 1px solid rgba(var(--indi-blue-1-raw), 0.2);
+  background: rgba(var(--indi-blue-1-raw), 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    :deep(img) {
-      height: 48px;
-      max-width: 150px;
-      object-fit: contain;
-      display: block;
-    }
+  :deep(img) {
+    height: 48px;
+    max-width: 150px;
+    object-fit: contain;
+    display: block;
   }
 }
 
@@ -286,37 +286,36 @@ const hasAnyPartners = computed(() => totalPartnersCount.value > 0);
   width: 100%;
   overflow: hidden;
   position: relative;
-  /* Fade left and right edges */
   mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
   -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
 
   &:hover .partners-carousel__track {
     animation-play-state: paused;
   }
+}
 
-  &__track {
-    display: flex;
-    width: max-content;
-    align-items: center;
-    gap: 16px;
-    padding: 12px 0;
-    animation: partner-ticker 30s linear infinite;
+.partners-carousel__track {
+  display: flex;
+  width: max-content;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 0;
+  animation: partner-ticker 30s linear infinite;
 
-    @media (max-width: 900px) {
-      animation: partner-ticker 20s linear infinite;
-    }
+  @media (max-width: 900px) {
+    animation: partner-ticker 20s linear infinite;
+  }
 
-    @media (max-width: 390px) {
-      animation: partner-ticker 15s linear infinite;
-    }
+  @media (max-width: 390px) {
+    animation: partner-ticker 15s linear infinite;
+  }
 
-    @media (prefers-reduced-motion: reduce) {
-      animation: none;
-      flex-wrap: wrap;
-      justify-content: center;
-      width: 100%;
-      padding: 12px;
-    }
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    padding: 12px;
   }
 }
 
@@ -362,38 +361,38 @@ const hasAnyPartners = computed(() => totalPartnersCount.value > 0);
   height: 28px;
   flex-shrink: 0;
 
-  svg {
+  & svg {
     width: 100%;
     height: 100%;
   }
+}
 
-  &--discord {
-    color: #5865f2;
-  }
+.aside-social__icon--discord {
+  color: #5865f2;
+}
 
-  &--instagram {
-    color: #e1306c;
-  }
+.aside-social__icon--instagram {
+  color: #e1306c;
+}
 
-  &--github {
-    color: var(--text-color);
-    opacity: 0.75;
-  }
+.aside-social__icon--github {
+  color: var(--text-color);
+  opacity: 0.75;
+}
 
-  &--contact {
-    color: var(--indi-blue-1);
-    filter: brightness(0.78);
-
-    html[data-theme='dark'] & {
-      filter: none;
-    }
-  }
+.aside-social__icon--contact {
+  color: var(--indi-blue-1);
+  filter: brightness(0.78);
 }
 
 .aside-social__label {
   font-size: 0.85rem;
   font-weight: 600;
   line-height: 1;
+}
+
+html[data-theme='dark'] .aside-social__icon--contact {
+  filter: none;
 }
 
 .aside-social__sub {
@@ -405,7 +404,7 @@ const hasAnyPartners = computed(() => totalPartnersCount.value > 0);
 .text-block {
   padding: 24px 0 12px;
 
-  h2 {
+  & h2 {
     position: relative;
     margin: 0 0 0.7rem;
     padding-bottom: 0.4rem;
@@ -431,19 +430,19 @@ const hasAnyPartners = computed(() => totalPartnersCount.value > 0);
     text-underline-offset: 2px;
     text-decoration: none;
 
-    html[data-theme='dark'] & {
-      filter: brightness(1.15);
-    }
-
     &:hover {
       text-decoration: underline;
       filter: brightness(0.58);
-
-      html[data-theme='dark'] & {
-        filter: brightness(1.3);
-      }
     }
   }
+}
+
+html[data-theme='dark'] .inline-link {
+  filter: brightness(1.15);
+}
+
+html[data-theme='dark'] .inline-link:hover {
+  filter: brightness(1.3);
 }
 
 .carousel-fallback {
@@ -452,7 +451,7 @@ const hasAnyPartners = computed(() => totalPartnersCount.value > 0);
   width: 100%;
   overflow: hidden;
 
-  img {
+  & img {
     width: 100%;
     height: 100%;
     object-fit: contain;

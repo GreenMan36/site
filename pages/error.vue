@@ -16,7 +16,7 @@ const imageurl = 'https://httpcats.com/' + code + '.jpg';
   </ContentContainer>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 svg {
   width: 300px;
   height: 300px;

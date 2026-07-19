@@ -87,7 +87,7 @@ const images = ['/assets/images/Karten-20.webp', '/assets/images/Poolen-12.webp'
   </ContentContainer>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 .carousel {
   margin: 1.5rem auto 0;
   width: 100%;
@@ -111,7 +111,7 @@ const images = ['/assets/images/Karten-20.webp', '/assets/images/Poolen-12.webp'
   max-width: 860px;
   margin: 2.25rem auto 0;
 
-  h2 {
+  & h2 {
     position: relative;
     margin: 0 0 0.7rem;
     padding-bottom: 0.4rem;
@@ -128,7 +128,7 @@ const images = ['/assets/images/Karten-20.webp', '/assets/images/Poolen-12.webp'
     }
   }
 
-  p {
+  & p {
     margin: 0;
     line-height: 1.78;
     color: var(--text-color);

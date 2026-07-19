@@ -67,7 +67,7 @@ const previousBoards = computed(() => allBoards.value?.filter((b) => !b.isCurren
   </ContentContainer>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 /* ── Timeline container with central vertical line ── */
 .timeline {
   position: relative;
@@ -155,8 +155,8 @@ const previousBoards = computed(() => allBoards.value?.filter((b) => !b.isCurren
   grid-column: 1;
   grid-row: 1;
 
-  img,
-  .placeholder {
+  & img,
+  & .placeholder {
     width: 100%;
     aspect-ratio: 3 / 2;
     object-fit: cover;
@@ -166,7 +166,7 @@ const previousBoards = computed(() => allBoards.value?.filter((b) => !b.isCurren
     transition: transform 0.3s ease;
   }
 
-  img:hover {
+  & img:hover {
     transform: scale(1.03);
   }
 }
@@ -202,7 +202,7 @@ const previousBoards = computed(() => allBoards.value?.filter((b) => !b.isCurren
   flex-direction: column;
   gap: 0.4rem;
 
-  li {
+  & li {
     display: flex;
     flex-direction: column;
   }
@@ -214,7 +214,7 @@ const previousBoards = computed(() => allBoards.value?.filter((b) => !b.isCurren
 }
 
 /* ── Mobile: single column, timeline on the left ── */
-@media screen and (max-width: #{$bp-tablet-lg}) {
+@media screen and (max-width: 944px) {
   .timeline {
     &::before {
       left: 15px;

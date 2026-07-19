@@ -181,7 +181,7 @@ const shimHTML = `
 `;
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 .cwfForm {
   /* reuse overall form styles if needed */
   width: 100%;

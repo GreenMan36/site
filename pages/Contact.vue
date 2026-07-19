@@ -29,7 +29,7 @@ import IndiciumMap from '~/components/HuMap.vue';
   </ContentContainer>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 .two-columns {
   display: flex;
   flex-wrap: wrap;
@@ -60,19 +60,19 @@ import IndiciumMap from '~/components/HuMap.vue';
     text-align: left;
     position: relative;
 
-    p {
+    & p {
       margin-top: 15px;
       margin-bottom: 5px;
     }
 
-    h1 {
+    & h1 {
       margin-top: 0;
     }
 
     #contact-external {
       margin-top: 2.5rem;
-      p,
-      a {
+      & p,
+      & a {
         font-size: 16px;
       }
     }

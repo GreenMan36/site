@@ -23,8 +23,7 @@ import HeroBackground from './HeroBackground.vue';
   </div>
 </template>
 
-<style lang="scss" scoped>
-@use 'sass:map';
+<style scoped>
 
 .hero {
   display: flex;
@@ -52,28 +51,17 @@ import HeroBackground from './HeroBackground.vue';
       max-width: 800px;
       padding: 0 16px;
       font-weight: 500;
-    }
 
-    $h1-breakpoints: (
-      (
-        bp: $bp-desktop-sm,
-        fontSize: 2em,
-      ),
-      (
-        bp: $bp-tablet-sm,
-        fontSize: 1.5em,
-      ),
-      (
-        bp: $bp-mobile-lg,
-        fontSize: 1.2em,
-      )
-    );
+      @media screen and (max-width: 1120px) {
+        font-size: 2em;
+      }
 
-    h1 {
-      @each $breakpoint in $h1-breakpoints {
-        @media screen and (max-width: map.get($breakpoint, bp)) {
-          font-size: map.get($breakpoint, fontSize);
-        }
+      @media screen and (max-width: 562px) {
+        font-size: 1.5em;
+      }
+
+      @media screen and (max-width: 414px) {
+        font-size: 1.2em;
       }
     }
 

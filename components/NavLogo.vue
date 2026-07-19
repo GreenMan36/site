@@ -15,7 +15,7 @@ const router = useRouter();
   </div>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 .logo-container {
   cursor: pointer;
   display: flex;
@@ -46,7 +46,7 @@ const router = useRouter();
     overflow: hidden;
   }
 
-  @media screen and (min-width: #{calc($bp-desktop-sm) + 1px}) {
+  @media screen and (min-width: 1121px) {
     .logo {
       transition:
         max-width 0.5s,
@@ -55,9 +55,9 @@ const router = useRouter();
   }
 }
 
-// hide the text when there's no space on dekstop but show it on mobile.
-// +1px to prevent overlap, there's modern syntax that can use >= and <= but idk about support.
-@media screen and (max-width: #{$bp-desktop-sm}) and (min-width: #{calc($bp-tablet-lg + 1px)}) {
+/* hide the text when there's no space on dekstop but show it on mobile. */
+/* +1px to prevent overlap, there's modern syntax that can use >= and <= but idk about support. */
+@media screen and (max-width: 1120px) and (min-width: 945px) {
   .logo {
     max-width: 0 !important;
     max-height: 0 !important;

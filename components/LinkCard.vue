@@ -27,7 +27,7 @@ const isImage = filetypes.some((filetype) => linkIcon?.endsWith('.' + filetype))
   </RouterLink>
 </template>
 
-<style lang="scss">
+<style>
 .link {
   font-family: var(--text-font);
   color: var(--text-color);
@@ -71,7 +71,7 @@ const isImage = filetypes.some((filetype) => linkIcon?.endsWith('.' + filetype))
   }
 }
 
-@media screen and (max-width: #{$bp-tablet-sm}) {
+@media screen and (max-width: 562px) {
   .link {
     grid-template-columns: 48px 1fr;
     padding: 0.5rem 1rem;

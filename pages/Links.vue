@@ -30,14 +30,14 @@ const content = linksData.value?.meta?.links || [];
   </div>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 #link-page {
   display: grid;
   justify-items: center;
   grid-template-columns: 1fr;
   padding: 1rem 2rem;
 
-  @media screen and (max-width: #{$bp-mobile-sm}) {
+  @media screen and (max-width: 321px) {
     padding: 1rem 0.5rem;
   }
 
@@ -56,7 +56,7 @@ const content = linksData.value?.meta?.links || [];
   gap: 1rem;
   padding: 1rem 2rem;
 
-  @media screen and (max-width: #{$bp-tablet-sm}) {
+  @media screen and (max-width: 562px) {
     padding: 1rem 0.5rem;
   }
 }
@@ -75,7 +75,7 @@ const content = linksData.value?.meta?.links || [];
   align-items: center;
   justify-content: center;
 
-  @media screen and (max-width: #{$bp-tablet-sm}) {
+  @media screen and (max-width: 562px) {
     padding: 1rem 0;
     border-radius: 16px;
     margin: 0.5rem;
@@ -101,7 +101,7 @@ const content = linksData.value?.meta?.links || [];
       }
     }
 
-    @media screen and (max-width: #{$bp-tablet-lg}) {
+    @media screen and (max-width: 944px) {
       & > .logo-icon {
         height: 64px;
       }
@@ -115,7 +115,7 @@ const content = linksData.value?.meta?.links || [];
       }
     }
 
-    @media screen and (max-width: #{$bp-tablet-sm}) {
+    @media screen and (max-width: 562px) {
       & > .logo-icon {
         height: 48px;
       }

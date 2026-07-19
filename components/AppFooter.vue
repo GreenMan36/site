@@ -86,7 +86,7 @@ function changeTheme(theme: 'system' | 'light' | 'dark') {
   </footer>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 a {
   text-decoration: none;
   color: inherit;
@@ -102,7 +102,7 @@ fieldset {
   padding: 0;
   margin: 0;
 
-  legend {
+  & legend {
     padding: 0;
     margin-bottom: 4px;
   }
@@ -117,14 +117,14 @@ fieldset {
       gap: 8px;
       min-height: 32px;
 
-      input[type='radio'] {
+      & input[type='radio'] {
         width: 18px;
         height: 18px;
         flex-shrink: 0;
         cursor: pointer;
       }
 
-      label {
+      & label {
         cursor: pointer;
         flex: 1;
       }
@@ -139,7 +139,7 @@ footer {
   margin-top: 16px;
   border-top: 2px solid var(--indi-blue-1);
 
-  h2 {
+  & h2 {
     font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
     font-size: 1.2rem;
     font-weight: bold;
@@ -159,18 +159,18 @@ footer {
         columns: 2;
       }
 
-      li {
+      & li {
         line-height: 1.6;
       }
     }
   }
 
-  fieldset.options {
+  & fieldset.options {
     margin-top: 1rem;
   }
 }
 
-@media screen and (max-width: #{$bp-desktop-sm}) {
+@media screen and (max-width: 1120px) {
   footer {
     padding: 12px;
 

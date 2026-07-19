@@ -38,7 +38,7 @@
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .loading {
   width: 64px;
   height: 64px;

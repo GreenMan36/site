@@ -41,7 +41,7 @@ const { data: currentBoard } = await useAsyncData('currentBoard', () =>
   </ContentContainer>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 .content-container {
   display: flex;
   flex-direction: column;
@@ -57,11 +57,11 @@ h1 {
   max-width: 1170px;
   margin: 2em 3em;
 
-  h5 {
+  & h5 {
     font-size: 1.1em;
   }
 
-  p {
+  & p {
     margin-top: 0em;
     font-size: 1em;
   }
@@ -88,17 +88,17 @@ h1 {
       margin: 0 0 0 3em;
     }
 
-    h3,
-    h4,
-    h5,
-    p,
-    address {
+    & h3,
+    & h4,
+    & h5,
+    & p,
+    & address {
       text-align: right;
     }
   }
 }
 
-@media screen and (max-width: #{$bp-tablet-md}) {
+@media screen and (max-width: 768px) {
   .member {
     margin: 2em auto;
 
@@ -107,8 +107,8 @@ h1 {
         margin: 0 auto 1em;
       }
 
-      h3,
-      h4 {
+      & h3,
+      & h4 {
         text-align: center;
       }
     }
@@ -125,7 +125,7 @@ h1 {
   }
 }
 
-@media screen and (max-width: #{$bp-tablet-sm}) {
+@media screen and (max-width: 562px) {
   .member-photo {
     margin: 0 auto;
   }

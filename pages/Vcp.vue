@@ -35,7 +35,7 @@ const { data: vcpMembers } = await useAsyncData('vcp', () => queryCollection('vc
   </ContentContainer>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 .content-container {
   display: flex;
   flex-direction: column;
@@ -72,15 +72,15 @@ h1 {
   border-radius: 10px;
   padding: 1em 2em;
   background-color: var(--secondary-background-color);
-  p {
+  & p {
     margin-bottom: 1em;
   }
 
-  h2 {
+  & h2 {
     margin-top: 1em;
   }
 
-  ul {
+  & ul {
     margin-top: 0.5em;
     margin-left: 1em;
   }
