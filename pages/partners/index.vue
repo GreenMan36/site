@@ -2,20 +2,8 @@
 import JobOffers from '@/components/JobOffers.vue';
 import PartnerLogo from '@/components/PartnerLogo.vue';
 
-// Query partners collection by tier
-const { data: mainPartner } = await useAsyncData('mainPartner', () =>
-  queryCollection('partners').where('tier', '=', 'main').first(),
-);
+const { mainPartner, premiumPartners, regularPartners } = usePartners();
 
-const { data: premiumPartners } = await useAsyncData('premiumPartners', () =>
-  queryCollection('partners').where('tier', '=', 'premium').order('order', 'ASC').all(),
-);
-
-const { data: regularPartners } = await useAsyncData('regularPartners', () =>
-  queryCollection('partners').where('tier', '=', 'regular').order('order', 'ASC').all(),
-);
-
-// Query job offers for main partner
 const { data: mainPartnerJobOffers } = await useAsyncData('mainPartnerJobOffers', async () => {
   if (!mainPartner.value?.slug) return [];
   return await queryCollection('partners').where('partnerSlug', '=', mainPartner.value.slug).all();

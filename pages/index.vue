@@ -1,13 +1,5 @@
 <script setup lang="ts">
-const [{ data: mainPartner }, { data: premiumPartners }, { data: regularPartners }] = await Promise.all([
-  useAsyncData('home-mainPartner', () => queryCollection('partners').where('tier', '=', 'main').first()),
-  useAsyncData('home-premiumPartners', () =>
-    queryCollection('partners').where('tier', '=', 'premium').order('order', 'ASC').all(),
-  ),
-  useAsyncData('home-regularPartners', () =>
-    queryCollection('partners').where('tier', '=', 'regular').order('order', 'ASC').all(),
-  ),
-]);
+const { mainPartner, premiumPartners, regularPartners } = usePartners();
 
 const images = ['/assets/images/DSC_2456.webp', '/assets/images/DSC_3982.webp', '/assets/images/Introkamp-53.webp'];
 
