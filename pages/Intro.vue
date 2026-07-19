@@ -20,13 +20,6 @@ onMounted(() => {
     <h1 class="big-title">Intro​duct​ie​kamp 2026</h1>
 
     <section class="intro">
-      <!-- <div class="warning">
-        <p>
-          Op dit moment zijn de inschrijvingen voor de introductie 2024 nog niet geopend. We zijn druk bezig met het
-          plannen van een onvergetelijke ervaring voor jullie allemaal. Zodra zodra de inschrijvingen open zijn, zullen
-          we dit op deze pagina bekend maken.
-        </p>
-      </div> -->
       <div>
         <p>
           Vanuit de Studievereniging Indicium zijn we blij om te zien dat je de keuze hebt gemaakt, of gaat maken, voor
@@ -47,12 +40,6 @@ onMounted(() => {
           <br />
         </p>
 
-        <!-- 
-        <p style="text-align: center">
-          Zou jij graag mee willen deze zomer? Registreer je hieronder voor de intresselijst. Let op, dit is nog niet de inschrijving voor het kamp.
-          <br />
-        </p> -->
-
         <div class="buttons">
           <a class="button primary rounded indi-green-1 big heavy" href="https://forms.gle/WCAUVZiQEUJwBoHX6"
             >Aanmelden voor introkamp</a
@@ -60,16 +47,10 @@ onMounted(() => {
           <a class="button secondary rounded indi-bluegreen-1 big" href="https://forms.gle/fc4BKh95kKH3vx8b8">
             Inschrijvingen vol? Aanmelden wachtrij!</a
           >
-          <!-- <a class="button secondary rounded indi-bluegreen-1 big" href="https://forms.gle/sLS2xEVsv6oqUDpXA ">
-            Registreren intresselijst</a
-          > -->
-
           <a class="button secondary rounded big" href="https://forms.gle/egBRQKEpWL1pFTCbA">
             Aanmelden voor BBQ (Alumni/Docenten)</a
           >
         </div>
-        <!--
-        <p style="text-align: center">Wees er snel bij want er zijn maar een beperkt aantal plekken!<br /></p> -->
 
         <p>
           Ons introductiekamp is de perfecte manier om helemaal op te gaan in de vereniging en nieuwe vriendschappen te
