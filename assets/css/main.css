@@ -132,6 +132,14 @@ img,
   padding: 10px;
 }
 
+.hover-scale {
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
 @media screen and (max-width: 768px) {
   body {
     padding-top: 0;

@@ -2,7 +2,7 @@
 definePageMeta({ layout: 'minimal' });
 
 import logo from '@/assets/logo/indicium-logo-icon.svg?component';
-import linkCard from '@/components/LinkCard.vue';
+import LinkCard from '@/components/LinkCard.vue';
 
 import { useRouter } from 'vue-router';
 
@@ -25,7 +25,7 @@ const content = linksData.value?.meta?.links || [];
       </span>
     </div>
     <div id="links">
-      <linkCard v-for="link in content" :key="link.url" :link="link" />
+      <LinkCard v-for="link in content" :key="link.url" :link="link" />
     </div>
   </div>
 </template>

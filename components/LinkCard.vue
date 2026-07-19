@@ -27,7 +27,7 @@ const isImage = filetypes.some((filetype) => linkIcon?.endsWith('.' + filetype))
   </RouterLink>
 </template>
 
-<style>
+<style scoped>
 .link {
   font-family: var(--text-font);
   color: var(--text-color);

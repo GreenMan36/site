@@ -35,7 +35,7 @@ onMounted(() => {
           wordt afgesloten met een gezellig feest!
         </p>
 
-        <p style="text-align: center">
+        <p class="register-cta">
           Om deel uit te maken van dit geweldige introductiekamp, dien je jezelf hieronder te registreren.
           <br />
         </p>
@@ -154,5 +154,10 @@ img {
 
 h1 {
   margin: 0.5rem 0;
+  text-align: center;
+}
+
+.register-cta {
+  text-align: center;
 }
 </style>
