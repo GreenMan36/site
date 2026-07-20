@@ -9,7 +9,7 @@ defineProps<{
 <template>
   <section class="text-block">
     <h2>{{ title }}</h2>
-    <p><slot /></p>
+    <slot />
     <NuxtLink :to="ctaUrl" class="inline-link">{{ ctaLabel }}</NuxtLink>
   </section>
 </template>
