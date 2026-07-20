@@ -7,9 +7,7 @@ description: Dé studievereniging voor HBO-ICT van Hogeschool Utrecht
 ::
 
 ::home-grid
-
 ::home-main
-
 ::home-image-carousel
 ---
 images:
@@ -30,20 +28,13 @@ Een hoop activiteiten organiseren we voor iedereen, maar als lid krijg je natuur
 ::home-text-block{title="Commissies" cta-label="Bekijk de commissies →" cta-url="/commissies"}
 Lijkt je het leuk om de vereniging te helpen door het organiseren van activiteiten zoals borrels, feestjes, gastcolleges, lunchlezingen, reizen? Of wil je je programmeerskills verbeteren? Neem eens een kijkje bij onze commissies — enthousiaste leden die de vereniging draaiende houden.
 ::
-
 ::
-
 ::home-aside
-
 ::home-agenda
 ::
-
 ::social-grid
 ::
-
 ::
-
 ::
-
 ::home-partners
 ::
