@@ -3,14 +3,5 @@ const { data: home } = await useAsyncData('home', () => queryCollection('home').
 </script>
 
 <template>
-  <div>
-    <HeroSection class="hero" />
-    <ContentRenderer v-if="home" :value="home" />
-  </div>
+  <ContentRenderer v-if="home" :value="home" />
 </template>
-
-<style scoped>
-.hero {
-  padding-top: var(--nav-height);
-}
-</style>

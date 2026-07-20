@@ -31,6 +31,7 @@ import HeroBackground from './HeroBackground.vue';
   position: relative;
   width: inherit;
   overflow: hidden;
+  padding-top: var(--nav-height);
 
   .bg-container {
     position: absolute;
