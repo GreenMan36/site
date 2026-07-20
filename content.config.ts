@@ -25,6 +25,11 @@ export default defineContentConfig({
     }),
 
     // Markdown collections
+    about: defineCollection({
+      source: 'over-indicium.md',
+      type: 'page',
+    }),
+
     boards: defineCollection({
       source: 'boards/*.md',
       type: 'page',
