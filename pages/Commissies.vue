@@ -1,10 +1,8 @@
 <script setup lang="ts">
-// Query commissies collection sorted by order
 const { data: commissies } = await useAsyncData('commissies', () =>
   queryCollection('commissies').order('order', 'ASC').all(),
 );
 </script>
-<!-- todo: eerste kopje gecentreerd en fix fotos -->
 
 <template>
   <ContentContainer>
@@ -13,66 +11,17 @@ const { data: commissies } = await useAsyncData('commissies', () =>
       Wil jij naast je studie actief bijdragen aan onze studievereniging? Meld je dan aan voor een van onze commissies.
       Naast dat dit super leuk is, staat dit ook goed op je CV!
     </p>
-    <div v-for="commissie in commissies || []" :key="commissie._path" class="commissie">
-      <img class="foto hover-scale" :src="commissie.imgUrl" :alt="commissie.title" />
-      <div class="commissie-info">
-        <h3>{{ commissie.title }}</h3>
-        <ContentRenderer :value="commissie" />
-      </div>
-    </div>
+    <ContentCard v-for="commissie in commissies || []" :key="commissie._path">
+      <template #image>
+        <img class="hover-scale" :src="commissie.imgUrl" :alt="commissie.title" />
+      </template>
+      <h3>{{ commissie.title }}</h3>
+      <ContentRenderer :value="commissie" />
+    </ContentCard>
   </ContentContainer>
 </template>
 
 <style scoped>
-.commissie {
-  max-width: 1200px;
-  margin: 4em auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  column-gap: 10px;
-
-  .foto {
-    object-fit: contain;
-    width: 80%;
-    border-radius: 10px;
-  }
-
-  & h3 {
-    margin-top: 0;
-  }
-
-  .commissie-info {
-    background-color: var(--secondary-background-color);
-    border-radius: 10px;
-    padding: 1em 2em;
-  }
-
-  &:nth-child(odd) {
-    .foto {
-      grid-column: 2;
-    }
-    .commissie-info {
-      grid-column: 1;
-      grid-row: 1;
-    }
-  }
-
-  @media screen and (max-width: 768px) {
-    grid-template-columns: 1fr;
-
-    .foto {
-      width: 95%;
-    }
-    .commissie-info {
-      margin-top: 2em;
-    }
-
-    .foto {
-      margin: 0 auto;
-    }
-  }
-}
-
 #intro {
   max-width: 600px;
   margin: 0 auto;
