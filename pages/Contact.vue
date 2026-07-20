@@ -23,12 +23,12 @@ const contact = computed(() => contactData.value || {});
           <li><span class="medium">KVK</span>: {{ contact.kvk }}</li>
         </ul>
         <p>Of stuur een e-mail aan onze secretaris. De secretaris is het eerste contactpersoon voor leden:</p>
-        <a :href="`mailto:${contact.emails?.secretaris}`" class="button primary rounded contact-btn">{{ contact.emails?.secretaris }}</a>
+        <a href="mailto:secretaris@indicium.hu" class="button primary rounded contact-btn">secretaris@indicium.hu</a>
         <p>Voor e-mails gericht aan het hele bestuur kun je mailen naar:</p>
-        <a :href="`mailto:${contact.emails?.bestuur}`" class="button primary rounded contact-btn">{{ contact.emails?.bestuur }}</a>
+        <a href="mailto:bestuur@indicium.hu" class="button primary rounded contact-btn">bestuur@indicium.hu</a>
         <div id="contact-external">
           <p>Bedrijven en/of potentiële partners kunnen contact opnemen via:</p>
-          <a :href="`mailto:${contact.emails?.extern}`" class="button primary rounded contact-btn">{{ contact.emails?.extern }}</a>
+          <a href="mailto:secretaris-extern@indicium.hu" class="button primary rounded contact-btn">secretaris-extern@indicium.hu</a>
         </div>
       </div>
       <div class="map">
