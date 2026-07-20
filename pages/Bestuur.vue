@@ -22,9 +22,9 @@ const { data: currentBoard } = await useAsyncData('currentBoard', () =>
     <div v-for="member in currentBoard?.members || []" :key="member.email" class="member">
       <img
         class="member-photo hover-scale"
-        :src="member.photo ? `/assets/boards/${member.photo}` : `https://cataas.com/cat/says/${member.name}`"
+        :src="member.photo ? `/assets/boards/${member.photo}` : '/assets/misc/placeholder-person.svg'"
         :alt="member.name"
-        :title="member.figcaption ? member.figcaption : undefined"
+        :title="member.figcaption || undefined"
         width="400"
         height="500"
         loading="lazy"
@@ -35,7 +35,6 @@ const { data: currentBoard } = await useAsyncData('currentBoard', () =>
       <address>
         <a :href="`mailto:${member.email}`">{{ member.email }}</a>
       </address>
-      <br />
       <h5 v-if="member.responsibilities">Verantwoordelijkheden:</h5>
       <p v-if="member.responsibilities">{{ member.responsibilities.join(', ') }}</p>
     </div>
@@ -43,13 +42,6 @@ const { data: currentBoard } = await useAsyncData('currentBoard', () =>
 </template>
 
 <style scoped>
-.content-container {
-  display: flex;
-  flex-direction: column;
-  margin: 0 auto;
-  width: fit-content;
-}
-
 h1 {
   text-align: center;
 }

@@ -3,11 +3,11 @@
 const { data: vcpMembers } = await useAsyncData('vcp', () => queryCollection('vcp').order('order', 'ASC').all());
 </script>
 
-<!-- &#8203; is een zero-width-space, is nodig voor overflow op mobieltjes -->
+<!-- hyphens: auto allows the long Dutch word to break on narrow screens -->
 <template>
   <ContentContainer>
-    <h1>Vertrouwens&#8203;contact&#8203;personen</h1>
-    <p class="vcp-blerb">
+    <h1>Vertrouwenscontactpersonen</h1>
+    <p class="vcp-blurb">
       Heb je vragen, problemen of wil je gewoon even praten? Neem dan contact op met een van onze
       vertrouwenscontactpersonen. Zij zijn er voor jou!
     </p>
@@ -41,7 +41,7 @@ const { data: vcpMembers } = await useAsyncData('vcp', () => queryCollection('vc
   flex-direction: column;
 }
 
-.vcp-blerb {
+.vcp-blurb {
   max-width: 800px;
   margin: 0 auto;
   text-align: center;
@@ -49,7 +49,7 @@ const { data: vcpMembers } = await useAsyncData('vcp', () => queryCollection('vc
 
 h1 {
   text-align: center;
-  word-wrap: break-word;
+  hyphens: auto;
 }
 
 .member {
@@ -86,13 +86,11 @@ h1 {
   }
 }
 
-.member-contact-info,
-h3 {
-  line-height: 0;
+.member-contact-info h3 {
+  line-height: 1.4;
 }
 
-.member-contact-info,
-h3::after {
+.member-contact-info h3::after {
   content: ' |';
 }
 
@@ -127,8 +125,7 @@ h3::after {
     gap: 0;
   }
 
-  .member-contact-info,
-  h3::after {
+  .member-contact-info h3::after {
     content: none;
   }
 }

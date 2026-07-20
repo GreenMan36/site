@@ -13,13 +13,12 @@ const { data: commissies } = await useAsyncData('commissies', () =>
       Wil jij naast je studie actief bijdragen aan onze studievereniging? Meld je dan aan voor een van onze commissies.
       Naast dat dit super leuk is, staat dit ook goed op je CV!
     </p>
-    <div v-for="(commissie, index) in commissies || []" :key="commissie._path" class="commissie">
-      <img class="foto" :src="commissie.imgUrl" :alt="commissie.title" />
+    <div v-for="commissie in commissies || []" :key="commissie._path" class="commissie">
+      <img class="foto hover-scale" :src="commissie.imgUrl" :alt="commissie.title" />
       <div class="commissie-info">
         <h3>{{ commissie.title }}</h3>
         <ContentRenderer :value="commissie" />
       </div>
-      <div v-if="index % 2 === 0" class="spacer"></div>
     </div>
   </ContentContainer>
 </template>
@@ -36,12 +35,6 @@ const { data: commissies } = await useAsyncData('commissies', () =>
     object-fit: contain;
     width: 80%;
     border-radius: 10px;
-    transition: transform 0.2s;
-  }
-
-  .foto:hover {
-    transform: scale(1.1);
-    transition: transform 0.5s;
   }
 
   & h3 {
@@ -52,6 +45,16 @@ const { data: commissies } = await useAsyncData('commissies', () =>
     background-color: var(--secondary-background-color);
     border-radius: 10px;
     padding: 1em 2em;
+  }
+
+  &:nth-child(odd) {
+    .foto {
+      grid-column: 2;
+    }
+    .commissie-info {
+      grid-column: 1;
+      grid-row: 1;
+    }
   }
 
   @media screen and (max-width: 768px) {
@@ -73,10 +76,5 @@ const { data: commissies } = await useAsyncData('commissies', () =>
 #intro {
   max-width: 600px;
   margin: 0 auto;
-}
-
-.spacer {
-  grid-column: 1 / -1;
-  height: 1em;
 }
 </style>
