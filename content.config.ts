@@ -14,6 +14,11 @@ export default defineContentConfig({
       type: 'page',
     }),
 
+    contact: defineCollection({
+      source: 'contact.yml',
+      type: 'data',
+    }),
+
     footer: defineCollection({
       source: 'footer.yml',
       type: 'data',
