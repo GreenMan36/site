@@ -3,14 +3,8 @@ title: Over Indicium
 description: Dé studievereniging voor HBO-ICT van Hogeschool Utrecht
 ---
 
-::about-carousel{:images='["/assets/images/Karten-20.webp","/assets/images/Poolen-12.webp","/assets/images/DSC_2852.webp"]'}
-::
-
 ::about-section{title="Wie zijn wij?"}
 Indicium is de studievereniging voor studenten van het Institute for ICT aan de Hogeschool Utrecht. De vereniging organiseert naast informele activiteiten zoals poolen, bowlen, karten en feestjes met andere verenigingen ook verdiepende activiteiten in de ICT branche zoals lezingen, workshops en inhousedagen. Daarnaast biedt Indicium ook netwerkmogelijkheden voor studenten, waar ze in contact kunnen komen met bedrijven en professionals uit de branche. De vereniging heeft ook een actieve rol in de organisatie van evenementen, zoals minimaal 1 maal per jaar een studiereis naar beurzen door Europa en hackathons.
-
-::about-stats{:items='[{"number":"300+","label":"Leden"},{"number":"HU","label":"Hogeschool Utrecht"},{"number":"ICT","label":"Voor & door studenten"}]'}
-::
 ::
 
 ::about-section{title="Introkamp" cta-label="Meer over het introkamp" cta-url="/intro"}
