@@ -31,10 +31,10 @@ description: Dé studievereniging voor HBO-ICT van Hogeschool Utrecht
   :::
 
   :::home-aside
-    ::::home-agenda
+    ::::activity-calendar
     ::::
 
-    ::::social-grid
+    ::::social-sidebar
     ::::
   :::
 ::
