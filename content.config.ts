@@ -9,6 +9,11 @@ export default defineContentConfig({
       type: 'data',
     }),
 
+    home: defineCollection({
+      source: 'index.md',
+      type: 'page',
+    }),
+
     footer: defineCollection({
       source: 'footer.yml',
       type: 'data',

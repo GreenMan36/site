@@ -1,7 +1,9 @@
 <script setup lang="ts">
 const { mainPartner, premiumPartners, regularPartners } = usePartners();
 
-const images = ['/assets/images/DSC_2456.webp', '/assets/images/DSC_3982.webp', '/assets/images/Introkamp-53.webp'];
+const { data: home } = await useAsyncData('home', () => queryCollection('home').first());
+
+const carouselImages = ['/assets/images/DSC_2456.webp', '/assets/images/DSC_3982.webp', '/assets/images/Introkamp-53.webp'];
 
 const mainPartners = computed(() => (mainPartner.value ? [mainPartner.value] : []));
 const premiumPartnerList = computed(() => premiumPartners.value ?? []);
@@ -26,12 +28,12 @@ const hasAnyPartners = computed(() => totalPartnersCount.value > 0);
     <div class="page-body">
       <main class="content-main">
         <ClientOnly>
-          <LazyImageCarousel :images="images" fit="contain" hydrate-on-visible />
+          <LazyImageCarousel :images="carouselImages" fit="contain" hydrate-on-visible />
           <template #fallback>
             <div class="carousel-fallback">
               <img
                 alt="carousel fallback"
-                :src="images[0]"
+                :src="carouselImages[0]"
                 loading="eager"
                 fetchpriority="high"
                 decoding="async"
@@ -41,39 +43,8 @@ const hasAnyPartners = computed(() => totalPartnersCount.value > 0);
             </div>
           </template>
         </ClientOnly>
-
-        <section class="text-block">
-          <h2>Over Indicium</h2>
-          <p>
-            Wij zijn dé studievereniging voor HBO-ICT van Hogeschool Utrecht. We organiseren het hele jaar door
-            activiteiten zoals bedrijfsbezoeken, kroegcolleges, gastcolleges, lunchlezingen en nog veel meer over
-            allerlei verschillende onderwerpen. We organiseren natuurlijk ook activiteiten voor gezelligheid! Kom eens
-            langs op onze borrels, LAN-party's of bij iets anders!
-          </p>
-          <NuxtLink to="/over-indicium" class="inline-link">Lees meer over Indicium →</NuxtLink>
-        </section>
-
-        <section class="text-block">
-          <h2>Lid zijn is meedoen</h2>
-          <p>
-            Een hoop activiteiten organiseren we voor iedereen, maar als lid krijg je natuurlijk veel meer voordelen! Je
-            krijgt dan korting bij activiteiten of je wordt uitgenodigd voor activiteiten die exclusief voor leden zijn.
-            Ook kunnen we je helpen met het zoeken van een stage en kan je er altijd terecht als je ergens niet uitkomt.
-          </p>
-          <NuxtLink to="/lid-worden" class="inline-link">Word lid →</NuxtLink>
-        </section>
-
-        <section class="text-block">
-          <h2>Commissies</h2>
-          <p>
-            Lijkt je het leuk om de vereniging te helpen door het organiseren van activiteiten zoals borrels, feestjes,
-            gastcolleges, lunchlezingen, reizen? Of wil je je programmeerskills verbeteren? Neem eens een kijkje bij
-            onze commissies — enthousiaste leden die de vereniging draaiende houden.
-          </p>
-          <NuxtLink to="/commissies" class="inline-link">Bekijk de commissies →</NuxtLink>
-        </section>
+        <ContentRenderer v-if="home" :value="home" />
       </main>
-
       <aside class="content-aside">
         <LazyActivityCalendar hydrate-on-visible />
         <SocialSidebar />
@@ -131,8 +102,6 @@ const hasAnyPartners = computed(() => totalPartnersCount.value > 0);
   padding-top: var(--nav-height);
 }
 
-/* Centered max-width container + 2-column grid (content | aside)
- * The container caps total width so there's no squishing at mid-sizes */
 .page-body {
   max-width: 1260px;
   margin: 0 auto;
@@ -271,53 +240,8 @@ const hasAnyPartners = computed(() => totalPartnersCount.value > 0);
     transform: translateX(0);
   }
   100% {
-    /* Translate half of the track, accounting for the 16px gap (8px offset) */
     transform: translateX(calc(-50% - 8px));
   }
-}
-
-.text-block {
-  padding: 24px 0 12px;
-
-  & h2 {
-    position: relative;
-    margin: 0 0 0.7rem;
-    padding-bottom: 0.4rem;
-
-    &::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 3.25rem;
-      height: 3px;
-      border-radius: 2px;
-      background: var(--indi-blue-1);
-    }
-  }
-
-  .inline-link {
-    display: inline-block;
-    margin-top: 0.5rem;
-    font-weight: 600;
-    color: var(--indi-blue-1);
-    filter: brightness(0.72);
-    text-underline-offset: 2px;
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: underline;
-      filter: brightness(0.58);
-    }
-  }
-}
-
-html[data-theme='dark'] .inline-link {
-  filter: brightness(1.15);
-}
-
-html[data-theme='dark'] .inline-link:hover {
-  filter: brightness(1.3);
 }
 
 .carousel-fallback {
