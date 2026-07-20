@@ -1,6 +1,6 @@
 <template>
   <div class="text-container">
-    <blockquote><slot /></blockquote>
+    <blockquote><ContentSlot :use="$slots.default" unwrap="p" /></blockquote>
   </div>
 </template>
 
