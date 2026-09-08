@@ -98,8 +98,8 @@ function getLinkClass(url: string) {
     position: absolute;
     /* Below top-level items, beside nested ones; flips when room runs out
        (replaces the old getBoundingClientRect measuring). */
-    position-area: block-end span-inline-start;
-    position-try-fallbacks: flip-block, flip-inline;
+    position-area: block-end;
+    position-try-fallbacks: flip-block;
     background: var(--root-background-color);
     min-width: 200px;
     width: max-content;
@@ -111,9 +111,9 @@ function getLinkClass(url: string) {
   }
 
   .dropdown .dropdown {
-    position-area: inline-end span-block-start;
+    position-area: inline-end;
+    position-try-fallbacks: flip-inline, flip-block;
   }
-
   /* No anchor positioning (older browsers): today's static placement. */
   @supports not (position-area: block-end) {
     .dropdown {
@@ -187,6 +187,18 @@ function getLinkClass(url: string) {
     flex: 1;
     justify-content: flex-start;
     padding: 1em;
+  }
+
+  /* CTA pills become plain rows in the accordion. */
+  .menu-item .navlink.button {
+    width: 100%;
+    border-radius: 0;
+    border: none;
+    border-bottom: inherit;
+    margin: 0;
+    text-align: left;
+    background: transparent;
+    color: var(--text-color);
   }
 
   .menu-item:has(> .dropdown) > .navlink::after {
