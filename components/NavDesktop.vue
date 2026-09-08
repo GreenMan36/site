@@ -9,7 +9,7 @@ const items = navData.value?.items || [];
     <div class="container flex">
       <NavLogo />
       <ul>
-        <MenuItem v-for="(item, index) in items" :key="index" :item="item" :first="true" />
+        <MenuItem v-for="(item, index) in items" :key="index" :item="item" />
       </ul>
     </div>
   </nav>

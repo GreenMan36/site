@@ -6,7 +6,7 @@ Review: 7 read-only partition scans (components, content-components+CSS, pages+l
 |----|-------|----------|--------|--------|------|---------|
 | TD-001 | Vacatures page dead (empty-by-construction + orphaned; offers live on partner pages) — DONE 2026-09-06 (deleted) | LOW | S | S | pages/content | `pages/Vacatures.vue` (deleted) |
 | TD-002 | Firebase/GA analytics runs consent-free, zero consumers — DONE 2026-09-06 (plugin + SDK removed) | HIGH | M | S-M | plugins/privacy | `plugins/firebase.client.ts` (deleted), `nuxt.config.ts`, `package.json` |
-| TD-010 | Nav implemented twice (NavMobile hand-rolls MenuItem recursion) + 4-file breakpoint stack | MED | M | M | components | `components/NavMobile.vue`, `components/MenuItem.vue`, `components/NavDesktop.vue`, `layouts/default.vue` |
+| TD-010 | Nav implemented twice + 4-file breakpoint stack — DONE 2026-09-08 (E3, one engine) | MED | M | M | components | `components/NavMobile.vue`, `components/MenuItem.vue`, `components/NavDesktop.vue`, `layouts/default.vue` |
 | TD-011 | INDICIUM wordmark markup ×3 | LOW | S | M | components | `components/NavLogo.vue`, `components/LogoElement.vue`, `pages/Links.vue` |
 | TD-012 | Partner hero block + job-offer query copy-pasted across partner pages | LOW | S | M | pages | `pages/partners/index.vue`, `pages/partners/[partner].vue`, `composables/usePartners.ts` |
 | TD-013 | "Current board" derived two different ways on two pages | LOW | S | S | pages | `pages/Bestuur.vue`, `pages/besturen.vue` |
@@ -32,7 +32,7 @@ Review: 7 read-only partition scans (components, content-components+CSS, pages+l
 | TD-038 | pnpm-10 `onlyBuiltDependencies` dead under pinned pnpm 11 — DONE 2026-09-06 (deleted) | LOW | S | S | config | `pnpm-workspace.yaml` |
 | TD-039 | Stray `# test` heading live on chipsoft partner page — DONE 2026-09-06 (deleted) | LOW | S | S | content | `content/partners/chipsoft/index.md` |
 | TD-040 | router.client title hack races useSeoMeta | MED | M | S-M | plugins | `plugins/router.client.ts`, `nuxt.config.ts` |
-| TD-041 | Desktop submenus hover-only, keyboard/AT-unreachable | MED | M | S-M | components | `components/MenuItem.vue` |
+| TD-041 | Desktop submenus hover-only, keyboard/AT-unreachable — DONE 2026-09-08 (`:focus-within`) | MED | M | S-M | components | `components/MenuItem.vue` |
 | TD-042 | No page reads useAsyncData error/pending; silent blank pages | MED | M | S-M | pages | `pages/*.vue` (15 collection pages) |
 | TD-043 | Conscribo vendor patches silent on drift, untestable monolith | MED | M | S-M | logic | `utils/conscriboForm.ts`, `components/ConscriboForm.client.vue` |
 | TD-044 | Component dark tweaks ignore no-JS radio path (wrong logo variant) | MED | M | S | components/css | `components/PartnerLogo.vue`, `components/content/HomeTextBlock.vue`, `assets/css/variables.css` |

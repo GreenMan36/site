@@ -1,7 +1,7 @@
 <template>
   <div>
     <NavDesktop />
-    <LazyNavMobile hydrate-on-media-query="(max-width: 944px)" />
+    <LazyNavMobile hydrate-on-media-query="(max-width: 768px)" />
     <div class="page-content">
       <slot />
     </div>

@@ -8,36 +8,12 @@ interface MenuItem {
 const props = defineProps<{
   item: MenuItem;
   depth?: number;
-  first?: boolean;
 }>();
 
 const depth = props.depth ?? 0;
-const first = props.first ?? false;
-
-const menuItem = ref<HTMLElement | null>(null);
-const shouldDisplayDropdown = ref(false);
-const dropdownClass = ref('');
-const arrowHTML = ref('');
-
-function mouseOver() {
-  shouldDisplayDropdown.value = true;
-
-  if (!menuItem.value) return;
-
-  const rect = menuItem.value.getBoundingClientRect();
-  const spaceRight = window.innerWidth - rect.right;
-
-  if (first) {
-    dropdownClass.value = 'down';
-    arrowHTML.value = '&#x25BC;';
-  } else if (spaceRight < 200) {
-    dropdownClass.value = 'left';
-    arrowHTML.value = '&#x25C0;';
-  } else {
-    dropdownClass.value = 'right';
-    arrowHTML.value = '&#x25B6;';
-  }
-}
+const isExternal = props.item.url.startsWith('http');
+// Mobile accordion only; desktop opens via :hover/:focus-within in CSS.
+const open = ref(false);
 
 function getLinkClass(url: string) {
   return {
@@ -46,79 +22,40 @@ function getLinkClass(url: string) {
     'button rounded': url.startsWith('http'),
   };
 }
-
-onMounted(() => {
-  if (!menuItem.value) return;
-
-  menuItem.value.addEventListener('mouseleave', () => {
-    shouldDisplayDropdown.value = false;
-  });
-  menuItem.value.addEventListener('click', () => {
-    shouldDisplayDropdown.value = false;
-  });
-
-  mouseOver();
-  shouldDisplayDropdown.value = false;
-});
 </script>
 
 <template>
-  <li ref="menuItem" class="menu-item" @mouseover="mouseOver">
-    <router-link :to="item.url" class="navlink" :class="getLinkClass(item.url)">{{ item.title }}</router-link>
-    <!-- eslint-disable-next-line vue/no-v-html -->
-    <span v-if="item.children" :class="`${dropdownClass} arrow`" v-html="arrowHTML" />
-    <ul v-if="item.children && shouldDisplayDropdown" :class="`dropdown ${dropdownClass}`" :data-depth="depth % 3">
-      <MenuItem
-        v-for="(child, index) in item.children"
-        :key="`${index}-${child.title}-${child.url}`"
-        :item="child"
-        :depth="depth + 1"
-      />
+  <li class="menu-item" :data-depth="depth % 3" :class="{ open }">
+    <RouterLink v-if="!isExternal" :to="item.url" class="navlink" :class="getLinkClass(item.url)">
+      {{ item.title }}
+    </RouterLink>
+    <a v-else :href="item.url" target="_blank" rel="noopener" class="navlink" :class="getLinkClass(item.url)">
+      {{ item.title }}
+    </a>
+    <button
+      v-if="item.children"
+      type="button"
+      class="submenu-toggle"
+      :aria-expanded="open"
+      :aria-label="`Submenu ${open ? 'sluiten' : 'openen'}: ${item.title}`"
+      @click="open = !open"
+    >
+      <span aria-hidden="true" />
+    </button>
+    <ul v-if="item.children" class="dropdown">
+      <MenuItem v-for="(child, index) in item.children" :key="`${index}-${child.title}-${child.url}`" :item="child" :depth="depth + 1" />
     </ul>
   </li>
 </template>
 
 <style scoped>
-.dropdown {
-  position: absolute;
-  background: var(--root-background-color);
-  top: 100%;
-  min-width: 200px;
-  width: max-content;
-  height: fit-content;
-  z-index: 1;
-  list-style-type: none;
-  padding: 0;
-}
-
-[data-depth='0'] {
-  box-shadow: inset 0 0 0 2px var(--indi-blue-green-1);
-}
-
-[data-depth='0'] .menu-item a:hover,
-[data-depth='0'] .menu-item a:focus-within {
-  background-color: var(--indi-blue-green-1);
-}
-
-[data-depth='1'] {
-  box-shadow: inset 0 0 0 2px var(--indi-green-1);
-}
-
-[data-depth='1'] .menu-item a:hover,
-[data-depth='1'] .menu-item a:focus-within {
-  background-color: var(--indi-green-1);
-}
-
-[data-depth='2'] {
-  box-shadow: inset 0 0 0 2px var(--indi-blue-1);
-}
-
-[data-depth='2'] .menu-item a:hover,
-[data-depth='2'] .menu-item a:focus-within {
-  background-color: var(--indi-blue-1);
-}
+/* One recursive tree, two presentations. Desktop (>768px): anchored dropdowns
+   opened by :hover/:focus-within. Mobile: static accordion opened by toggle. */
 
 .menu-item {
+  /* Same name on every item is fine: absolutely-positioned descendants anchor
+     to the NEAREST ancestor with a matching name (implicit anchoring). */
+  anchor-name: --submenu-anchor;
   position: relative;
   width: 100%;
   height: 50px;
@@ -138,48 +75,170 @@ onMounted(() => {
   padding-right: 1.6rem;
 }
 
-.menu-item a:hover:not(.button),
-.menu-item a:hover:focus:not(.button),
-.menu-item a:focus-within:not(.button) {
-  color: white;
-  text-decoration: none;
-  background-color: var(--indi-blue-1);
-}
-
-span.down {
-  position: absolute;
-  right: 8px;
-}
-
-.dropdown .menu-item .dropdown {
-  position: absolute;
-  top: 0;
-}
-
-.dropdown .menu-item .dropdown.right {
-  left: 100%;
-}
-
-.dropdown .menu-item .dropdown.left {
-  right: 100%;
-}
-
-.arrow {
-  position: absolute;
-  pointer-events: none;
+/* Glyph arrows without v-html: direction follows nesting, not JS measurement. */
+.menu-item:has(> .dropdown) > .navlink::after {
+  content: '▾';
   font-size: 0.6rem;
-}
-
-.arrow.right {
-  right: 8px;
-}
-
-.arrow.left {
-  left: 8px;
+  margin-left: 0.5rem;
 }
 
 .menu-item .navlink.button {
   height: unset;
   width: max-content;
+}
+
+.submenu-toggle {
+  display: none;
+}
+
+/* ---------- Desktop dropdowns ---------- */
+@media screen and (min-width: 769px) {
+  .dropdown {
+    display: none;
+    position: absolute;
+    /* Below top-level items, beside nested ones; flips when room runs out
+       (replaces the old getBoundingClientRect measuring). */
+    position-area: block-end span-inline-start;
+    position-try-fallbacks: flip-block, flip-inline;
+    background: var(--root-background-color);
+    min-width: 200px;
+    width: max-content;
+    height: fit-content;
+    z-index: 1;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .dropdown .dropdown {
+    position-area: inline-end span-block-start;
+  }
+
+  /* No anchor positioning (older browsers): today's static placement. */
+  @supports not (position-area: block-end) {
+    .dropdown {
+      top: 100%;
+      left: 0;
+    }
+
+    .dropdown .dropdown {
+      top: 0;
+      left: 100%;
+    }
+  }
+
+  .menu-item:hover > .dropdown,
+  .menu-item:focus-within > .dropdown {
+    display: block;
+  }
+
+  .dropdown .menu-item:has(> .dropdown) > .navlink::after {
+    content: '▸';
+  }
+}
+
+/* ---------- Depth colors (both presentations) ---------- */
+[data-depth='0'] > .dropdown,
+[data-depth='0'].open {
+  box-shadow: inset 0 0 0 2px var(--indi-blue-green-1);
+}
+
+[data-depth='0'] .menu-item a:hover,
+[data-depth='0'] .menu-item a:focus-visible {
+  background-color: var(--indi-blue-green-1);
+}
+
+[data-depth='1'] > .dropdown,
+[data-depth='1'].open {
+  box-shadow: inset 0 0 0 2px var(--indi-green-1);
+}
+
+[data-depth='1'] .menu-item a:hover,
+[data-depth='1'] .menu-item a:focus-visible {
+  background-color: var(--indi-green-1);
+}
+
+[data-depth='2'] > .dropdown,
+[data-depth='2'].open {
+  box-shadow: inset 0 0 0 2px var(--indi-blue-1);
+}
+
+[data-depth='2'] .menu-item a:hover,
+[data-depth='2'] .menu-item a:focus-visible {
+  background-color: var(--indi-blue-1);
+}
+
+.menu-item a:hover:not(.button),
+.menu-item a:focus-visible:not(.button) {
+  color: white;
+  text-decoration: none;
+  background-color: var(--indi-blue-1);
+}
+
+/* ---------- Mobile accordion ---------- */
+@media screen and (max-width: 768px) {
+  .menu-item {
+    height: auto;
+    min-height: 50px;
+    flex-wrap: wrap;
+  }
+
+  .menu-item .navlink {
+    flex: 1;
+    justify-content: flex-start;
+    padding: 1em;
+  }
+
+  .menu-item:has(> .dropdown) > .navlink::after {
+    content: none;
+  }
+
+  .submenu-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.5em;
+    align-self: stretch;
+    background: none;
+    border: none;
+    border-left: 1px solid currentcolor;
+    cursor: pointer;
+    color: inherit;
+    font-size: inherit;
+  }
+  .submenu-toggle > span::before {
+    content: '▸';
+  }
+
+  .menu-item.open > .submenu-toggle > span::before {
+    content: '▾';
+  }
+
+  .dropdown {
+    display: none;
+    position: static;
+    flex-basis: 100%;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  /* Level color language on mobile rows (mirrors the depth borders). */
+  .menu-root > .menu-item {
+    border-bottom: 1px solid var(--indi-blue-1);
+  }
+
+  .menu-root > .menu-item > .dropdown .menu-item {
+    border-bottom-color: var(--indi-blue-green-1);
+  }
+
+  .menu-root > .menu-item > .dropdown .dropdown .menu-item {
+    border-bottom-color: var(--indi-green-1);
+  }
+
+  .menu-item.open > .dropdown {
+    display: block;
+  }
+
 }
 </style>

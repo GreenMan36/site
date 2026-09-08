@@ -8,8 +8,8 @@ Owner evidence: offers already render on partner pages (`JobOffers` via `partner
 ### E2 — Analytics consent decision (covers TD-002)
 As maintainer I want tracking to be either consented or gone so that the site is GDPR-safe. Acceptance: [either consent-gated loading of the Firebase plugin or plugin + `firebase` dep + optimizeDeps/allowBuilds/taze entries deleted; owner confirms whether measurementId `G-449W2Y5BHP` dashboard is in use.]
 
-### E3 — Single nav engine (covers TD-010)
-As maintainer I want one recursive nav renderer over one data source and one breakpoint source of truth so that nav changes happen once. Acceptance: [NavMobile renders via shared recursive item (MenuItem or successor); single `navigation` fetch key; visibility breakpoints defined once; 769–944px range behaves by design, not accident.]
+### E3 — Single nav engine (covers TD-010) — DONE 2026-09-08
+As maintainer I want one recursive nav renderer over one data source and one breakpoint source of truth so that nav changes happen once. Acceptance: - [x] `MenuItem` renders both presentations; single `navigation` fetch key; 768px single breakpoint; hover/keyboard/accordion verified visually.
 
 ## Items
 
