@@ -1,7 +1,21 @@
 <script setup lang="ts">
 // Mobile shell around the shared MenuItem tree: hamburger + slide-in panel.
-// Submenu state lives in each MenuItem (accordion); this shell only opens/closes.
+// Drill-down trail: trail[depth] holds the active item url at that depth.
 const menuOpen = ref(false);
+const trail = ref<string[]>([]);
+
+provide('navTrail', trail);
+provide('navDrillTo', (depth: number, url: string) => {
+  trail.value[depth] = url;
+  trail.value.length = depth + 1;
+});
+provide('navBackTo', (depth: number) => {
+  trail.value.length = depth;
+});
+
+watch(menuOpen, (open) => {
+  if (!open) trail.value = [];
+});
 
 // Same query + key as NavDesktop, so SSG/hydration share one payload.
 const { data: navData } = await useAsyncData('navigation', () => queryCollection('navigation').first());
