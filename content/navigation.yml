@@ -15,8 +15,6 @@ items:
   - title: 'Partners'
     url: '/partners'
     children:
-      - title: 'Gezocht!'
-        url: '/partners/hoofdpartner-tba'
       - title: 'ChipSoft'
         url: '/partners/chipsoft'
       - title: 'Vibe Academy'
