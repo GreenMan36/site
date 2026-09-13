@@ -1,6 +1,6 @@
 # Tech-debt index — Indicium site (Nuxt 3/4 + Vue + pnpm, SSG)
 
-Review: 7 read-only partition scans (components, content-components+CSS, pages+layouts, logic layer, content+Studio, config/CI, dead-code sweep), 1 synthesis pass. 44 items (11 done, 3 kept by owner, 30 open). Every claim carries `path:line` + a drift-proof description. Lines will drift; anchors (identifiers, comments, prop names) are named so each item stays findable.
+Review: 7 read-only partition scans (components, content-components+CSS, pages+layouts, logic layer, content+Studio, config/CI, dead-code sweep), 1 synthesis pass. 43 items (11 done, 3 kept by owner, 29 open). Every claim carries `path:line` + a drift-proof description. Lines will drift; anchors (identifiers, comments, prop names) are named so each item stays findable.
 
 | ID | Title | Severity | Impact | Effort | Area | File(s) |
 |----|-------|----------|--------|--------|------|---------|
@@ -17,7 +17,7 @@ Review: 7 read-only partition scans (components, content-components+CSS, pages+l
 | TD-018 | Partner `description` duplicated verbatim as body lead (8 files) | MED | M | S | content | `content/partners/**/*.md` |
 | TD-019 | Dark palette copy-pasted twice in variables.css, already drifted | MED | M | M | css | `assets/css/variables.css` |
 | TD-020 | Partner marquee implemented twice (dead PartnerCarousel + HomePartners inline) — DONE 2026-09-13 (both deleted) | MED | M | S | components | `components/PartnerCarousel.vue`, `components/content/HomePartners.vue` |
-| TD-021 | Carousel SSR-fallback wrapper duplicated (HomeImageCarousel vs over-indicium) | MED | M | S | components/pages | `components/content/HomeImageCarousel.vue`, `pages/over-indicium.vue` |
+| TD-021 | Carousel SSR-fallback wrapper duplicated (HomeImageCarousel vs over-indicium) — DONE 2026-09-13 (one SSR carousel, no fallback swap) | MED | M | S | components/pages | `components/content/HomeImageCarousel.vue`, `pages/over-indicium.vue` |
 | TD-024 | PDF-redirect middleware duplicates page paths, serves stale legal docs on iOS | MED | M | S | logic/pages | `middleware/pdf-redirect.global.ts`, `pages/Statuten.vue`, `pages/HR.vue` |
 | TD-026 | Partners nav submenu hand-maintained, links to deleted DressMe — PARTIAL 2026-09-13 (nav aligned; derivation/check open) | MED | M | S-M | content | `content/navigation.yml`, `content/partners/*`, `pages/partners/[partner].vue` |
 | TD-027 | Global CSS duplicated/conflicting between app.vue and default.vue | MED | S | S | css/layouts | `app.vue`, `layouts/default.vue` |
@@ -33,7 +33,7 @@ Review: 7 read-only partition scans (components, content-components+CSS, pages+l
 | TD-039 | Stray `# test` heading live on chipsoft partner page — DONE 2026-09-06 (deleted) | LOW | S | S | content | `content/partners/chipsoft/index.md` |
 | TD-040 | router.client title hack races useSeoMeta | MED | M | S-M | plugins | `plugins/router.client.ts`, `nuxt.config.ts` |
 | TD-041 | Desktop submenus hover-only, keyboard/AT-unreachable — PARTIAL 2026-09-13 (keyboard OK; expanded state not announced; mobile labels lost in the revert) | MED | M | S-M | components | `components/MenuItem.vue` |
-| TD-042 | No page reads useAsyncData error/pending; silent blank pages | MED | M | S-M | pages | `pages/*.vue` (15 collection pages) |
+| TD-042 | No page reads useAsyncData error/pending; silent blank pages — PARTIAL 2026-09-13 (data awaited for SSR; errors unread) | MED | M | S-M | pages | `pages/*.vue` (15 collection pages) |
 | TD-043 | Conscribo vendor patches silent on drift, untestable monolith | MED | M | S-M | logic | `utils/conscriboForm.ts`, `components/ConscriboForm.client.vue` |
 | TD-044 | Component dark tweaks ignore no-JS radio path (wrong logo variant) | MED | M | S | components/css | `components/PartnerLogo.vue`, `components/content/HomeTextBlock.vue`, `assets/css/variables.css` |
 | TD-045 | CI never runs tests or lint (no lint script at all) | MED | M | S | ci/test | `.github/workflows/*.yml`, `package.json`, `eslint.config.mjs`, `test/` |
@@ -47,7 +47,6 @@ Review: 7 read-only partition scans (components, content-components+CSS, pages+l
 | TD-056 | optimizeDeps warning: @nuxtjs/mdc module entries unresolvable (late rewrite workaround) | LOW | S | S | config | `nuxt.config.ts` |
 | TD-057 | Studio pinned to an unreleased `main` preview build (no support, comark pipeline swap) | MED | M | S | config | `package.json` |
 | TD-058 | Unreferenced heavyweight images in `public/` (>10MB incl. `intro2023.jpg`); external-pin risk | LOW | M | S | assets | `public/assets/images/**`, `public/*.jpg` |
-| TD-059 | Studio saves can silently drop MDC blocks (homepage lost `::home-partners` for a month) | MED | M | S | content/studio | `content/index.md` |
 
 ## Top 5 next actions (2026-09-13)
 
