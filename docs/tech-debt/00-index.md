@@ -1,6 +1,6 @@
 # Tech-debt index — Indicium site (Nuxt 3/4 + Vue + pnpm, SSG)
 
-Review: 7 read-only partition scans (components, content-components+CSS, pages+layouts, logic layer, content+Studio, config/CI, dead-code sweep), 1 synthesis pass. 43 items (11 done, 3 kept by owner, 29 open). Every claim carries `path:line` + a drift-proof description. Lines will drift; anchors (identifiers, comments, prop names) are named so each item stays findable.
+Review: 7 read-only partition scans (components, content-components+CSS, pages+layouts, logic layer, content+Studio, config/CI, dead-code sweep), 1 synthesis pass. 44 items (11 done, 3 kept by owner, 30 open). Every claim carries `path:line` + a drift-proof description. Lines will drift; anchors (identifiers, comments, prop names) are named so each item stays findable.
 
 | ID | Title | Severity | Impact | Effort | Area | File(s) |
 |----|-------|----------|--------|--------|------|---------|
@@ -47,6 +47,7 @@ Review: 7 read-only partition scans (components, content-components+CSS, pages+l
 | TD-056 | optimizeDeps warning: @nuxtjs/mdc module entries unresolvable (late rewrite workaround) | LOW | S | S | config | `nuxt.config.ts` |
 | TD-057 | Studio pinned to an unreleased `main` preview build (no support, comark pipeline swap) | MED | M | S | config | `package.json` |
 | TD-058 | Unreferenced heavyweight images in `public/` (>10MB incl. `intro2023.jpg`); external-pin risk | LOW | M | S | assets | `public/assets/images/**`, `public/*.jpg` |
+| TD-059 | Studio saves can silently drop MDC blocks (homepage lost `::home-partners` for a month) | MED | M | S | content/studio | `content/index.md` |
 
 ## Top 5 next actions (2026-09-13)
 
