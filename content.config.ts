@@ -80,7 +80,7 @@ export default defineContentConfig({
           z.object({
             name: z.string(),
             url: z.string(),
-            icon: z.string().optional(), // emoji or asset path; missing on the first ("Website") link
+            icon: z.string().optional(), // emoji, Iconify name (i-mdi:web) or asset path; missing on the first ("Website") link
           }),
         ),
       }),

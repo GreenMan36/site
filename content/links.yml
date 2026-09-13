@@ -1,27 +1,28 @@
 links:
-  - name: 'Website'
-    url: '/'
-  - icon: '📸'
-    name: 'Instagram'
-    url: 'https://www.instagram.com/svindicium/'
-  - icon: '👥'
-    name: 'Word Lid!'
-    url: '/lid-worden'
-  - icon: '📋'
-    name: 'Commissie Interesse'
-    url: 'https://forms.gle/fVGrQf7KmZVH716WA'
-  - icon: '/assets/icons/discord.ico'
-    name: 'Discord'
-    url: '/discord'
-  - icon: '📄'
-    name: 'Over Indicium'
-    url: '/over-indicium'
-  - icon: '🐱'
-    name: 'GitHub'
-    url: 'https://github.com/svIndicium/'
-  - icon: '💼'
-    name: 'LinkedIn'
-    url: 'https://www.linkedin.com/company/s.v.indicium/'
-  - icon: '📩'
-    name: 'Contact'
-    url: '/contact'
+  - name: Website
+    url: /
+    icon: i-mdi:web
+  - icon: i-mdi:instagram
+    name: Instagram
+    url: https://www.instagram.com/svindicium/
+  - icon: i-mdi:account-multiple
+    name: Word Lid!
+    url: /lid-worden
+  - icon: mdi:form
+    name: Commissie Interesse
+    url: https://forms.gle/fVGrQf7KmZVH716WA
+  - icon: i-ic:baseline-discord
+    name: Discord
+    url: /discord
+  - icon: i-mdi:about
+    name: Over Indicium
+    url: /over-indicium
+  - icon: i-mdi:github
+    name: GitHub
+    url: https://github.com/svIndicium/
+  - icon: i-mdi:linkedin
+    name: LinkedIn
+    url: https://www.linkedin.com/company/s.v.indicium/
+  - icon: i-mdi:email
+    name: Contact
+    url: /contact

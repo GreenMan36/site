@@ -8,6 +8,7 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     '@nuxt/content',
     'nuxt-studio',
+    '@nuxt/icon',
 
     // Registered last on purpose: the @nuxtjs/mdc module pushes ten
     // `@nuxtjs/mdc > <dep>` entries into vite.optimizeDeps.include, and
@@ -152,9 +153,32 @@ export default defineNuxtConfig({
     defaultImport: 'component',
   },
 
+  // Icons. components/LinkCard.vue renders Iconify names from content/*.{yml,md};
+  // the editor's picker is scoped to the same two collections (studio.editor
+  // .iconLibraries), so what an editor can insert is always what the site resolves.
+  // `scan` walks the project for `i-<collection>:<name>` including content files,
+  // so the client bundle follows the content automatically — nothing to keep in sync.
+  // `mode: 'svg'` inlines the SVG at prerender (no JS needed, no runtime fetching);
+  // `fallbackToApi: false` keeps an unknown name from silently calling a third party
+  // (an unknown name instead logs `[Icon] failed to load icon` and renders empty).
+  icon: {
+    mode: 'svg',
+    provider: 'server',
+    fallbackToApi: false,
+    clientBundle: {
+      scan: true,
+    },
+  },
+
   // Nuxt Studio configuration
   studio: {
     editor: {
+      // Icon picker scope. Unset means the picker searches the whole Iconify
+      // catalogue (~150 collections) while the site can only resolve the ones
+      // installed locally, so an editor could pick an icon that silently renders
+      // empty. Keep this list identical to the installed @iconify-json packages:
+      // both are Material-derived, so the icon styles match.
+      iconLibraries: ['mdi', 'ic'],
       components: {
         // Prose* components are @nuxt/content's markdown renderers (e.g. ProseH1
         // renders a `# heading`), globally registered and surfaced by Studio as
