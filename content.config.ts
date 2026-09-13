@@ -72,17 +72,43 @@ export default defineContentConfig({
     }),
 
     // Links page (`/links`, minimal layout) cards (pages/Links.vue).
+    // `property().editor()` is what Nuxt Studio's form editor reads
+    // (`$content.editor` in the generated JSON schema): `input` picks the widget —
+    // 'icon' is Studio's Iconify picker, scoped by `studio.editor.iconLibraries` in
+    // nuxt.config.ts — plus label/description/tooltip per field.
     links: defineCollection({
       source: 'links.yml',
       type: 'data',
       schema: z.object({
-        links: z.array(
-          z.object({
-            name: z.string(),
-            url: z.string(),
-            icon: z.string().optional(), // emoji, Iconify name (i-mdi:web) or asset path; missing on the first ("Website") link
-          }),
-        ),
+        links: property(
+          z.array(
+            property(
+              z.object({
+                name: property(z.string()).editor({
+                  label: 'Label',
+                  description: 'Card text, shown next to the icon',
+                }),
+                url: property(z.string()).editor({
+                  label: 'URL',
+                  description: 'Internal path (/lid-worden) or a full https:// address',
+                }),
+                icon: property(z.string().optional()).editor({
+                  input: 'icon',
+                  label: 'Icon',
+                  description: 'Iconify name, one emoji, or an asset path — e.g. i-mdi:web, 📸, /icons/discord.ico',
+                }),
+                iconColor: property(z.string().optional()).editor({
+                  label: 'Icon colour',
+                  description:
+                    'Optional. Brand colour (blue / green / bluegreen) or any CSS value — #E4405F or var(--link-color). Only affects icon-name icons.',
+                }),
+              }),
+            ).editor({ label: 'Link' }),
+          ),
+        ).editor({
+          label: 'Links',
+          description: 'One card per entry',
+        }),
       }),
     }),
 

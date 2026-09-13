@@ -11,6 +11,14 @@ const router = useRouter();
 // Query links collection
 const { data: linksData } = await useAsyncData('links', () => queryCollection('links').first());
 const content = linksData.value?.links || [];
+
+// Nuxt Studio resolves the document to edit from a `[data-content-id]` marker in the
+// DOM — that is how it links a URL to a collection (studio host: `detectActives()` and
+// the dblclick handler walk up to the nearest `data-content-id`). @nuxt/content's
+// ContentRenderer emits it, but only for documents it renders itself; this page queries
+// the YAML collection directly, so it tags the list with the document id itself. Dev/
+// preview only, like ContentRenderer (`debug ? value.id : undefined`).
+const contentId = import.meta.dev ? linksData.value?.id : undefined;
 </script>
 
 <template>
@@ -24,7 +32,7 @@ const content = linksData.value?.links || [];
         </div>
       </span>
     </div>
-    <div id="links">
+    <div id="links" :data-content-id="contentId">
       <LinkCard v-for="link in content" :key="link.url" :link="link" />
     </div>
   </div>

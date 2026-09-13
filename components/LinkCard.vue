@@ -7,6 +7,8 @@ interface LinksItem {
   url: string;
   /** Emoji, Iconify name (`i-mdi:web`) or asset path (`/assets/icons/discord.ico`). */
   icon?: string;
+  /** Brand token (`green-1`) or any CSS colour (`#5865F2`); icon-name icons only. */
+  iconColor?: string;
 }
 
 const props = defineProps<{ link: LinksItem }>();
@@ -17,6 +19,16 @@ const isExternal = computed(() => !props.link.url.startsWith('/'));
 const filetypes = ['png', 'svg', 'jpg', 'jpeg', 'svg', 'bmp', 'webp', 'gif', 'apng', 'avif', 'ico'];
 const isImage = computed(() => filetypes.some((filetype) => linkIcon.value.endsWith('.' + filetype)));
 const isIconName = computed(() => /^[a-z0-9-]+:[a-z0-9-]+$/i.test(linkIcon.value));
+
+// Short brand vocabulary: `blue` / `green` / `bluegreen` resolve to the
+// theme-agnostic icon tokens in assets/css/variables.css. Anything else — a hex,
+// rgb(), or a var() — passes through untouched.
+const brandToken = /^(?:blue|green|bluegreen)$/;
+const iconStyle = computed(() => {
+  const color = props.link.iconColor?.trim();
+  if (!color) return undefined;
+  return { color: brandToken.test(color) ? `var(--icon-${color})` : color };
+});
 </script>
 
 <template>
@@ -28,7 +40,7 @@ const isIconName = computed(() => /^[a-z0-9-]+:[a-z0-9-]+$/i.test(linkIcon.value
       class="link"
     >
       <img v-if="isImage" :src="linkIcon" :alt="link.name" />
-      <Icon v-else-if="isIconName" :name="linkIcon" class="icon" />
+      <Icon v-else-if="isIconName" :name="linkIcon" class="icon" :style="iconStyle" />
       <span v-else class="emoji">{{ linkIcon }}</span>
       <p>{{ link.name }}</p>
     </component>

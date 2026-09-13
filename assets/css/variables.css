@@ -66,6 +66,16 @@
   --brand-orange: #ff6600;
   --brand-orange-hover: #ff8533;
 
+  /* Icon strokes (content-authored icon colors, e.g. the links page cards).
+     The --indi-*-1 ladder is built for button fills with text on top: as thin
+     glyph strokes the light values measure 1.7-2.1:1 on a light card and the
+     dark values 3.0-3.4:1 on a dark one. These are the same brand hues solved
+     per theme for stroke contrast — ~4:1 on the light card, ~9-11:1 on the dark
+     one (dark values are the vivid end of the ladder). */
+  --icon-blue: #4b8493;
+  --icon-green: #5e864e;
+  --icon-bluegreen: #4f867d;
+
   /* Container-query breakpoints (native CSS — no Tailwind needed).
      Re-created from Tailwind v4's container scale. Use:
        .wrapper { container-type: inline-size; }
@@ -127,6 +137,10 @@
     --indi-green-2: rgb(67, 86, 65);
     --indi-green-3: rgb(38, 49, 37);
 
+    --icon-blue: #75cfe6;
+    --icon-green: #bce6ac;
+    --icon-bluegreen: #87e6d7;
+
     --indi-grey-raw: 239, 240, 240;
     --indi-success-raw: var(--indi-green-2);
     --indi-warning-raw: 250, 192, 82;
@@ -183,6 +197,10 @@
   --indi-green-1: rgb(97, 124, 93);
   --indi-green-2: rgb(67, 86, 65);
   --indi-green-3: rgb(38, 49, 37);
+
+  --icon-blue: #75cfe6;
+  --icon-green: #bce6ac;
+  --icon-bluegreen: #87e6d7;
 
   --indi-grey-raw: 239, 240, 240;
   --indi-success-raw: var(--indi-green-2);

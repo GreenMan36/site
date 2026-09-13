@@ -2,27 +2,36 @@ links:
   - name: Website
     url: /
     icon: i-mdi:web
+    iconColor: blue
   - icon: i-mdi:instagram
+    iconColor: '#E4405F'
     name: Instagram
     url: https://www.instagram.com/svindicium/
   - icon: i-mdi:account-multiple
+    iconColor: green
     name: Word Lid!
     url: /lid-worden
   - icon: mdi:form
+    iconColor: bluegreen
     name: Commissie Interesse
     url: https://forms.gle/fVGrQf7KmZVH716WA
   - icon: i-ic:baseline-discord
+    iconColor: '#5865F2'
     name: Discord
     url: /discord
   - icon: i-mdi:about
+    iconColor: blue
     name: Over Indicium
     url: /over-indicium
   - icon: i-mdi:github
+    iconColor: green
     name: GitHub
     url: https://github.com/svIndicium/
   - icon: i-mdi:linkedin
+    iconColor: '#0A66C2'
     name: LinkedIn
     url: https://www.linkedin.com/company/s.v.indicium/
   - icon: i-mdi:email
+    iconColor: bluegreen
     name: Contact
     url: /contact
