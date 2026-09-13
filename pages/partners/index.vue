@@ -2,6 +2,7 @@
 import JobOffers from '@/components/JobOffers.vue';
 import PartnerLogo from '@/components/PartnerLogo.vue';
 
+await prefetchPartners();
 const { mainPartner, premiumPartners, regularPartners } = usePartners();
 
 const { data: mainPartnerJobOffers } = await useAsyncData('mainPartnerJobOffers', async () => {
