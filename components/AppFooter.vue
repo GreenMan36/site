@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { preference } = useTheme();
+const colorMode = useColorMode();
 
 // Sync the radio UI from the stored preference BEFORE Vue hydrates, so the SSR
 // default (auto checked) doesn't mismatch the client state. Without JS this
@@ -34,7 +34,7 @@ const socialPages = ref<{ title: string; url: string }[]>(footerData.value?.soci
 const contact = ref<Record<string, unknown>>(footerData.value?.contactItems || {});
 
 function changeTheme(theme: 'system' | 'light' | 'dark') {
-  preference.value = theme;
+  colorMode.preference = theme;
 }
 </script>
 
@@ -81,7 +81,7 @@ function changeTheme(theme: 'system' | 'light' | 'dark') {
                 id="auto-mode"
                 type="radio"
                 name="theme"
-                :checked="preference == 'system'"
+                :checked="colorMode.preference == 'system'"
                 @change="changeTheme('system')"
               />
               <label for="auto-mode">Systeem</label>
@@ -91,7 +91,7 @@ function changeTheme(theme: 'system' | 'light' | 'dark') {
                 id="light-mode"
                 type="radio"
                 name="theme"
-                :checked="preference == 'light'"
+                :checked="colorMode.preference == 'light'"
                 @change="changeTheme('light')"
               />
               <label for="light-mode">Licht</label>
@@ -101,7 +101,7 @@ function changeTheme(theme: 'system' | 'light' | 'dark') {
                 id="dark-mode"
                 type="radio"
                 name="theme"
-                :checked="preference == 'dark'"
+                :checked="colorMode.preference == 'dark'"
                 @change="changeTheme('dark')"
               />
               <label for="dark-mode">Donker</label>

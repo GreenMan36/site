@@ -236,7 +236,6 @@ export default defineNuxtConfig({
         HomeAside: true,
         HomeImageCarousel: true,
         HomeTextBlock: true,
-        HomePartners: true,
         ActivityCalendar: true,
         SocialSidebar: true,
       };
