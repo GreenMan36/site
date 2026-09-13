@@ -128,15 +128,7 @@ function endYear(event: AgendaEvent): string | null {
       <article v-if="calendarError || locationsError">
         <p>De agenda kon niet geladen worden. Probeer het later opnieuw.</p>
       </article>
-      <div v-else-if="calendarStatus === 'pending'" aria-hidden="true">
-        <div v-for="index in effectivePageSize" :key="index" class="event event--placeholder">
-          <div class="date"></div>
-          <div class="details">
-            <p class="placeholder-line"></p>
-            <p class="placeholder-line short"></p>
-          </div>
-        </div>
-      </div>
+      <AgendaCalendarSkeleton v-else-if="calendarStatus === 'pending'" :rows="effectivePageSize" />
       <article v-else-if="!cappedEvents.length">
         <p>Voorlopig zijn er geen activiteiten.</p>
         <p>Voeg de kalender toe aan je agenda om up-to-date te blijven!</p>
@@ -208,20 +200,8 @@ function endYear(event: AgendaEvent): string | null {
       <AgendaCalendarButton />
     </div>
     <template #fallback>
-      <div class="events-container events-container--fallback" aria-hidden="true">
-        <div v-for="index in effectivePageSize" :key="index" class="event event--placeholder">
-          <div class="date"></div>
-          <div class="details">
-            <p class="placeholder-line"></p>
-            <p class="placeholder-line short"></p>
-          </div>
-        </div>
-        <div class="pagination pagination--placeholder" aria-hidden="true">
-          <span class="button primary rounded pagination-button pagination-button--hidden">←</span>
-          <span class="pagination-status">1/1</span>
-          <span class="button primary rounded pagination-button pagination-button--hidden">→</span>
-        </div>
-        <span class="button button--placeholder">Laden...</span>
+      <div class="events-container" aria-hidden="true">
+        <AgendaCalendarSkeleton :rows="effectivePageSize" />
       </div>
       <div class="button-container" aria-hidden="true">
         <span class="button button--placeholder-2">Importeer agenda in je kalender</span>
@@ -315,33 +295,6 @@ function endYear(event: AgendaEvent): string | null {
   visibility: visible;
 }
 
-.events-container--fallback {
-  .event--placeholder {
-    min-height: 99.2px;
-
-    .date {
-      min-height: 75.5px;
-    }
-
-    .details {
-      justify-content: center;
-
-      .placeholder-line {
-        margin: 0;
-        height: 0.9rem;
-        background-color: color-mix(in srgb, var(--text-color) 18%, transparent);
-        border-radius: 6px;
-        width: 85%;
-
-        &.short {
-          width: 55%;
-          margin-top: 0.4rem;
-        }
-      }
-    }
-  }
-}
-
 .button-container {
   display: grid;
   place-items: center;
@@ -367,18 +320,13 @@ function endYear(event: AgendaEvent): string | null {
   }
 }
 
-.button--placeholder {
-  opacity: 0.8;
-  pointer-events: none;
-  background-color: color-mix(in srgb, var(--indi-green-1) 35%, transparent);
-  border-radius: 0.5rem;
-}
-
 .button--placeholder-2 {
   display: block;
   width: 100%;
   max-width: 100%;
-  min-height: 3.25rem;
+  /* Reserves the real AgendaCalendarButton's rendered height (61px), so the swap at
+     hydration does not move the widget. */
+  min-height: 61px;
   padding: 0.9rem 1.25rem;
   border-radius: 0.5rem;
   color: color-mix(in srgb, var(--text-color) 70%, transparent);
