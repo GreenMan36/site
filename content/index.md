@@ -53,3 +53,6 @@ Wij zijn dé **studie**vereniging voor HBO-ICT van Hogeschool Utrecht
     ::::
   :::
 ::
+
+::home-partners
+::
