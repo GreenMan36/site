@@ -8,7 +8,7 @@ defineProps<{
 
 <template>
   <section class="text-block">
-    <h2>{{ title }}</h2>
+    <h2 class="heading-accent">{{ title }}</h2>
     <slot />
     <NuxtLink :to="ctaUrl" class="inline-link">{{ ctaLabel }}</NuxtLink>
   </section>
@@ -19,20 +19,8 @@ defineProps<{
   padding: 24px 0 12px;
 
   & h2 {
-    position: relative;
     margin: 0 0 0.7rem;
     padding-bottom: 0.4rem;
-
-    &::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 3.25rem;
-      height: 3px;
-      border-radius: 2px;
-      background: var(--indi-blue-1);
-    }
   }
 }
 

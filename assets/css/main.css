@@ -8,7 +8,7 @@
 }
 
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: var(--text-font);
   color: var(--text-color);
   overflow-x: hidden;
 }
@@ -140,16 +140,28 @@ img,
   padding: 10px;
 }
 
+/* Section-heading accent: homepage text blocks, over-indicium headings and the
+   board member names all render the same 3×52px bar. Apply the class to the
+   heading itself. */
+.heading-accent {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 3.25rem;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--indi-blue-1);
+  }
+}
+
 .hover-scale {
   transition: transform 0.2s;
 
   &:hover {
     transform: scale(1.05);
-  }
-}
-
-@media screen and (max-width: 768px) {
-  body {
-    padding-top: 0;
   }
 }

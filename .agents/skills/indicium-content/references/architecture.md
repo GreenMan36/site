@@ -17,7 +17,7 @@
    - Reduce per-page scoped CSS overrides. When a page needs a style, first try a **generic reusable component** or a **shared utility class** used across the app.
    - Reuse the design tokens in `assets/css/variables.css` (`--indi-*`, color-mode aware) rather than hardcoding colors/sizes.
    - Reduce **cascading specificity issues**: avoid deep nested selectors, rely on BEM-ish/utility classes, keep component CSS scoped and flat.
-   - **Space-adaptive components**: prefer native **container queries** (`container-type: inline-size` + `@container (min-width: var(--cq-md))`) over viewport `@media` for anything reused across layouts. The `--cq-*` breakpoint tokens are defined in `assets/css/variables.css` (see the `prefer-container-queries` skill). Keep `@media` for page-level layout only.
+   - **Space-adaptive components**: prefer native **container queries** (`container-type: inline-size` + `@container (min-width: 28rem)`) over viewport `@media` for anything reused across layouts. Conditions cannot take `var()` — browsers reject `@container (min-width: var(--x))` — so write the length literally in the component (the `--cq-*` tokens were removed for this reason, TD-055; see the `prefer-container-queries` skill). Keep `@media` for page-level layout only.
    - Goal: professional, consistent look; fewer bugs; easier to maintain; less and less bespoke page CSS over time.
 
 ## Conventions to follow when editing

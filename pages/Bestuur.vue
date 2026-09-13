@@ -35,7 +35,7 @@ const { data: currentBoard } = await useAsyncData('currentBoard', () =>
           decoding="async"
         />
         <div class="member-info">
-          <h3>{{ member.name }}</h3>
+          <h3 class="heading-accent">{{ member.name }}</h3>
           <h4>{{ member.function }}</h4>
           <address>
             <a :href="`mailto:${member.email}`">{{ member.email }}</a>
@@ -88,22 +88,9 @@ h1 {
   padding: 1rem 1.25rem 1.25rem;
 
   & h3 {
-    position: relative;
     margin: 0 0 0.3rem;
     padding-bottom: 0.4rem;
     font-size: 1.35rem;
-
-    /* small accent underline, like the homepage headings */
-    &::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 3.25rem;
-      height: 3px;
-      border-radius: 2px;
-      background: var(--indi-blue-1);
-    }
   }
 
   & h4 {

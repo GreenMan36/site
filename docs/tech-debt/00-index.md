@@ -43,7 +43,7 @@ Review: 7 read-only partition scans (components, content-components+CSS, pages+l
 | TD-052 | Archived board photo/email fields authored but never rendered; 2024-2025 photos missing | LOW | S | S | content/pages | `content/boards/*.md`, `pages/Bestuur.vue`, `pages/besturen.vue` |
 | TD-053 | Intro.vue hardcoded seasonal page (2026 dates, 2023 asset) bypasses content | LOW | S | M | pages | `pages/Intro.vue` |
 | TD-054 | Activiteiten.vue orphan route (no inbound links) — DONE 2026-09-13 (page deleted) | LOW | S | S | pages | `pages/Activiteiten.vue` |
-| TD-055 | CSS hygiene batch: dead tokens, invalid @container example, font contradiction, accent-bar ×3 | LOW | S | S | css | `assets/css/variables.css`, `assets/css/main.css`, `assets/css/typography.css`, `components/content/HomeTextBlock.vue` |
+| TD-055 | CSS hygiene batch: dead tokens, invalid @container example, font contradiction, accent-bar ×3 — DONE 2026-09-13 (15 tokens + dead query gone, one accent source) | LOW | S | S | css | `assets/css/variables.css`, `assets/css/main.css`, `assets/css/typography.css`, `components/content/HomeTextBlock.vue` |
 | TD-056 | optimizeDeps warning: @nuxtjs/mdc module entries unresolvable (late rewrite workaround) | LOW | S | S | config | `nuxt.config.ts` |
 | TD-057 | Studio pinned to an unreleased `main` preview build (no support, comark pipeline swap) | MED | M | S | config | `package.json` |
 | TD-058 | Unreferenced heavyweight images in `public/` (>10MB incl. `intro2023.jpg`); external-pin risk | LOW | M | S | assets | `public/assets/images/**`, `public/*.jpg` |

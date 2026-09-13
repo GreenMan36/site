@@ -28,11 +28,7 @@ h1 {
 }
 
 h2 {
-  font-family: 'Indicium-font', serif;
   font-size: 40px;
-  font-weight: 500;
-  line-height: 140%;
-  color: var(--text-color);
   margin-block-end: 0.2em;
 }
 
