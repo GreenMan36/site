@@ -17,12 +17,7 @@ const stats = [
   <ContentContainer>
     <h1>Over Indicium</h1>
     <div class="carousel">
-      <ClientOnly>
-        <LazyImageCarousel :images="carouselImages" alt="Over Indicium slider" :slides-per-view="1.5" align="center" height="32em" max-height="32em" fit="cover" hydrate-on-visible />
-        <template #fallback>
-          <img alt="Over Indicium slider" :src="carouselImages[0]" class="carousel-fallback" loading="eager" fetchpriority="high" decoding="async" width="1600" height="900" />
-        </template>
-      </ClientOnly>
+      <ImageCarousel :images="carouselImages" alt="Over Indicium slider" :slides-per-view="1.5" align="center" height="32em" max-height="32em" fit="cover" />
     </div>
     <div class="text-container">
       <h2 class="heading-accent">Wie zijn wij?</h2>
@@ -49,7 +44,6 @@ const stats = [
 
 <style scoped>
 .carousel { margin:1.5rem auto 0; width:100%; max-width:1080px; height:30em; max-height:30em; border-radius:10px; overflow:hidden; background:var(--secondary-background-color); border:1px solid rgba(var(--indi-blue-1-raw),0.3) }
-.carousel-fallback { width:100%; height:100%; object-fit:cover; display:block }
 .text-container { max-width:860px; margin:2.25rem auto 0 }
 .text-container h2 { margin:0 0 0.7rem; padding-bottom:0.4rem }
 .text-container p { margin:0; line-height:1.78; color:var(--text-color) }
