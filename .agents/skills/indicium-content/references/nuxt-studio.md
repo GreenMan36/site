@@ -37,7 +37,7 @@ studio: {
 Schemas in `content.config.ts` drive Studio's generated forms. Primitive zod → inputs (string→text, boolean→toggle, enum→select, array of strings→badges, date→picker).
 
 ### `.editor()` metadata — zod version matters
-`@nuxt/content` 3.15.2 patches **zod v3's** `ZodType.prototype.editor`; the project uses **zod v4.4.3**, so:
+`@nuxt/content` 3.15.2 patches **zod v3's** `ZodType.prototype.editor`; the project uses **zod v4.5.4**, so:
 - **WRONG with zod v4:** `z.string().editor({...})` → `TypeError: z.string(...).editor is not a function`.
 - **CORRECT with zod v4:** wrap in `property()` from `@nuxt/content`:
 ```ts
@@ -46,6 +46,58 @@ import { z } from 'zod';
 description: property(z.string()).editor({ input: 'textarea', label: 'Description' }),
 ```
 `property(...).editor(...)` works for zod v3, zod v4 (`zod/v4`), and valibot. Options: `input: 'media' | 'icon' | 'textarea'`, `label`, `description`, `tooltip`, `iconLibraries`.
+
+**Chain `.editor()` onto the finished schema.** `property()` proxies zod methods and returns the
+*raw* result, so `property(z.string().optional()).editor({…})` works and
+`property(z.string()).optional().editor({…})` silently does nothing.
+
+### What the form actually renders (read from the pinned build, not docs)
+The widget is chosen as `editor.input ?? inferred type`; the value vocabulary is
+`string | textarea | icon | media | date | datetime | number | boolean | array | object`.
+
+| Behaviour | Detail |
+|---|---|
+| `tooltip` | ⚠️ **replaces** the label (`label: formItem.tooltip ? undefined : label`) — use `label` + `description`, not both tooltip and label |
+| auto-detection | field id/key/title containing `icon` → Iconify picker; `photo|logo|src|cover|thumbnail|avatar|banner` → media picker. Set `input` explicitly to be independent of it |
+| `enum` | renders a dropdown; an *optional* enum is hard to clear back to empty — prefer a string field with a documented vocabulary when "unset" matters |
+| arrays | add / delete / **move up-down** in the UI; each row is labelled `1: <value>` from the item's `title`, `label` or `name` (else its first string) — name that field accordingly |
+| `editor.hidden` | drops the field from the form entirely |
+| colour | **no colour widget exists** in this build (no `InputColor`, no colour i18n strings) — text field or enum dropdown is the ceiling |
+
+### Verify the schema the editor receives
+```bash
+curl localhost:3000/__nuxt_studio/meta          # component list + groups
+grep -A6 '"iconColor"' .nuxt/content/preview.mjs  # per-field $content.editor metadata
+```
+
+## Linking a URL to a collection (`data-content-id`)
+Studio resolves the document to edit by scanning the DOM for **`[data-content-id]`** (host
+`detectActives()` + a dblclick handler that walks up to the nearest marker), then maps that id
+to a file with `generateFsPathFromId`.
+
+- `@nuxt/content`'s `ContentRenderer` emits it — **dev/preview only** (`debug ? value.id : undefined`)
+  — and for a **body-less document (a data collection)** it passes the marker as a *slot prop*,
+  so a page that queries the collection itself gets nothing. Symptom: "Edit this page" has no
+  document (this was `/links`).
+- Fix: tag the element that represents that document with the queried doc's own id:
+```vue
+const contentId = import.meta.dev ? linksData.value?.id : undefined;
+```
+```html
+<div id="links" :data-content-id="contentId">…</div>
+```
+- Ids on this site: `home/index.md`, `links/links.yml`, `boards/boards/2025-2026.md`
+  (collection name + source path). One marker per document.
+- Explicit affordance instead: `useNuxtApp().callHook('studio:document:edit', fsPath)`.
+- If Studio is ever enabled outside dev, widen the gate to `import.meta.dev || import.meta.preview`.
+
+## Locking what editors can insert
+`studio.editor.iconLibraries` must list the **installed** `@iconify-json/*` collections
+(`['mdi', 'ic']`). Unset ⇒ the picker searches the whole Iconify catalogue (~150 collections)
+and a picked icon from an uninstalled collection renders **empty** with only a server warning
+(`[Icon] failed to load icon …`). Icons are configured in `nuxt.config.ts` as
+`mode: 'svg'`, `provider: 'server'`, `fallbackToApi: false`,
+`clientBundle.scan: true` (scan reads `content/**/*.yml|md`, so no manual icon list is needed).
 
 ## Verify without auth
 `requireStudioAuth` returns early in dev. Start `nuxt dev`, then:

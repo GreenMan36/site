@@ -16,7 +16,12 @@ Repo `svIndicium/site`. **Content lives in Markdown/YAML under `content/`**, edi
 - **Styling:** reuse generic components / shared classes over per-page scoped CSS; avoid cascading overrides (see `references/architecture.md`).
 
 ## Tech stack
-Nuxt 4.5 (SSG `pnpm generate`), `@nuxt/content` 3.15.2, zod 4.4.3, `nuxt-studio` 1.7, Vue 3. Hosting: Firebase → migrating to Cloudflare Pages (see `references/architecture.md`).
+Nuxt 4.5 (SSG `pnpm generate`), `@nuxt/content` 3.15.2, zod 4.5.4, `nuxt-studio` **pinned to a `main`-branch preview build** (`https://pkg.pr.new/nuxt-studio@6a91693`; the released 1.7.0 lacks nested drag handles — PR #490), Vue 3. Hosting: Firebase → migrating to Cloudflare Pages (see `references/architecture.md`).
+
+> Generic, project-independent version of this knowledge lives in the managed skill
+> **`nuxt-content-studio-authoring`** (MDC props/slots patterns, Studio form metadata,
+> `data-content-id`, content-driven icons, per-theme tokens). This skill stays the
+> Indicium-specific companion (paths, collections, deployment).
 
 ## Project state & getting started (read this if picking up the project)
 - **All collections have schemas** in `content.config.ts` (they validate and drive Studio's Form Editor). `home.description` uses `property().editor({ input: 'textarea' })` — with zod v4, `.editor()` must be wrapped in `property()` (see `references/nuxt-studio.md`).

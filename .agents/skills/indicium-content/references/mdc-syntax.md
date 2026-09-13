@@ -21,7 +21,58 @@ MDC (Markdown Components) extends standard Markdown with Vue component support. 
 6. **Named slot directives (`#slotname`) must align with the parent `::` fence column.** A mis-indented `#slot` line reverts the parser and leaks as literal text. Body *under* a slot may be indented freely; only the `#slot` line is constrained.
 7. **Every block component needs a matching closing fence on its own line.** A missing `::` silently consumes the rest of the file (later headings/components appear nested). Symptom: "where did the rest of my page go?" → grep for unbalanced fences. Self-closing components don't exist; `::divider` still needs a `::`.
 
-## Block components
+## Authoring components for content (props vs slots)
+Content lives in **named slots**; configuration lives in **props** — the pattern Docus uses for
+its hero (`::u-page-hero` with `#title` / `#description` / `#links`, each CTA a nested
+`:::u-button`). `::hero-section` follows it:
+
+```markdown
+::hero-section
+#title
+Wij zijn dé **studie**vereniging voor HBO-ICT van Hogeschool Utrecht
+
+#buttons
+  :::hero-button{to="/intro"}
+  Introductiekamp
+  :::
+
+  :::hero-button{to="/lid-worden" color="green"}
+  Word lid
+  :::
+::
+```
+
+Why: the title is real Markdown (`**bold**` → `<strong>`), each CTA is its own node (per-item
+props, reorderable in the visual editor, `hidden` parks a seasonal button in the file), and
+adding a button is adding a line.
+
+### Props
+- Typed props + `withDefaults` + a JSDoc line above each prop = the editor's fields with
+  descriptions and current values. Defaults must render **observably identical** output to the
+  markup they replaced (compare text/classes/hrefs, not raw HTML).
+- **MDC passes attribute values as strings**: bare `{animated}` → `true`, but
+  `{flow-duration-seconds="30"}` → `"30"`, which fails a `number` prop and is rejected by
+  `Number.isFinite` guards. Declare `number | string` or coerce (`Number(v) || 30`).
+- Objects/arrays come from the YAML block; **inline props and a YAML block do combine** in one
+  block (verified with `::hero-section{hero-animated …}` + a `buttons:` YAML block), so the
+  older "don't mix" note was too strict.
+
+### Slots (`MDCSlot`)
+- MDC's compiler **rewrites `<MDCSlot>` into a slot outlet**, so pass the slot `name` as well as
+  `use` — otherwise it renders the (nonexistent) default slot and you get an **empty element
+  with no error**:
+  ```html
+  <MDCSlot name="title" :use="$slots.title" unwrap="p" />
+  ```
+- `unwrap="p"` drops Markdown's paragraph wrapper so inline text lands inside the component's own
+  heading; without it you get `<h1><p>…</p></h1>`.
+- Styling slotted content from the component needs a **flat** `:deep()` rule; nested inside
+  another selector block it can compile to something that never matches:
+  ```css
+  .hero-content :deep(h1 strong) { font-weight: 900; }
+  ```
+
+
 ```markdown
 ::alert{type="warning"}
 This is a warning message with **Markdown** support.
@@ -88,6 +139,10 @@ Gotchas:
 - JSON expression: `::dropdown{:items='["a","b"]'}`.
 - Boolean: `::modal{closable}` (true) / `::modal{:closable="false"}`.
 - Dynamic (bind to frontmatter): `::card{:title="$doc.cardTitle"}`.
+- **Quote values starting with `#`.** `color: #5865F2` is a YAML *comment*: the value becomes
+  empty, the collection fails schema validation and the page 500s instead of erroring helpfully.
+  Write `color: '#5865F2'`. (Studio's own form writer quotes correctly; this only bites when
+  hand-editing.)
 
 ## Variable binding
 ```markdown
@@ -102,7 +157,11 @@ Create overrides in `components/content/` (e.g. `ProseP.vue`). Full set: `ProseP
 ## Gotchas / edge cases
 - **Lists nested in MDC blocks add a visual depth level** — a plain `1. 2.` list inside a step body counts one deeper than its parent (relevant only where list styling is depth-scoped, e.g. `.prose-ol-nested`).
 - **Duplicate component registration** breaks only in `pnpm build`, not `pnpm dev` (prerender bakes a frozen map and emits the literal tag). Prefer unique component names; verify in production builds (`curl localhost:3000/<page> | grep -c '<Prose'`).
-- **Slot text is auto-wrapped in `<p>`.** Use `<ContentSlot :use="$slots.default" unwrap="p" />` to get raw text; plain `<slot />` keeps the `<p>`.
+- **Slot text is auto-wrapped in `<p>`.** Unwrap it when rendering raw text inside your own
+  element: `<MDCSlot name="default" :use="$slots.default" unwrap="p" />` (see "Authoring
+  components for content" above — MDC's compiler rewrites `MDCSlot` to a slot outlet, so the
+  `name` is required; `<ContentSlot>` is the old Nuxt Content 2 name and is not what this
+  project uses).
 
 ## Excerpts
 `<!--more-->` defines the excerpt boundary for listings.
