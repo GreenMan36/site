@@ -1,5 +1,8 @@
 <template>
   <div>
+    <!-- Pages await their collection queries, so a client-side navigation has data to
+         resolve; this is the visible progress state while it does. -->
+    <NuxtLoadingIndicator />
     <NavDesktop />
     <LazyNavMobile hydrate-on-media-query="(max-width: 944px)" />
     <div class="page-content">
