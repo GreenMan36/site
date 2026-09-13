@@ -1,5 +1,12 @@
 # Nav visual baseline — 2026-09-08 (pre rework, homepage `/`)
 
+> **Status 2026-09-13:** the E3 rewrite was reverted for mobile (regressions), so the mobile
+> description below is current again — `NavMobile` renders its own slide-in panels, `MenuItem` is
+> desktop-only, and the hydrate/visibility breakpoint is 944px (`layouts/default.vue`). Two
+> desktop details changed since: the dropdown arrows are no longer `v-html` spans but CSS
+> `::after` glyphs on `.menu-item`, and legend/ARIA state is as noted in the a11y section.
+> Duplication is intentional for now (TD-010).
+
 Tooling note: browser screenshots surface inline only, they can't be written
 to disk from the harness — so this file records observations instead of PNGs.
 
@@ -28,3 +35,9 @@ to disk from the harness — so this file records observations instead of PNGs.
 - Hamburger is a `<div>` — no button role, no label, no `aria-expanded`.
 - Submenu toggles (`▸`) are buttons with `title` only ("Goto submenu").
 - Desktop submenus hover-only (TD-041); mobile requires JS state machine.
+
+**Re-checked 2026-09-13:** the first two are still true (the revert brought the pre-E3
+`NavMobile` markup back — `NavMobile.vue:79-118`), and neither nav announces expanded state:
+`MenuItem`/`NavDesktop` open dropdowns via `:focus-within` but carry no
+`aria-expanded`/`aria-haspopup`. So TD-041 is only half delivered (keyboard reachability); the
+announcement and mobile-label halves are reopened.

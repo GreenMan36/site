@@ -1,7 +1,7 @@
 # Collection: `partners`
 
 - **Source:** `content/partners/**/*.md` — one `index.md` per partner + optional job-offer files (e.g. `chipsoft/net-developer-zorg-ict.md`) · **Type:** `page` · **Schema:** yes
-- **Used by:** `pages/partners/index.vue`, `pages/partners/[partner].vue`, `composables/usePartners.ts`, `components/HomePartners.vue`, `pages/Vacatures.vue`.
+- **Used by:** `pages/partners/index.vue`, `pages/partners/[partner].vue`, `composables/usePartners.ts`. (`HomePartners.vue` and `pages/Vacatures.vue` were deleted — TD-037/TD-001.)
 - **Query:** `queryCollection('partners').where('tier', '=', 'main'|'premium'|'regular')...` and `.where('partnerSlug', '=', slug)` for job offers.
 
 ## Schema fields

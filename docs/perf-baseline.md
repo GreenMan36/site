@@ -1,5 +1,13 @@
 # Perf baseline — 2026-09-08 (pre nav rework)
 
+> **Status 2026-09-13 — historical snapshot.** Numbers below are from that date; the site now
+> prerenders **79 routes** (2026-09-13, after deleting `/activiteiten` and the playground-era
+> dead files — the playground itself is intentionally kept). Corrections to the notes:
+> the dead `/partners/dressme` link was fixed (TD-026, 2026-09-13); the case-duplicate routes
+> (`/contact` + `/Contact`, …) are deliberate filenames, not a defect (see the tech-debt index's
+> "what NOT to fix"); the unreferenced-image audit is now tracked as TD-058 and needs an owner
+> check because `public/` paths are hotlinked from mailchimp emails.
+
 Method: `pnpm generate` → serve `.output/public` via plain http (no gzip;
 localhost, so treat absolute ms as relative) → Lighthouse 13 (headless Chrome
 152) desktop preset + default mobile simulation, homepage `/`.
@@ -19,7 +27,7 @@ localhost, so treat absolute ms as relative) → Lighthouse 13 (headless Chrome
 
 Also spotted: prerender emits case-duplicate routes (`/contact` + `/Contact`,
 `/Bestuur` + `/besturen`, …) and dead `/partners/dressme` — duplicate content,
-fix with TD-026.
+fix with TD-026. *(2026-09-13: dressme fixed; the case-duplicates are intentional.)*
 ## WebP verdict (2026-09-08)
 
 WebP twins exist and ARE used where it matters (homepage carousel loads

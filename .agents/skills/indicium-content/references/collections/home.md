@@ -12,7 +12,7 @@
 
 ## Body (MDC structure)
 The homepage body composes these globally-registered MDC components:
-`::hero-section`, `::home-grid` → `::home-main` (with `::home-image-carousel` + `::home-text-block`×3) and `::home-aside` (with `::activity-calendar`, `::social-sidebar`), `::home-partners`.
+`::hero-section`, `::home-grid` → `::home-main` (with `::home-image-carousel` + `::home-text-block`×3) and `::home-aside` (with `::activity-calendar`, `::social-sidebar`). (`::home-partners` was never in the file; `HomePartners.vue` is deleted.)
 
 ## Notes
 - The carousel uses a **YAML props block** for its `images:` array (valid MDC; parses to a `:images` JS expression). See `references/mdc-syntax.md`.

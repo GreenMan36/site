@@ -27,8 +27,8 @@ Nuxt 4.5 (SSG `pnpm generate`), `@nuxt/content` 3.15.2, zod 4.5.4, `nuxt-studio`
 - **All collections have schemas** in `content.config.ts` (they validate and drive Studio's Form Editor). `home.description` uses `property().editor({ input: 'textarea' })` — with zod v4, `.editor()` must be wrapped in `property()` (see `references/nuxt-studio.md`).
 - **Data collections expose fields at top level** (`.meta` gotcha) — consumers (`AppFooter`, `NavDesktop`, `NavMobile`, `Links.vue`) already read `.items`/`.links` etc. directly.
 - **`@nuxt/content` is 3.15.2** (upgraded from 3.11.2). Studio features that need `property().editor()` only work on this/newer.
-- **Studio editor configured**: 9 homepage MDC components globally registered; `Prose*` excluded; grouped under "Home"; `studio.repository` pinned so local `generate` works.
-- To get oriented: read `content.config.ts` and the relevant `references/collections/<name>.md`; run `pnpm generate` and expect **83 prerendered routes**.
+- **Studio editor configured**: 9 MDC components globally registered (`HeroSection`, `HeroButton`, `Home*`, `ActivityCalendar`, `SocialSidebar`); `Prose*` excluded; grouped under "Home"; `studio.editor.iconLibraries` locked to the installed `@iconify-json` collections; `studio.repository` pinned so local `generate` works.
+- To get oriented: read `content.config.ts` and the relevant `references/collections/<name>.md`; run `pnpm generate` and expect **79 prerendered routes**.
 - Open work and known issues live in `references/architecture.md` → "Open work & known issues".
 
 ## Sub-skills — read on demand (each is self-contained; do not load all up front)
@@ -49,12 +49,12 @@ Nuxt 4.5 (SSG `pnpm generate`), `@nuxt/content` 3.15.2, zod 4.5.4, `nuxt-studio`
 | `links` | `links.yml` | data | `pages/Links.vue` |
 | `about` | `over-indicium.md` | page | **unused** (source file absent; page is hardcoded) |
 | `boards` | `boards/*.md` | page | `pages/Bestuur.vue`, `pages/besturen.vue` |
-| `partners` | `partners/**/*.md` | page | `pages/partners/*`, `usePartners`, `HomePartners` |
+| `partners` | `partners/**/*.md` | page | `pages/partners/*`, `usePartners` |
 | `commissies` | `commissies/*.md` | page | `pages/Commissies.vue` |
 | `vcp` | `vcp/*.md` | page | `pages/Vcp.vue` |
 | `dispuut` | `dispuut/*.md` | page | `pages/Dispuut.vue` |
 
 ## Verification recipes
-- Full build: `node .pnpm/…/nuxt.mjs generate` (or `pnpm generate` with repo env) → expect 83 prerendered routes.
+- Full build: `node .pnpm/…/nuxt.mjs generate` (or `pnpm generate` with repo env) → expect 79 prerendered routes (2026-09-13; the playground is intentionally among them).
 - Studio component list (no auth in dev): start `nuxt dev`, curl `/__nuxt_studio/meta` → `components.list` = exactly the 9 homepage components.
 - Confirm data renders: grep built `.output/public/index.html` for nav/footer strings after any schema/consumer change.

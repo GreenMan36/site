@@ -1,12 +1,12 @@
 # Tech-debt index — Indicium site (Nuxt 3/4 + Vue + pnpm, SSG)
 
-Review: 7 read-only partition scans (components, content-components+CSS, pages+layouts, logic layer, content+Studio, config/CI, dead-code sweep), 1 synthesis pass. 40 items. Every claim carries `path:line` + a drift-proof description. Lines will drift; anchors (identifiers, comments, prop names) are named so each item stays findable.
+Review: 7 read-only partition scans (components, content-components+CSS, pages+layouts, logic layer, content+Studio, config/CI, dead-code sweep), 1 synthesis pass. 43 items (11 done, 3 kept by owner, 29 open). Every claim carries `path:line` + a drift-proof description. Lines will drift; anchors (identifiers, comments, prop names) are named so each item stays findable.
 
 | ID | Title | Severity | Impact | Effort | Area | File(s) |
 |----|-------|----------|--------|--------|------|---------|
 | TD-001 | Vacatures page dead (empty-by-construction + orphaned; offers live on partner pages) — DONE 2026-09-06 (deleted) | LOW | S | S | pages/content | `pages/Vacatures.vue` (deleted) |
 | TD-002 | Firebase/GA analytics runs consent-free, zero consumers — DONE 2026-09-06 (plugin + SDK removed) | HIGH | M | S-M | plugins/privacy | `plugins/firebase.client.ts` (deleted), `nuxt.config.ts`, `package.json` |
-| TD-010 | Nav implemented twice + 4-file breakpoint stack — DONE 2026-09-08 (E3, one engine) | MED | M | M | components | `components/NavMobile.vue`, `components/MenuItem.vue`, `components/NavDesktop.vue`, `layouts/default.vue` |
+| TD-010 | Nav implemented twice + 4-file breakpoint stack — REVERTED 2026-09-13 (E3 caused mobile regressions; duplication is intentional again) | MED | M | M | components | `components/NavMobile.vue`, `components/MenuItem.vue`, `components/NavDesktop.vue`, `layouts/default.vue` |
 | TD-011 | INDICIUM wordmark markup ×3 | LOW | S | M | components | `components/NavLogo.vue`, `components/LogoElement.vue`, `pages/Links.vue` |
 | TD-012 | Partner hero block + job-offer query copy-pasted across partner pages | LOW | S | M | pages | `pages/partners/index.vue`, `pages/partners/[partner].vue`, `composables/usePartners.ts` |
 | TD-013 | "Current board" derived two different ways on two pages | LOW | S | S | pages | `pages/Bestuur.vue`, `pages/besturen.vue` |
@@ -16,23 +16,23 @@ Review: 7 read-only partition scans (components, content-components+CSS, pages+l
 | TD-017 | Boards/commissies frontmatter redundancy + dead fields + title drift | MED | M | S-M | content | `content/boards/*.md`, `content/commissies/*.md`, `content.config.ts` |
 | TD-018 | Partner `description` duplicated verbatim as body lead (8 files) | MED | M | S | content | `content/partners/**/*.md` |
 | TD-019 | Dark palette copy-pasted twice in variables.css, already drifted | MED | M | M | css | `assets/css/variables.css` |
-| TD-020 | Partner marquee implemented twice (dead PartnerCarousel + HomePartners inline) | MED | M | S | components | `components/PartnerCarousel.vue`, `components/content/HomePartners.vue` |
+| TD-020 | Partner marquee implemented twice (dead PartnerCarousel + HomePartners inline) — DONE 2026-09-13 (both deleted) | MED | M | S | components | `components/PartnerCarousel.vue`, `components/content/HomePartners.vue` |
 | TD-021 | Carousel SSR-fallback wrapper duplicated (HomeImageCarousel vs over-indicium) | MED | M | S | components/pages | `components/content/HomeImageCarousel.vue`, `pages/over-indicium.vue` |
 | TD-024 | PDF-redirect middleware duplicates page paths, serves stale legal docs on iOS | MED | M | S | logic/pages | `middleware/pdf-redirect.global.ts`, `pages/Statuten.vue`, `pages/HR.vue` |
-| TD-026 | Partners nav submenu hand-maintained, links to deleted DressMe | MED | M | S-M | content | `content/navigation.yml`, `content/partners/*`, `pages/partners/[partner].vue` |
+| TD-026 | Partners nav submenu hand-maintained, links to deleted DressMe — PARTIAL 2026-09-13 (nav aligned; derivation/check open) | MED | M | S-M | content | `content/navigation.yml`, `content/partners/*`, `pages/partners/[partner].vue` |
 | TD-027 | Global CSS duplicated/conflicting between app.vue and default.vue | MED | S | S | css/layouts | `app.vue`, `layouts/default.vue` |
-| TD-030 | playground.vue ships dev sandbox to prod | LOW | S | S | pages | `pages/playground.vue` |
+| TD-030 | playground.vue ships dev sandbox to prod — KEPT per owner 2026-09-13 (used for debugging) | LOW | S | S | pages | `pages/playground.vue` |
 | TD-031 | Three overlapping error surfaces, none reads Nuxt error prop — DONE 2026-09-06 | MED | M | M | pages | `error.vue` (rewritten), `pages/error.vue` (deleted), `pages/[...slug].vue` |
 | TD-032 | LoadingState.vue orphaned (zero consumers) — DONE 2026-09-06 (deleted) | LOW | S | S | components | `components/LoadingState.vue` (deleted) |
-| TD-033 | useTheme wrapper adds dead sugar over useColorMode | LOW | S | S | logic | `composables/useAppState.ts`, `components/AppFooter.vue` |
+| TD-033 | useTheme wrapper adds dead sugar over useColorMode — DONE 2026-09-13 (wrapper deleted) | LOW | S | S | logic | `composables/useAppState.ts`, `components/AppFooter.vue` |
 | TD-034 | Dead config trio: `about` collection, links.d.ts, src/ dirs — DONE 2026-09-06 (deleted) | LOW | S | S | config/content | `content.config.ts`, `content/links.d.ts` (deleted), `src/` dirs (deleted) |
 | TD-035 | @vueuse/nuxt unused (zero app-code hits) — KEPT per owner (planned future use) | LOW | S | S | config | `package.json`, `nuxt.config.ts`, `taze.config.js` |
-| TD-036 | ~500KB unreferenced logo binaries (assets/logo vs public) | LOW | S | S | assets | `assets/logo/`, `public/logo/`, `public/logo.png` |
-| TD-037 | HomePartners: zero consumers, tier rendering triplicated | LOW | S | S | components | `components/content/HomePartners.vue`, `nuxt.config.ts` |
+| TD-036 | ~500KB unreferenced logo binaries (assets/logo vs public) — DONE 2026-09-13 (452KB→12KB) | LOW | S | S | assets | `assets/logo/`, `public/logo/`, `public/logo.png` |
+| TD-037 | HomePartners: zero consumers, tier rendering triplicated — DONE 2026-09-13 (deleted + deregistered) | LOW | S | S | components | `components/content/HomePartners.vue`, `nuxt.config.ts` |
 | TD-038 | pnpm-10 `onlyBuiltDependencies` dead under pinned pnpm 11 — DONE 2026-09-06 (deleted) | LOW | S | S | config | `pnpm-workspace.yaml` |
 | TD-039 | Stray `# test` heading live on chipsoft partner page — DONE 2026-09-06 (deleted) | LOW | S | S | content | `content/partners/chipsoft/index.md` |
 | TD-040 | router.client title hack races useSeoMeta | MED | M | S-M | plugins | `plugins/router.client.ts`, `nuxt.config.ts` |
-| TD-041 | Desktop submenus hover-only, keyboard/AT-unreachable — DONE 2026-09-08 (`:focus-within`) | MED | M | S-M | components | `components/MenuItem.vue` |
+| TD-041 | Desktop submenus hover-only, keyboard/AT-unreachable — PARTIAL 2026-09-13 (keyboard OK; expanded state not announced; mobile labels lost in the revert) | MED | M | S-M | components | `components/MenuItem.vue` |
 | TD-042 | No page reads useAsyncData error/pending; silent blank pages | MED | M | S-M | pages | `pages/*.vue` (15 collection pages) |
 | TD-043 | Conscribo vendor patches silent on drift, untestable monolith | MED | M | S-M | logic | `utils/conscriboForm.ts`, `components/ConscriboForm.client.vue` |
 | TD-044 | Component dark tweaks ignore no-JS radio path (wrong logo variant) | MED | M | S | components/css | `components/PartnerLogo.vue`, `components/content/HomeTextBlock.vue`, `assets/css/variables.css` |
@@ -42,17 +42,23 @@ Review: 7 read-only partition scans (components, content-components+CSS, pages+l
 | TD-051 | JobOffers accordion via parentElement.classList, no aria | LOW | S | S | components | `components/JobOffers.vue` |
 | TD-052 | Archived board photo/email fields authored but never rendered; 2024-2025 photos missing | LOW | S | S | content/pages | `content/boards/*.md`, `pages/Bestuur.vue`, `pages/besturen.vue` |
 | TD-053 | Intro.vue hardcoded seasonal page (2026 dates, 2023 asset) bypasses content | LOW | S | M | pages | `pages/Intro.vue` |
-| TD-054 | Activiteiten.vue orphan route (no inbound links) | LOW | S | S | pages | `pages/Activiteiten.vue` |
+| TD-054 | Activiteiten.vue orphan route (no inbound links) — DONE 2026-09-13 (page deleted) | LOW | S | S | pages | `pages/Activiteiten.vue` |
 | TD-055 | CSS hygiene batch: dead tokens, invalid @container example, font contradiction, accent-bar ×3 | LOW | S | S | css | `assets/css/variables.css`, `assets/css/main.css`, `assets/css/typography.css`, `components/content/HomeTextBlock.vue` |
 | TD-056 | optimizeDeps warning: @nuxtjs/mdc module entries unresolvable (late rewrite workaround) | LOW | S | S | config | `nuxt.config.ts` |
+| TD-057 | Studio pinned to an unreleased `main` preview build (no support, comark pipeline swap) | MED | M | S | config | `package.json` |
+| TD-058 | Unreferenced heavyweight images in `public/` (>10MB incl. `intro2023.jpg`); external-pin risk | LOW | M | S | assets | `public/assets/images/**`, `public/*.jpg` |
 
-## Top 5 next actions
+## Top 5 next actions (2026-09-13)
 
-1. **Decide TD-002 (analytics/consent)** — legal exposure on every page load; gate behind consent or delete. Owner decision first (is the GA dashboard used?).
-2. **Fix TD-001 (Vacatures)** — broken prod page hiding 5 live vacancies; rewire to `partnerSlug` query + JobOffers.
-3. **Deletion batch (one PR)** — TD-030 playground, TD-031 pages/error.vue, TD-032 LoadingState, TD-034 dead config, TD-035 @vueuse, TD-039 `# test`. ~450 LOC + ~500KB gone, near-zero risk.
-4. **Agenda correctness (TD-014 + TD-015)** — one import path; single location source of truth (wrong-city Maps links live today).
-5. **Quality gates (TD-045 + TD-046)** — run existing tests + eslint in CI, honor the pnpm pin; stops all future drift at the door.
+| # | Work | Why now |
+|---|------|---------|
+| 1 | **TD-042 + TD-016** — error/pending states on the 15 collection pages; one contact/socials source | Content is the product now (Studio forms, hero slots, icon fields): a bad edit currently renders a blank page with no message, and socials/contact already disagree between `contact.yml`, `footer.yml`, `links.yml` and hardcoded copies |
+| 2 | **TD-045 + TD-046** — quality gates | CI runs neither lint nor tests, and both workflows override the pinned pnpm with `pnpm@latest`. Note the dependency: eslint cannot run at all until the TS 7 parser crash is resolved (see `06-nits.md`), so land tests + pin first, lint second |
+| 3 | **TD-019 + TD-044** — dark palette single source, and fix the JS-only dark paths | ~45 duplicated lines have already drifted, component tweaks miss the no-JS radio path (wrong logo variant), and the new `--icon-*` tokens added a third copy of the same pattern |
+| 4 | **TD-041 (remaining)** — announce expanded state (`aria-expanded`/`aria-haspopup`) and restore mobile control labels | Re-opened: the E3 rewrite only delivered keyboard reachability, and the mobile rollback lost the labels. Small, contained, and it is the primary navigation |
+| 5 | **TD-057 / TD-058** — leave the unreleased Studio pin behind; audit unreferenced `public/` images | The pin is unmaintained-by-upstream; the images need an owner check first because `public/` paths are hotlinked from mailchimp emails |
+
+Deferred deliberately: TD-040 (SEO titles), TD-024 (iOS PDF staleness), TD-043 (Conscribo drift), TD-053 (seasonal Intro page), TD-056 (blocked upstream), TD-052 (content freshness, not code).
 
 ## What explicitly NOT to fix
 

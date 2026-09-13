@@ -10,7 +10,7 @@ Studio's `/` slash-command only lists MDC components that are **globally registe
 hooks: {
   'components:extend': (components) => {
     const mdc: Record<string, true> = { HeroSection: true, HomeGrid: true, HomeMain: true,
-      HomeAside: true, HomeImageCarousel: true, HomeTextBlock: true, HomePartners: true,
+      HomeAside: true, HomeImageCarousel: true, HomeTextBlock: true, HeroButton: true,
       ActivityCalendar: true, SocialSidebar: true };
     components.filter((c) => c.pascalName in mdc).forEach((c) => { c.global = true });
   },
@@ -108,6 +108,16 @@ curl localhost:3000/__nuxt_studio/meta
 
 ## Production auth / login gate (roadmap)
 In production builds Studio requires authentication. Current plan: a **Cloudflare Worker** acting as the Studio login gate (SSO/OAuth) so Studio edits are restricted to authorized staff. Not yet implemented — see `architecture.md`. Until then, production Studio auth must be configured via `studio.auth` / env (`STUDIO_GITHUB_TOKEN` etc.).
+
+## Studio upgrade checklist (the pin is unreleased — see TD-057)
+`package.json` pins Studio to a `main`-branch preview build, so a bump is not a normal dependency update. After any `nuxt-studio` / `@nuxt/content` change, re-verify:
+
+1. `grep -A6 '"<field>"' .nuxt/content/preview.mjs` — `$content.editor` metadata (input/label/description) still lands on the schema nodes.
+2. Form widgets: `InputWrapper`'s map and the `tooltip`-replaces-label behaviour (see the widget table above) — read `dist/app/main.js`.
+3. `[data-content-id]` markers still emitted in dev/preview by `ContentRenderer`, and `pages/Links.vue`'s own marker still opens the `links` collection.
+4. Nested drag handles inside component slots (upstream PR #490).
+5. Icon handling: collections discovered, `clientBundle.scan` still reading `content/*.yml`, `mode: 'svg'` still inlining at prerender.
+6. `/__nuxt_studio/meta` component list + groups still match `nuxt.config.ts`.
 
 ## Official docs
 - <https://nuxt.studio/content> — editors, form editor, component integration
