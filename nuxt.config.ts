@@ -166,7 +166,7 @@ export default defineNuxtConfig({
         groups: [
           {
             label: 'Home',
-            include: ['HeroSection', 'Home*', 'ActivityCalendar', 'SocialSidebar'],
+            include: ['HeroSection', 'HeroButton', 'Home*', 'ActivityCalendar', 'SocialSidebar'],
           },
         ],
         ungrouped: 'omit',
@@ -206,6 +206,7 @@ export default defineNuxtConfig({
     'components:extend': (components) => {
       const mdcContentComponents: Record<string, true> = {
         HeroSection: true,
+        HeroButton: true,
         HomeGrid: true,
         HomeMain: true,
         HomeAside: true,

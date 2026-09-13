@@ -3,7 +3,22 @@ title: Indicium
 description: Dé studievereniging voor HBO-ICT van Hogeschool Utrecht
 ---
 
-::hero-section{hero-animated hero-flow-duration-seconds="30"}
+::hero-section
+#title
+Wij zijn dé **studie**vereniging voor HBO-ICT van Hogeschool Utrecht
+
+#buttons
+  :::hero-button{to="/intro" hidden}
+  Introductiekamp
+  :::
+
+  :::hero-button{to="/lid-worden" color="blue-1"}
+  Word lid
+  :::
+
+  :::hero-button{to="/links" color="green-1"}
+  Quick Links
+  :::
 ::
 
 ::home-grid

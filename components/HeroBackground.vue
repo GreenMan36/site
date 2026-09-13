@@ -27,12 +27,12 @@ const props = withDefaults(
     secondaryColor: 'var(--indi-green-1)',
     tertiaryColor: 'var(--indi-blue-green-1)',
     animated: true,
-    flowDurationSeconds: 12,
+    flowDurationSeconds: 30,
   },
 );
 
 const flowDuration = computed(() => {
-  const seconds = Number.isFinite(props.flowDurationSeconds) ? props.flowDurationSeconds : 12;
+  const seconds = Number.isFinite(props.flowDurationSeconds) ? props.flowDurationSeconds : 30;
   return `${Math.min(120, Math.max(1, seconds))}s`;
 });
 </script>
