@@ -1,45 +1,13 @@
 <script setup lang="ts">
 import HeroCircuit from '@/assets/icons/hero.svg?component';
 
-// MDX-editable via ::hero-section (e.g. `::hero-section{:hero-background-color="black"}`);
-// unset props fall back to the themed colors below.
-const props = withDefaults(
-  defineProps<{
-    /** Resting backdrop. */
-    backgroundColor?: string;
-    /** Resting trace color (static traces, reduced motion). */
-    traceColor?: string;
-    /** Pulse color for modules 1 and 4. */
-    primaryColor?: string;
-    /** Pulse color for module 3. */
-    secondaryColor?: string;
-    /** Pulse color for modules 2 and 5. */
-    tertiaryColor?: string;
-    /** Dash flow on/off; off renders the resting pattern. */
-    animated?: boolean;
-    /** Seconds per dash-flow loop; higher is slower. */
-    flowDurationSeconds?: number;
-  }>(),
-  {
-    backgroundColor: 'var(--hero-bg-color)',
-    traceColor: 'var(--pcb-trace-color)',
-    primaryColor: 'var(--indi-blue-1)',
-    secondaryColor: 'var(--indi-green-1)',
-    tertiaryColor: 'var(--indi-blue-green-1)',
-    animated: true,
-    flowDurationSeconds: 30,
-  },
-);
-
-const flowDuration = computed(() => {
-  const seconds = Number.isFinite(props.flowDurationSeconds) ? props.flowDurationSeconds : 30;
-  return `${Math.min(120, Math.max(1, seconds))}s`;
-});
+// The hero's look is fixed here on purpose: ::hero-section exposes only the title
+// and buttons, so these are not props (they were never edited).
 </script>
 
 <template>
   <div class="background-view">
-    <HeroCircuit class="HeroCircuit" :class="{ 'HeroCircuit--static': !props.animated }" />
+    <HeroCircuit class="HeroCircuit" />
   </div>
 </template>
 
@@ -56,35 +24,35 @@ const flowDuration = computed(() => {
 .HeroCircuit :deep(rect),
 .HeroCircuit :deep(circle),
 .HeroCircuit :deep(polyline) {
-  stroke: var(--pulse, v-bind('props.traceColor'));
+  stroke: var(--pulse, var(--pcb-trace-color));
 }
 
 /* Modules are the top-level g siblings carrying stroke-dasharray (defs is
 not a g, so nth-of-type 1-5 are the five pulse groups). Varied triplet
 assignment so consecutive pulses read as alternating, not uniform. */
 .HeroCircuit :deep(g[stroke-dasharray]:nth-of-type(1)) {
-  --pulse: v-bind('props.primaryColor');
+  --pulse: var(--indi-blue-1);
 }
 
 .HeroCircuit :deep(g[stroke-dasharray]:nth-of-type(2)) {
-  --pulse: v-bind('props.tertiaryColor');
+  --pulse: var(--indi-blue-green-1);
 }
 
 .HeroCircuit :deep(g[stroke-dasharray]:nth-of-type(3)) {
-  --pulse: v-bind('props.secondaryColor');
+  --pulse: var(--indi-green-1);
 }
 
 .HeroCircuit :deep(g[stroke-dasharray]:nth-of-type(4)) {
-  --pulse: v-bind('props.primaryColor');
+  --pulse: var(--indi-blue-1);
 }
 
 .HeroCircuit :deep(g[stroke-dasharray]:nth-of-type(5)) {
-  --pulse: v-bind('props.tertiaryColor');
+  --pulse: var(--indi-blue-green-1);
 }
 
 .HeroCircuit :deep(g[stroke-dasharray]) {
   animation-name: hero-trace-flow;
-  animation-duration: v-bind(flowDuration);
+  animation-duration: 30s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
 }
@@ -94,12 +62,7 @@ assignment so consecutive pulses read as alternating, not uniform. */
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background: v-bind('props.backgroundColor');
-}
-/* Static rendering always parks on a period-aligned offset. */
-.HeroCircuit--static :deep(g[stroke-dasharray]) {
-  animation: none;
-  stroke-dashoffset: 0;
+  background: var(--hero-bg-color);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -127,5 +90,4 @@ Spanning exactly 3 periods keeps the loop restart seamless. */
     stroke-dashoffset: 0;
   }
 }
-
 </style>
