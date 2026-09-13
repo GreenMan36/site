@@ -44,6 +44,7 @@ Review: 7 read-only partition scans (components, content-components+CSS, pages+l
 | TD-053 | Intro.vue hardcoded seasonal page (2026 dates, 2023 asset) bypasses content | LOW | S | M | pages | `pages/Intro.vue` |
 | TD-054 | Activiteiten.vue orphan route (no inbound links) | LOW | S | S | pages | `pages/Activiteiten.vue` |
 | TD-055 | CSS hygiene batch: dead tokens, invalid @container example, font contradiction, accent-bar ×3 | LOW | S | S | css | `assets/css/variables.css`, `assets/css/main.css`, `assets/css/typography.css`, `components/content/HomeTextBlock.vue` |
+| TD-056 | optimizeDeps warning: @nuxtjs/mdc module entries unresolvable (late rewrite workaround) | LOW | S | S | config | `nuxt.config.ts` |
 
 ## Top 5 next actions
 

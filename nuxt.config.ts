@@ -8,6 +8,28 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     '@nuxt/content',
     'nuxt-studio',
+
+    // Registered last on purpose: the @nuxtjs/mdc module pushes ten
+    // `@nuxtjs/mdc > <dep>` entries into vite.optimizeDeps.include, and
+    // @nuxt/content's own shim for those ids (dist/module.mjs: "…replace(
+    // /^@nuxtjs\/mdc > /, '@nuxt/content > @nuxtjs/mdc > ')") does not catch
+    // them — they reach Vite unscoped, and Vite resolves `pkg > dep` with
+    // basedir = resolvePackageData("@nuxtjs/mdc", rootDir)?.dir, which is not a
+    // project dependency, so it falls back to the root and all ten fail
+    // (NUXT_B7002). Re-applying the same rewrite here, after every module has
+    // contributed its entries, scopes them under @nuxt/content, whose tree does
+    // contain @nuxtjs/mdc. Delete when upstream ordering stops needing it —
+    // see docs/tech-debt/05-low-priority.md (TD-056).
+    (_options, nuxt) => {
+      nuxt.hook('vite:extendConfig', (config) => {
+        // `optimizeDeps` is typed read-only, so rewrite the entries in place.
+        const include = config.optimizeDeps?.include;
+        if (!include) return;
+        include.forEach((id, index) => {
+          include[index] = id.replace(/^@nuxtjs\/mdc > /, '@nuxt/content > @nuxtjs/mdc > ');
+        });
+      });
+    },
   ],
 
   // SSG mode for static generation
