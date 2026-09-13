@@ -2,22 +2,69 @@
 import logo from '@/components/LogoElement.vue';
 import HeroBackground from './HeroBackground.vue';
 
-// MDX-editable passthrough to HeroBackground; unset falls back to themed colors.
-withDefaults(
+// All props are MDX-editable via ::hero-section, e.g.
+//   ::hero-section
+//   ---
+//   title: Wij zijn dé **studie**vereniging
+//   buttons:
+//     - label: Word lid
+//       url: /lid-worden
+//       color: green-1
+//   ---
+//   ::
+// Omitting them keeps the defaults below (identical to the hardcoded hero).
+type HeroButtonVariant = 'primary' | 'secondary';
+type HeroButtonColor = 'blue-1' | 'blue-2' | 'blue-3' | 'green-1' | 'green-2' | 'green-3' | 'bluegreen-1' | 'bluegreen-2' | 'bluegreen-3';
+
+interface HeroButton {
+  label: string;
+  url: string;
+  /** `primary` fills the button (default); `secondary` outlines it. */
+  variant?: HeroButtonVariant;
+  /** Button colour; `blue-1` is the base `.button` look. */
+  color?: HeroButtonColor;
+}
+
+const props = withDefaults(
   defineProps<{
+    /** Headline text. Wrap a word in `**double asterisks**` to render it extra-bold. */
+    title?: string;
+    /** Call-to-action buttons under the headline. */
+    buttons?: HeroButton[];
+    /** Passthrough to HeroBackground; unset falls back to the themed colors. */
     heroBackgroundColor?: string;
     heroTraceColor?: string;
     heroPrimaryColor?: string;
     heroSecondaryColor?: string;
     heroTertiaryColor?: string;
     heroAnimated?: boolean;
-    heroFlowDurationSeconds?: number;
+    /** Seconds per dash-flow loop; higher is slower. MDC delivers it as a string, coerced below. */
+    heroFlowDurationSeconds?: number | string;
   }>(),
   {
-    heroAnimated: true,
-    heroFlowDurationSeconds: 12,
+    title: 'Wij zijn dé **studie**vereniging voor HBO-ICT van Hogeschool Utrecht',
+    buttons: () => [
+      { label: 'Introductiekamp', url: '/intro' },
+      { label: 'Word lid', url: '/lid-worden', color: 'green-1' },
+      { label: 'Quick Links', url: '/links', variant: 'secondary', color: 'bluegreen-1' },
+    ],
+    heroAnimated: false,
+    heroFlowDurationSeconds: 30,
   },
 );
+
+// MDC attribute values arrive as strings, and HeroBackground's Number.isFinite guard
+// would reject them and silently fall back to its own 12s default.
+const flowDurationSeconds = computed(() => Number(props.heroFlowDurationSeconds) || 30);
+
+// split() with a capture group alternates plain/emphasised segments.
+const titleTokens = computed(() =>
+  props.title.split(/\*\*(.+?)\*\*/g).map((text, index) => ({ text, emphasis: index % 2 === 1 })),
+);
+
+function buttonClasses({ variant = 'primary', color = 'blue-1' }: HeroButton) {
+  return ['button', variant, 'rounded', color === 'blue-1' ? '' : `indi-${color}`];
+}
 </script>
 
 <template>
@@ -30,26 +77,24 @@ withDefaults(
         :secondary-color="heroSecondaryColor"
         :tertiary-color="heroTertiaryColor"
         :animated="heroAnimated"
-        :flow-duration-seconds="heroFlowDurationSeconds"
+        :flow-duration-seconds="flowDurationSeconds"
       />
     </div>
     <div class="hero-content">
       <logo />
       <h1>
-        Wij zijn dé
-        <span class="extra-bold">studie</span>vereniging voor HBO-ICT van Hogeschool Utrecht
+        <span v-for="(token, index) in titleTokens" :key="index" :class="{ 'extra-bold': token.emphasis }">{{ token.text }}</span>
       </h1>
       <div class="hero-buttons">
-        <router-link class="button primary rounded" to="/intro">Introductiekamp</router-link>
-        <router-link class="button primary rounded indi-green-1" to="/lid-worden">Word lid</router-link>
-        <router-link class="button secondary rounded indi-bluegreen-1" to="/links">Quick Links</router-link>
+        <NuxtLink v-for="(button, index) in buttons" :key="index" :to="button.url" :class="buttonClasses(button)">
+          {{ button.label }}
+        </NuxtLink>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-
 .hero {
   display: flex;
   justify-content: center;
