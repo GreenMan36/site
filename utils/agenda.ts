@@ -10,7 +10,6 @@ export const AGENDA_CALENDAR_ID =
 // rotation is a user-side Google Cloud Console step.
 export const AGENDA_API_KEY = 'AIzaSyBo4AYTvUouRsZbG4KiopyeIng_1UOdNyc';
 export const AGENDA_ICS_URL = `https://calendar.google.com/calendar/ical/${encodeURIComponent(AGENDA_CALENDAR_ID)}/public/basic.ics`;
-export const AGENDA_EMBED_URL = `https://calendar.google.com/calendar/embed?src=${encodeURIComponent(AGENDA_CALENDAR_ID)}&ctz=Europe%2FBrussels`;
 
 /** Config ergonomics only: `runtimeConfig.public.agendaApiKey`
  * (`NUXT_PUBLIC_AGENDA_API_KEY`) overrides the placeholder below, but it is
