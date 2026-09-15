@@ -1,33 +1,57 @@
 <script setup lang="ts">
-import type { Link as socialLinks } from '../content/links';
+import { RouterLink } from 'vue-router';
 
-const props = defineProps({
-  link: {
-    type: Object as () => socialLinks,
-    required: true,
-  },
-});
+// Mirrors the `links` collection schema in content.config.ts.
+interface LinksItem {
+  name: string;
+  url: string;
+  /** Emoji, Iconify name (`i-mdi:web`) or asset path (`/assets/icons/discord.ico`). */
+  icon?: string;
+  /** Brand token (`green-1`) or any CSS colour (`#5865F2`); icon-name icons only. */
+  iconColor?: string;
+}
 
-const linkIcon = props.link.icon === '' || props.link.icon === undefined ? '/icon.svg' : props.link.icon;
+const props = defineProps<{ link: LinksItem }>();
+
+const linkIcon = computed(() => props.link.icon || '/icon.svg');
+const isExternal = computed(() => !props.link.url.startsWith('/'));
 
 const filetypes = ['png', 'svg', 'jpg', 'jpeg', 'svg', 'bmp', 'webp', 'gif', 'apng', 'avif', 'ico'];
-const isImage = filetypes.some((filetype) => linkIcon?.endsWith('.' + filetype));
+const isImage = computed(() => filetypes.some((filetype) => linkIcon.value.endsWith('.' + filetype)));
+const isIconName = computed(() => /^[a-z0-9-]+:[a-z0-9-]+$/i.test(linkIcon.value));
+
+// Short brand vocabulary: `blue` / `green` / `bluegreen` resolve to the
+// theme-agnostic icon tokens in assets/css/variables.css. Anything else — a hex,
+// rgb(), or a var() — passes through untouched.
+const brandToken = /^(?:blue|green|bluegreen)$/;
+const iconStyle = computed(() => {
+  const color = props.link.iconColor?.trim();
+  if (!color) return undefined;
+  return { color: brandToken.test(color) ? `var(--icon-${color})` : color };
+});
 </script>
 
 <template>
-  <a v-if="!link.url.startsWith('/')" class="link" :href="link.url" target="_blank" rel="noopener noreferrer">
-    <img v-if="linkIcon && isImage" :src="linkIcon" :alt="link.name" />
-    <span v-else-if="linkIcon" class="emoji">{{ linkIcon }}</span>
-    <p>{{ link.name }}</p>
-  </a>
-  <RouterLink v-else :to="link.url" class="link">
-    <img v-if="linkIcon && isImage" :src="linkIcon" :alt="link.name" />
-    <span v-else-if="linkIcon" class="emoji">{{ linkIcon }}</span>
-    <p>{{ link.name }}</p>
-  </RouterLink>
+  <!-- .link-card is the container: the card responds to its own width, not the viewport -->
+  <div class="link-card">
+    <component
+      :is="isExternal ? 'a' : RouterLink"
+      v-bind="isExternal ? { href: link.url, target: '_blank', rel: 'noopener noreferrer' } : { to: link.url }"
+      class="link"
+    >
+      <img v-if="isImage" :src="linkIcon" :alt="link.name" />
+      <Icon v-else-if="isIconName" :name="linkIcon" class="icon" :style="iconStyle" />
+      <span v-else class="emoji">{{ linkIcon }}</span>
+      <p>{{ link.name }}</p>
+    </component>
+  </div>
 </template>
 
-<style lang="scss">
+<style scoped>
+.link-card {
+  container-type: inline-size;
+}
+
 .link {
   font-family: var(--text-font);
   color: var(--text-color);
@@ -46,7 +70,7 @@ const isImage = filetypes.some((filetype) => linkIcon?.endsWith('.' + filetype))
     background-color: rgba(var(--secondary-background-color-raw), 0.75);
   }
 
-  & > :is(img, .emoji) {
+  & > :is(img, .emoji, .icon) {
     height: 64px;
     width: 64px;
     object-fit: contain;
@@ -71,12 +95,14 @@ const isImage = filetypes.some((filetype) => linkIcon?.endsWith('.' + filetype))
   }
 }
 
-@media screen and (max-width: #{$bp-tablet-sm}) {
+/* Container query (top-level — nested @container is dropped in Vue dev): shrink
+   the icon/padding when the CARD is narrow, not the viewport. */
+@container (max-width: 562px) {
   .link {
     grid-template-columns: 48px 1fr;
     padding: 0.5rem 1rem;
 
-    & > :is(img, .emoji) {
+    & > :is(img, .emoji, .icon) {
       height: 48px;
       width: 48px;
       font-size: 32px;

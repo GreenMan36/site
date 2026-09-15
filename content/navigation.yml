@@ -17,8 +17,6 @@ items:
     children:
       - title: 'ChipSoft'
         url: '/partners/chipsoft'
-      - title: 'DressMe'
-        url: '/partners/dressme'
       - title: 'Vibe Academy'
         url: '/partners/vibe-academy'
       - title: 'Axians'

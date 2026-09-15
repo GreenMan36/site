@@ -11,27 +11,25 @@ import HeroBackground from './HeroBackground.vue';
     <div class="hero-content">
       <logo />
       <h1>
-        Wij zijn dé
-        <span class="extra-bold">studie</span>vereniging voor HBO-ICT van Hogeschool Utrecht
+        <!-- MDC's compiler rewrites MDCSlot into a slot outlet (hence `name`); the
+             standalone component reads `use`. `unwrap="p"` drops markdown's <p>. -->
+        <MDCSlot name="title" :use="$slots.title" unwrap="p" />
       </h1>
       <div class="hero-buttons">
-        <router-link class="button primary rounded" to="/intro">Introductiekamp</router-link>
-        <router-link class="button primary rounded indi-green-1" to="/lid-worden">Word lid</router-link>
-        <router-link class="button secondary rounded indi-bluegreen-1" to="/links">Quick Links</router-link>
+        <slot name="buttons" />
       </div>
     </div>
   </div>
 </template>
 
-<style lang="scss" scoped>
-@use 'sass:map';
-
+<style scoped>
 .hero {
   display: flex;
   justify-content: center;
   position: relative;
   width: inherit;
   overflow: hidden;
+  padding-top: var(--nav-height);
 
   .bg-container {
     position: absolute;
@@ -52,28 +50,17 @@ import HeroBackground from './HeroBackground.vue';
       max-width: 800px;
       padding: 0 16px;
       font-weight: 500;
-    }
 
-    $h1-breakpoints: (
-      (
-        bp: $bp-desktop-sm,
-        fontSize: 2em,
-      ),
-      (
-        bp: $bp-tablet-sm,
-        fontSize: 1.5em,
-      ),
-      (
-        bp: $bp-mobile-lg,
-        fontSize: 1.2em,
-      )
-    );
+      @media screen and (max-width: 1120px) {
+        font-size: 2em;
+      }
 
-    h1 {
-      @each $breakpoint in $h1-breakpoints {
-        @media screen and (max-width: map.get($breakpoint, bp)) {
-          font-size: map.get($breakpoint, fontSize);
-        }
+      @media screen and (max-width: 562px) {
+        font-size: 1.5em;
+      }
+
+      @media screen and (max-width: 414px) {
+        font-size: 1.2em;
       }
     }
 
@@ -91,5 +78,11 @@ import HeroBackground from './HeroBackground.vue';
       }
     }
   }
+}
+
+/* Markdown `**bold**` in the title slot renders as <strong>; keep the hero's
+   extra-bold weight. Flat selector: nesting it under h1 broke the scope rewrite. */
+.hero-content :deep(h1 strong) {
+  font-weight: 900;
 }
 </style>

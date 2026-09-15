@@ -1,13 +1,36 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
+import { defineNuxtConfig } from 'nuxt/config';
+
 export default defineNuxtConfig({
-  // Modules
   modules: [
-    // '@nuxtjs/sentry', // TODO: Temporarily disabled - needs Nuxt 4 compatible version
     'nuxt-svgo',
     '@nuxt/eslint',
     '@vueuse/nuxt',
     '@nuxtjs/color-mode',
     '@nuxt/content',
+    'nuxt-studio',
+    '@nuxt/icon',
+
+    // Registered last on purpose: the @nuxtjs/mdc module pushes ten
+    // `@nuxtjs/mdc > <dep>` entries into vite.optimizeDeps.include, and
+    // @nuxt/content's own shim for those ids (dist/module.mjs: "…replace(
+    // /^@nuxtjs\/mdc > /, '@nuxt/content > @nuxtjs/mdc > ')") does not catch
+    // them — they reach Vite unscoped, and Vite resolves `pkg > dep` with
+    // basedir = resolvePackageData("@nuxtjs/mdc", rootDir)?.dir, which is not a
+    // project dependency, so it falls back to the root and all ten fail
+    // (NUXT_B7002). Re-applying the same rewrite here, after every module has
+    // contributed its entries, scopes them under @nuxt/content, whose tree does
+    // contain @nuxtjs/mdc. Delete when upstream ordering stops needing it —
+    // see docs/tech-debt/05-low-priority.md (TD-056).
+    (_options, nuxt) => {
+      nuxt.hook('vite:extendConfig', (config) => {
+        // `optimizeDeps` is typed read-only, so rewrite the entries in place.
+        const include = config.optimizeDeps?.include;
+        if (!include) return;
+        include.forEach((id, index) => {
+          include[index] = id.replace(/^@nuxtjs\/mdc > /, '@nuxt/content > @nuxtjs/mdc > ');
+        });
+      });
+    },
   ],
 
   // SSG mode for static generation
@@ -54,40 +77,6 @@ export default defineNuxtConfig({
         },
       ],
       script: [],
-      style: [
-        // Anti-flicker script - prevents flash of wrong theme on page load
-        // Matches colors from variables.scss for consistency
-        {
-          innerHTML: `
-            :root { 
-              color-scheme: light;
-              background-color: rgb(255, 255, 255);
-              color: rgb(51, 51, 51);
-            }
-            
-            @media (prefers-color-scheme: dark) {
-              :root {
-                color-scheme: dark;
-                background-color: rgb(11, 20, 22);
-                color: rgb(242, 242, 242);
-              }
-            }
-            
-            /* Respect user preference stored in localStorage */
-            [data-theme='dark'] {
-              color-scheme: dark;
-              background-color: rgb(11, 20, 22) !important;
-              color: rgb(242, 242, 242) !important;
-            }
-            
-            [data-theme='light'] {
-              color-scheme: light;
-              background-color: rgb(255, 255, 255) !important;
-              color: rgb(51, 51, 51) !important;
-            }
-          `,
-        },
-      ],
       noscript: [
         {
           innerHTML: 'JavaScript is required to use this website.',
@@ -97,12 +86,23 @@ export default defineNuxtConfig({
   },
 
   // CSS configuration
-  css: ['~/assets/scss/main.scss'],
+  css: ['~/assets/css/variables.css', '~/assets/css/typography.css', '~/assets/css/main.css'],
 
   // Vue configuration for custom elements
   vue: {
     compilerOptions: {
       isCustomElement: (tag) => tag.startsWith('add-'),
+    },
+  },
+
+  // SSG: no server. Client fetches Google Calendar directly at hydration, so
+  // the key is public by design (it ships in the bundle either way).
+  // Override with NUXT_PUBLIC_AGENDA_API_KEY. Empty falls back to the
+  // placeholder in utils/agenda.ts so prerender never breaks. The sole real
+  // mitigation is a Google Cloud referrer restriction (user-side follow-up).
+  runtimeConfig: {
+    public: {
+      agendaApiKey: '',
     },
   },
 
@@ -121,15 +121,8 @@ export default defineNuxtConfig({
 
   // Vite configuration
   vite: {
-    css: {
-      preprocessorOptions: {
-        scss: {
-          additionalData: `
-            @use '@/assets/scss/variables' as *;
-            @use '@/assets/scss/typography' as *;
-          `,
-        },
-      },
+    optimizeDeps: {
+      include: ['ua-parser-js', 'add-to-calendar-button', 'embla-carousel-vue'],
     },
   },
 
@@ -158,5 +151,101 @@ export default defineNuxtConfig({
   // SVGO configuration for SVG optimization
   svgo: {
     defaultImport: 'component',
+  },
+
+  // Icons. components/LinkCard.vue renders Iconify names from content/*.{yml,md};
+  // the editor's picker is scoped to the same two collections (studio.editor
+  // .iconLibraries), so what an editor can insert is always what the site resolves.
+  // `scan` walks the project for `i-<collection>:<name>` including content files,
+  // so the client bundle follows the content automatically — nothing to keep in sync.
+  // `mode: 'svg'` inlines the SVG at prerender (no JS needed, no runtime fetching);
+  // `fallbackToApi: false` keeps an unknown name from silently calling a third party
+  // (an unknown name instead logs `[Icon] failed to load icon` and renders empty).
+  icon: {
+    mode: 'svg',
+    provider: 'server',
+    fallbackToApi: false,
+    clientBundle: {
+      scan: true,
+    },
+  },
+
+  // Nuxt Studio configuration
+  studio: {
+    editor: {
+      // Icon picker scope. Unset means the picker searches the whole Iconify
+      // catalogue (~150 collections) while the site can only resolve the ones
+      // installed locally, so an editor could pick an icon that silently renders
+      // empty. Keep this list identical to the installed @iconify-json packages:
+      // both are Material-derived, so the icon styles match.
+      iconLibraries: ['mdi', 'ic'],
+      components: {
+        // Prose* components are @nuxt/content's markdown renderers (e.g. ProseH1
+        // renders a `# heading`), globally registered and surfaced by Studio as
+        // insertable components. They're redundant with Studio's native heading
+        // commands, so exclude them from the editor's component list.
+        exclude: ['Prose*'],
+        // Group the homepage MDC components under a single labelled group in the
+        // editor's component list.
+        groups: [
+          {
+            label: 'Home',
+            include: ['HeroSection', 'HeroButton', 'Home*', 'ActivityCalendar', 'SocialSidebar'],
+          },
+        ],
+        ungrouped: 'omit',
+      },
+    },
+    // Pin the repository so prod builds (e.g. local `pnpm generate`) resolve
+    // it without relying on CI env vars. Matches the deployed repo; CI env
+    // detection still takes precedence when set.
+    repository: {
+      provider: 'github',
+      owner: 'svIndicium',
+      repo: 'site',
+      branch: 'main',
+    },
+  },
+
+  // Studio is only needed in dev/editing; keep it out of the static prod
+  // build (also silences the "setup authentication" warning on generate).
+  // Vitest runs with NODE_ENV=test where $production doesn't apply, so
+  // silence the same warning there too. Unrelated to agenda work.
+  $test: {
+    studio: false,
+  },
+  $production: {
+    studio: false,
+  },
+
+  // Redirect for Nuxt Studio UX
+  routeRules: {
+    '/boards/**': { redirect: '/besturen' },
+  },
+
+  // Globally register the homepage MDC components so Nuxt Studio lists them in
+  // the visual editor's component picker (the '/' slash command). MDC block
+  // components are resolved by name, so only global components are insertable.
+  hooks: {
+    'components:extend': (components) => {
+      const mdcContentComponents: Record<string, true> = {
+        HeroSection: true,
+        HeroButton: true,
+        HomeGrid: true,
+        HomeMain: true,
+        HomeAside: true,
+        HomeImageCarousel: true,
+        HomeTextBlock: true,
+        HomePartners: true,
+        ActivityCalendar: true,
+        SocialSidebar: true,
+      };
+
+      components
+        .filter((component) => component.pascalName in mdcContentComponents)
+        .forEach((component) => {
+          component.global = true;
+        });
+    },
   },
 });

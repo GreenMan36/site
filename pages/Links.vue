@@ -2,7 +2,7 @@
 definePageMeta({ layout: 'minimal' });
 
 import logo from '@/assets/logo/indicium-logo-icon.svg?component';
-import linkCard from '@/components/LinkCard.vue';
+import LinkCard from '@/components/LinkCard.vue';
 
 import { useRouter } from 'vue-router';
 
@@ -10,7 +10,15 @@ const router = useRouter();
 
 // Query links collection
 const { data: linksData } = await useAsyncData('links', () => queryCollection('links').first());
-const content = linksData.value?.meta?.links || [];
+const content = linksData.value?.links || [];
+
+// Nuxt Studio resolves the document to edit from a `[data-content-id]` marker in the
+// DOM — that is how it links a URL to a collection (studio host: `detectActives()` and
+// the dblclick handler walk up to the nearest `data-content-id`). @nuxt/content's
+// ContentRenderer emits it, but only for documents it renders itself; this page queries
+// the YAML collection directly, so it tags the list with the document id itself. Dev/
+// preview only, like ContentRenderer (`debug ? value.id : undefined`).
+const contentId = import.meta.dev ? linksData.value?.id : undefined;
 </script>
 
 <template>
@@ -24,20 +32,20 @@ const content = linksData.value?.meta?.links || [];
         </div>
       </span>
     </div>
-    <div id="links">
-      <linkCard v-for="link in content" :key="link.url" :link="link" />
+    <div id="links" :data-content-id="contentId">
+      <LinkCard v-for="link in content" :key="link.url" :link="link" />
     </div>
   </div>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 #link-page {
   display: grid;
   justify-items: center;
   grid-template-columns: 1fr;
   padding: 1rem 2rem;
 
-  @media screen and (max-width: #{$bp-mobile-sm}) {
+  @media screen and (max-width: 321px) {
     padding: 1rem 0.5rem;
   }
 
@@ -56,7 +64,7 @@ const content = linksData.value?.meta?.links || [];
   gap: 1rem;
   padding: 1rem 2rem;
 
-  @media screen and (max-width: #{$bp-tablet-sm}) {
+  @media screen and (max-width: 562px) {
     padding: 1rem 0.5rem;
   }
 }
@@ -75,7 +83,7 @@ const content = linksData.value?.meta?.links || [];
   align-items: center;
   justify-content: center;
 
-  @media screen and (max-width: #{$bp-tablet-sm}) {
+  @media screen and (max-width: 562px) {
     padding: 1rem 0;
     border-radius: 16px;
     margin: 0.5rem;
@@ -90,18 +98,15 @@ const content = linksData.value?.meta?.links || [];
     }
 
     & > .logo > .logo-text {
-      font-family: var(--indicium-font);
-      margin: 0;
       font-size: 68px;
       width: max-content;
 
       &.small {
-        color: #878787;
         font-size: 26px;
       }
     }
 
-    @media screen and (max-width: #{$bp-tablet-lg}) {
+    @media screen and (max-width: 944px) {
       & > .logo-icon {
         height: 64px;
       }
@@ -115,7 +120,7 @@ const content = linksData.value?.meta?.links || [];
       }
     }
 
-    @media screen and (max-width: #{$bp-tablet-sm}) {
+    @media screen and (max-width: 562px) {
       & > .logo-icon {
         height: 48px;
       }

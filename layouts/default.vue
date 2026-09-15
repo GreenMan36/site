@@ -1,5 +1,8 @@
 <template>
   <div>
+    <!-- Pages await their collection queries, so a client-side navigation has data to
+         resolve; this is the visible progress state while it does. -->
+    <NuxtLoadingIndicator />
     <NavDesktop />
     <LazyNavMobile hydrate-on-media-query="(max-width: 944px)" />
     <div class="page-content">
@@ -9,7 +12,7 @@
   </div>
 </template>
 
-<style lang="scss">
+<style>
 body {
   .nav {
     display: block;
@@ -21,7 +24,7 @@ body {
   background-color: var(--root-background-color);
 }
 
-@media screen and (max-width: #{$bp-tablet-lg}) {
+@media screen and (max-width: 768px) {
   body {
     &::-webkit-scrollbar {
       width: 1em;

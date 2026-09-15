@@ -1,0 +1,167 @@
+/* Page background (single source of truth): the footer/brand blue is the base
+   (shown past the content on over-scroll), with a 1px blue fade at the very
+   bottom of the page turning up to the root (white/light) color. */
+:root {
+  background-color: var(--indi-blue-3);
+  background-image: linear-gradient(to top, var(--indi-blue-3), var(--root-background-color) 1px);
+  background-repeat: no-repeat;
+}
+
+body {
+  font-family: var(--text-font);
+  color: var(--text-color);
+  overflow-x: hidden;
+}
+
+h1 {
+  text-align: center;
+}
+
+a {
+  color: var(--link-color);
+}
+
+img,
+.image {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.container {
+  max-width: 1084px;
+  margin: 0 auto;
+  padding: 0 24px;
+
+  &.flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.fadeInUp {
+  animation-name: fadeInUp;
+  animation-direction: normal;
+}
+
+@keyframes fadeInUp {
+  0% {
+    transform: translate3d(0, 100%, 0);
+    opacity: 0;
+  }
+  100% {
+    transform: translateZ(0);
+    opacity: 1;
+  }
+}
+
+.button {
+  box-sizing: border-box;
+  padding: 0.5rem;
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+  display: inline-block;
+  cursor: pointer;
+  transition-property: background-color, border-color, box-shadow;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: inherit;
+
+  --button-fill: var(--indi-blue-2);
+  --button-border: var(--indi-blue-1);
+
+  &.indi-blue-2 {
+    --button-fill: var(--indi-blue-3);
+    --button-border: var(--indi-blue-2);
+  }
+
+  &.indi-blue-3 {
+    --button-fill: transparent;
+    --button-border: var(--indi-blue-3);
+  }
+
+  &.indi-green-1 {
+    --button-fill: var(--indi-green-2);
+    --button-border: var(--indi-green-1);
+  }
+
+  &.indi-green-2 {
+    --button-fill: var(--indi-green-3);
+    --button-border: var(--indi-green-2);
+  }
+
+  &.indi-green-3 {
+    --button-fill: transparent;
+    --button-border: var(--indi-green-3);
+  }
+
+  &.indi-bluegreen-1 {
+    --button-fill: var(--indi-blue-green-2);
+    --button-border: var(--indi-blue-green-1);
+  }
+
+  &.indi-bluegreen-2 {
+    --button-fill: var(--indi-blue-green-3);
+    --button-border: var(--indi-blue-green-2);
+  }
+
+  &.indi-bluegreen-3 {
+    --button-fill: transparent;
+    --button-border: var(--indi-blue-green-3);
+  }
+
+  &.rounded {
+    border-radius: 0.5rem;
+  }
+
+  &.primary {
+    border: 2px solid var(--button-border);
+    background-color: var(--button-border);
+  }
+
+  &.secondary {
+    border: 2px solid var(--button-border);
+  }
+
+  &:hover,
+  &:focus,
+  &:focus-within {
+    background-color: var(--button-fill);
+  }
+}
+
+.readMoreOutboundBtn {
+  font-size: large;
+  margin: 1rem auto;
+  padding: 10px;
+}
+
+/* Section-heading accent: homepage text blocks, over-indicium headings and the
+   board member names all render the same 3×52px bar. Apply the class to the
+   heading itself. */
+.heading-accent {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 3.25rem;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--indi-blue-1);
+  }
+}
+
+.hover-scale {
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
