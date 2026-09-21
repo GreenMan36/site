@@ -34,7 +34,7 @@
 1. **Migrate hosting → Cloudflare Pages** (replace Firebase). Keep `nuxt generate` output; wire CI (GitHub Actions or Pages build); retire `firebase.json`.
 2. **Cloudflare Worker as the Studio login gate** — secure the production Studio editor behind SSO/OAuth for authorized staff (not yet implemented).
 3. **Move binaries/images → R2 + Cloudflare Images** — migrate `public/assets/images/*`, logos, PDFs out of the repo; update `/assets/...` references (carousel images, board photos, partner logos, docx).
-4. **`/over-indicium` is a hardcoded page, not content** — the dead `about` collection was deleted 2026-09-06 (TD-034); the page itself still bypasses the content system. Make it a shim over a real content file when that page next changes.
+4. **`/over-indicium` is a hardcoded page, not content** — the dead `about` collection was deleted 2026-09-06 (TD-034); the page itself still bypasses the content system. When that page next changes, convert it via the `make-content-editable` skill (slot-based MDC components + new `page` collection, page becomes a shim).
 5. **Styling refactor (incremental)** — reduce per-page scoped CSS; extract generic components / shared utility classes; use design tokens in `assets/css/variables.css`; keep specificity flat.
 6. **Verify Studio round-trip of the 3-level homepage MDC nesting** (`home-grid` → `home-main` → `home-text-block`); flatten if comark/remark-mdc round-trip is lossy.
 

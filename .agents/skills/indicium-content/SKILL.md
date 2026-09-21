@@ -9,7 +9,7 @@ allowed-tools: Read, Write, Edit, Glob, Grep
 Repo `svIndicium/site`. **Content lives in Markdown/YAML under `content/`**, edited by non-technical staff via Nuxt Studio. Vue pages are thin shims that render that content. Prefer editing content over pages.
 
 ## Must-know conventions (read before touching anything)
-- **Pages are shims.** Content (copy, structure, images, links) goes in `content/**/*.{md,yml}`, not hardcoded in `.vue`.
+- **Pages are shims — or become editable.** Content (copy, structure, images, links) goes in `content/**/*.{md,yml}`, not hardcoded in `.vue`. The one hardcoded exception is `pages/over-indicium.vue` (no collection yet); convert it via the `make-content-editable` skill, don't extend the hardcoding.
 - **Data collections (`type: 'data'`) expose fields at the TOP level of the query result, NOT under `.meta`** — with a schema, `meta` is `{}`. Read `item.items`, `item.address`; **never** `item.meta?.items` (silently `undefined` → blank nav/footer, lost crawl routes). See `references/collections/*`.
 - **Page collections** (`type: 'page'`) get native `title`/`description`; schemas cover custom frontmatter only.
 - **MDC components used in Markdown must be globally registered** for Nuxt Studio's `/` command (see `references/nuxt-studio.md`).
@@ -38,6 +38,7 @@ Nuxt 4.5 (SSG `pnpm generate`), `@nuxt/content` 3.15.2, zod 4.5.4, `nuxt-studio`
 | Nuxt Studio editor integration, forms, validators, login gate | `references/nuxt-studio.md` |
 | Architecture, hosting, Cloudflare migration, styling conventions | `references/architecture.md` |
 | **Per-collection** docs (used where/how, fields, query) | `references/collections/<name>.md` |
+| Converting a hardcoded page into Studio-editable MDC components | `make-content-editable` skill (project-local, `.agents/skills/make-content-editable/SKILL.md`) |
 
 ## Collections
 | Collection | Source | Type | Consumed by |
@@ -47,7 +48,7 @@ Nuxt 4.5 (SSG `pnpm generate`), `@nuxt/content` 3.15.2, zod 4.5.4, `nuxt-studio`
 | `contact` | `contact.yml` | data | `pages/Contact.vue` |
 | `footer` | `footer.yml` | data | `AppFooter.vue` |
 | `links` | `links.yml` | data | `pages/Links.vue` |
-| `about` | `over-indicium.md` | page | **unused** (source file absent; page is hardcoded) |
+| `locations` | `agenda-locations.yml` | data | `ActivityCalendar.vue` |
 | `boards` | `boards/*.md` | page | `pages/Bestuur.vue`, `pages/besturen.vue` |
 | `partners` | `partners/**/*.md` | page | `pages/partners/*`, `usePartners` |
 | `commissies` | `commissies/*.md` | page | `pages/Commissies.vue` |
