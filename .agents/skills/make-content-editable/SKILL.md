@@ -2,7 +2,7 @@
 name: make-content-editable
 description:
   Converts hardcoded Vue page content into slot-based, Studio-editable MDC components. Use when a user wants a hardcoded
-  page (e.g. over-indicium) to be visually editable in Nuxt Studio's TipTap editor.
+  page to be visually editable in Nuxt Studio's TipTap editor.
 allowed-tools: Read, Write, Edit, Glob, Grep
 ---
 
@@ -38,7 +38,7 @@ editable in Nuxt Studio's TipTap editor.
 
 ## Step 0 — Select file and components
 
-**0a — Pick the file**: Glob `pages/**/*.vue` for the hardcoded page (e.g. `pages/over-indicium.vue`). Present the
+**0a — Pick the file**: Glob `pages/**/*.vue` for the hardcoded page. Present the
 candidates via the `question` tool (single-select).
 
 **0b — Pick the sections**: Read the chosen page. Extract every hardcoded content section (carousel, text blocks, stat

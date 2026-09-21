@@ -1,7 +1,7 @@
 # Collection: `locations`
 
 - **Source:** `content/agenda-locations.yml` · **Type:** `data` · **Schema:** yes
-- **Used by:** `components/ActivityCalendar.vue` (short labels + Google Maps links for agenda event locations)
+- **Used by:** the agenda calendar (short labels + Google Maps links for event locations).
 
 ## Fields
 
@@ -18,7 +18,8 @@ const entries = data.value?.locations; // TOP level — never `.meta?.locations`
 
 ## Notes
 
-- Single source of truth: no TS fallback — a missing/empty collection throws
-  (`ActivityCalendar.vue`) instead of rendering degraded links.
-- Tests mock this collection (`test/nuxt/ActivityCalendar.test.ts`,
-  `test/unit/agenda.test.ts`).
+- Single source of truth: no TS fallback — a missing/empty collection drives
+  the agenda component's `locationsMissing` error state instead of rendering
+  degraded links. The runtime error UI is deliberate: it no longer throws in
+  setup, so a missing/empty file does not fail `pnpm generate`.
+- Tests mock this collection.

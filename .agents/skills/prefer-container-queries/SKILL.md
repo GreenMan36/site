@@ -49,13 +49,13 @@ Two rules that trip people up:
 ## Site conventions (svIndicium/site)
 
 - Query conditions take a **literal length only** — browsers reject `var()` there, so `@container (min-width: var(--x))`
-  silently never matches. Write the length literally in the component (e.g. `562px` in `LinkCard.vue`). There are
+  silently never matches. Write the length literally in the component (e.g. `562px`). There are
   deliberately no `--cq-*` tokens (TD-055); the reason is documented in `assets/css/variables.css`.
 - Colours/sizes inside the query still come from the `assets/css/variables.css` tokens (`--indi-*`, `--icon-*`).
 - In Vue SFCs, keep `@container` blocks top-level in the `<style>` scope — nested `@container` inside a selector is
   dropped in dev.
-- Real example: `components/LinkCard.vue` — `container-type: inline-size` plus `@container (max-width: 562px)` to shrink
-  the card in narrow contexts.
+- Existing example: search the codebase for `container-type: inline-size` — e.g. a card that sets it plus a
+  `@container (max-width: 562px)` rule to shrink in narrow contexts.
 
 ## When viewport breakpoints are still right
 
